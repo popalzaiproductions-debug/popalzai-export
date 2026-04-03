@@ -13,34 +13,22 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
   }
 
   return (
-    <div className="fixed w-full z-50 top-0">
+    <div style={{ position: 'fixed', width: '100%', zIndex: 50, top: 0, left: 0, margin: 0, padding: 0 }}>
       {/* Announcement Bar */}
-      <div className="bg-black text-white text-center py-2 px-4">
-        <p className="text-[10px] tracking-widest uppercase">Production units in the UAE • Serving all seven emirates</p>
+      <div style={{ backgroundColor: 'black', color: 'white', textAlign: 'center', padding: '8px 16px', width: '100%' }}>
+        <p style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0 }}>Production units in the UAE • Serving all seven emirates</p>
       </div>
       
       {/* Main Navigation */}
-      <header className="bg-white/95 backdrop-blur border-b border-light">
-        <div style={{ maxWidth: '100%', paddingLeft: '16px', paddingRight: '16px' }} className="mx-auto py-4 flex justify-between items-center">
-          <div className="flex items-baseline gap-2">
-            <span style={{ fontSize: '1.5rem' }} className="logo-display">PCP</span>
-            <span className="hidden sm:inline text-[9px] tracking-widest text-gray-500 uppercase">Popalzai Clothing Production</span>
+      <header style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #e0e0e0', width: '100%' }}>
+        <div style={{ maxWidth: '100%', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+            <span style={{ fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.9, fontSize: '1.5rem' }}>PCP</span>
+            <span style={{ fontSize: '9px', letterSpacing: '0.15em', color: '#6b7280', textTransform: 'uppercase' }}>Popalzai Clothing Production</span>
           </div>
           
-          {/* Desktop Nav - ONLY shows on 1280px+ screens */}
-          <nav style={{ display: 'none' }} className="2xl:flex gap-3 text-[11px] font-medium text-gray-600">
-            <button onClick={() => scrollToSection('about')} className="hover:text-black transition">About</button>
-            <button onClick={() => scrollToSection('services')} className="hover:text-black transition">Services</button>
-            <button onClick={() => scrollToSection('work')} className="hover:text-black transition">Work</button>
-            <button onClick={() => scrollToSection('process')} className="hover:text-black transition">Process</button>
-            <button onClick={() => scrollToSection('studio')} className="hover:text-black transition">Studio</button>
-            <button onClick={() => scrollToSection('contact')} className="px-3 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-[10px]">Start Project</button>
-          </nav>
-          
-          {/* Hamburger - shows on ALL screens smaller than 1536px */}
           <button 
-            style={{ display: 'block' }}
-            className="2xl:hidden text-sm font-medium" 
+            style={{ fontSize: '14px', fontWeight: 500 }}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             Menu
@@ -48,12 +36,12 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
         </div>
         
         {/* Mobile Menu */}
-        <div id="mobile-menu" className={`${mobileMenuOpen ? 'block' : 'hidden'} bg-white border-b border-light px-6 py-4 space-y-3`}>
-          <button onClick={() => scrollToSection('about')} className="block py-2 text-sm w-full text-left">About</button>
-          <button onClick={() => scrollToSection('services')} className="block py-2 text-sm w-full text-left">Services</button>
-          <button onClick={() => scrollToSection('work')} className="block py-2 text-sm w-full text-left">Work</button>
-          <button onClick={() => scrollToSection('process')} className="block py-2 text-sm w-full text-left">Process</button>
-          <button onClick={() => scrollToSection('contact')} className="block py-2 text-sm font-bold w-full text-left">Start Project →</button>
+        <div style={{ display: mobileMenuOpen ? 'block' : 'none', backgroundColor: 'white', borderBottom: '1px solid #e0e0e0', padding: '16px 24px' }}>
+          <button onClick={() => scrollToSection('about')} style={{ display: 'block', padding: '8px 0', fontSize: '14px', width: '100%', textAlign: 'left' }}>About</button>
+          <button onClick={() => scrollToSection('services')} style={{ display: 'block', padding: '8px 0', fontSize: '14px', width: '100%', textAlign: 'left' }}>Services</button>
+          <button onClick={() => scrollToSection('work')} style={{ display: 'block', padding: '8px 0', fontSize: '14px', width: '100%', textAlign: 'left' }}>Work</button>
+          <button onClick={() => scrollToSection('process')} style={{ display: 'block', padding: '8px 0', fontSize: '14px', width: '100%', textAlign: 'left' }}>Process</button>
+          <button onClick={() => scrollToSection('contact')} style={{ display: 'block', padding: '8px 0', fontSize: '14px', fontWeight: 'bold', width: '100%', textAlign: 'left' }}>Start Project →</button>
         </div>
       </header>
     </div>
