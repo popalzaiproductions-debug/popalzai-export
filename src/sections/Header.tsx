@@ -21,23 +21,26 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
       
       {/* Main Navigation */}
       <header className="bg-white/95 backdrop-blur border-b border-light">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div style={{ maxWidth: '100%', paddingLeft: '16px', paddingRight: '16px' }} className="mx-auto py-4 flex justify-between items-center">
           <div className="flex items-baseline gap-2">
-            <span className="logo-display text-2xl">PCP</span>
+            <span style={{ fontSize: '1.5rem' }} className="logo-display">PCP</span>
             <span className="hidden sm:inline text-[9px] tracking-widest text-gray-500 uppercase">Popalzai Clothing Production</span>
           </div>
           
-          <nav className="hidden xl:flex gap-4 text-[12px] font-medium text-gray-600">
+          {/* Desktop Nav - ONLY shows on 1280px+ screens */}
+          <nav style={{ display: 'none' }} className="2xl:flex gap-3 text-[11px] font-medium text-gray-600">
             <button onClick={() => scrollToSection('about')} className="hover:text-black transition">About</button>
             <button onClick={() => scrollToSection('services')} className="hover:text-black transition">Services</button>
             <button onClick={() => scrollToSection('work')} className="hover:text-black transition">Work</button>
             <button onClick={() => scrollToSection('process')} className="hover:text-black transition">Process</button>
             <button onClick={() => scrollToSection('studio')} className="hover:text-black transition">Studio</button>
-            <button onClick={() => scrollToSection('contact')} className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-[11px]">Start Project</button>
+            <button onClick={() => scrollToSection('contact')} className="px-3 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-[10px]">Start Project</button>
           </nav>
           
+          {/* Hamburger - shows on ALL screens smaller than 1536px */}
           <button 
-            className="xl:hidden text-sm font-medium" 
+            style={{ display: 'block' }}
+            className="2xl:hidden text-sm font-medium" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             Menu
@@ -45,7 +48,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
         </div>
         
         {/* Mobile Menu */}
-        <div id="mobile-menu" className={`${mobileMenuOpen ? 'block' : 'hidden'} xl:hidden bg-white border-b border-light px-6 py-4 space-y-3`}>
+        <div id="mobile-menu" className={`${mobileMenuOpen ? 'block' : 'hidden'} bg-white border-b border-light px-6 py-4 space-y-3`}>
           <button onClick={() => scrollToSection('about')} className="block py-2 text-sm w-full text-left">About</button>
           <button onClick={() => scrollToSection('services')} className="block py-2 text-sm w-full text-left">Services</button>
           <button onClick={() => scrollToSection('work')} className="block py-2 text-sm w-full text-left">Work</button>
