@@ -39,23 +39,28 @@ export default function Services() {
   ]
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="label-text text-gray-400 mb-3">Services</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">What we offer</h2>
-          <p className="text-gray-600">From individual replacements to full staff rollouts, we accommodate programs of any scale.</p>
+    <section id="services" className="py-20 md:py-28 bg-[#f8f8f8]">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Header - centered */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="label-text mb-4">Services</p>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-5">What we offer</h2>
+          <p className="text-gray-500">
+            From individual replacements to full staff rollouts, we accommodate programs of any scale.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Service Cards - centered grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <div key={index} className="bg-white p-8 rounded-lg border border-light hover:shadow-lg transition">
-              <div className="label-text text-gray-400 mb-4">{service.num}</div>
-              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
+            <div key={index} className="bg-white p-8 rounded-lg border border-[#e5e5e5] hover:shadow-md transition-shadow duration-200">
+              <p className="label-text mb-5">{service.num}</p>
+              <h3 className="text-lg font-semibold mb-3">{service.title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed mb-5">
                 {service.description}
               </p>
-              <ul className="text-xs text-gray-500 space-y-1">
+              <ul className="text-xs text-gray-400 space-y-1.5">
                 {service.features.map((feature, fIndex) => (
                   <li key={fIndex}>• {feature}</li>
                 ))}
@@ -63,6 +68,7 @@ export default function Services() {
             </div>
           ))}
         </div>
+        
       </div>
     </section>
   )
