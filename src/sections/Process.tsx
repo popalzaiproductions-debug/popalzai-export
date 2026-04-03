@@ -38,42 +38,54 @@ const processSteps = [
 
 export default function Process() {
   return (
-    <section id="process" className="py-20 md:py-32 bg-white border-t border-light">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-4">
-            <div className="sticky-sidebar">
-              <p className="label-text text-gray-400 mb-3">Process</p>
-              <h2 className="text-3xl font-bold leading-tight mb-6">How we work</h2>
-              <p className="text-sm text-gray-600 leading-relaxed">
+    <section id="process" className="py-20 md:py-28 bg-white border-t border-[#e5e5e5]">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+          
+          {/* Left - Title */}
+          <div className="lg:col-span-4 text-center lg:text-left">
+            <div className="lg:sticky lg:top-36">
+              <p className="label-text mb-4">Process</p>
+              <h2 className="text-2xl md:text-3xl font-semibold leading-snug mb-5">
+                How we work
+              </h2>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto lg:mx-0">
                 A straightforward process designed around operational realities. 
                 We work around service hours and minimize disruption to daily operations.
               </p>
             </div>
           </div>
 
+          {/* Right - Steps */}
           <div className="lg:col-span-8 space-y-16">
             {processSteps.map((step, index) => (
-              <div key={index} className="grid md:grid-cols-12 gap-8 items-start">
-                <div className="md:col-span-2">
-                  <span className="text-4xl font-light text-gray-300">{step.num}</span>
+              <div key={index} className="grid md:grid-cols-12 gap-6 md:gap-8 items-start">
+                
+                {/* Number */}
+                <div className="md:col-span-2 text-center md:text-left">
+                  <span className="text-3xl font-light text-gray-300">{step.num}</span>
                 </div>
-                <div className="md:col-span-6">
-                  <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                
+                {/* Content */}
+                <div className="md:col-span-6 text-center md:text-left">
+                  <h3 className="text-lg font-semibold mb-3">{step.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed mb-3">
                     {step.description}
                   </p>
                   <p className="text-xs text-gray-400 label-text">{step.note}</p>
                 </div>
+                
+                {/* Image */}
                 <div className="md:col-span-4">
-                  {/* KIMI_REF: Process step image */}
-                  <div className="aspect-square image-placeholder rounded overflow-hidden flex items-center justify-center">
-                    <span className="text-gray-400 text-xs text-center px-2">{step.imageRef}</span>
+                  <div className="aspect-square image-placeholder rounded-lg overflow-hidden flex items-center justify-center">
+                    <span className="text-gray-400 text-xs text-center px-3">{step.imageRef}</span>
                   </div>
                 </div>
+                
               </div>
             ))}
           </div>
+          
         </div>
       </div>
     </section>
