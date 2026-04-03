@@ -23,20 +23,26 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section className="py-20 bg-gray-50 border-t border-light">
-      <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-2xl font-bold mb-12 text-center">Common Questions</h2>
+    <section className="py-20 md:py-28 bg-[#f8f8f8] border-t border-[#e5e5e5]">
+      <div className="max-w-3xl mx-auto px-6">
         
-        <div className="space-y-8">
+        {/* Header - centered */}
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
+          Common Questions
+        </h2>
+        
+        {/* FAQ Items */}
+        <div className="space-y-5">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg border border-light">
-              <h3 className="font-bold mb-2">{faq.question}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+            <div key={index} className="bg-white p-6 md:p-8 rounded-lg border border-[#e5e5e5]">
+              <h3 className="font-semibold text-base mb-3 text-center md:text-left">{faq.question}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed text-center md:text-left">
                 {faq.answer}
               </p>
             </div>
           ))}
         </div>
+        
       </div>
     </section>
   )
