@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fafafa;
+  color: #111;
+}
+
+.logo-display {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.label-text {
+  letter-spacing: 0.12em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.prose-custom {
+  line-height: 1.7;
+  color: #444;
+}
+
+.prose-custom p {
+  margin-bottom: 1.2em;
+}
+
+.border-light {
+  border-color: #e0e0e0;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 120px;
+}
+
+.image-placeholder {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
