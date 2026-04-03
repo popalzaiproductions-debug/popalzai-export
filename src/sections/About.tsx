@@ -5,8 +5,8 @@ export default function About() {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           
           {/* Left - Title */}
-          <div className="lg:col-span-4 text-center lg:text-left">
-            <div className="lg:sticky lg:top-36">
+          <div className="lg:col-span-4 text-center">
+         <div className="lg:sticky lg:top-36 text-center">
               <p className="label-text mb-4">About PCP</p>
               <h2 className="text-2xl md:text-3xl font-semibold leading-snug">
                 Why we don't use standard sizes
