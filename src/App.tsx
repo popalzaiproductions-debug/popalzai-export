@@ -15,10 +15,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div style={{ margin: '0', padding: '0', width: '100%', minHeight: '100vh' }}>
+    <div className="min-h-screen">
       <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <div style={{ height: '104px' }}></div>
-      <main style={{ margin: '0', padding: '0', width: '100%' }}>
+      <div className="h-[104px]"></div>
+      <main>
         <Hero />
         <About />
         <Services />
