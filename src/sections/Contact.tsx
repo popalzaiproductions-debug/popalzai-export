@@ -43,10 +43,10 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 md:py-32 bg-black text-white">
+    <section id="contact" className="py-20 md:py-28 bg-black text-white">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <p className="label-text text-gray-500 mb-4">Start a Project</p>
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to discuss your team?</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Ready to discuss your team?</h2>
         <p className="text-gray-400 mb-12 max-w-lg mx-auto">
           Tell us about your property, your current uniform situation, and what you're looking to improve. 
           We'll respond within 24 hours to schedule a consultation.
@@ -54,7 +54,7 @@ export default function Contact() {
         
         {submitted ? (
           <div className="max-w-md mx-auto bg-gray-900 p-8 rounded-lg">
-            <h3 className="text-xl font-bold mb-4">Thank you!</h3>
+            <h3 className="text-xl font-semibold mb-4">Thank you!</h3>
             <p className="text-gray-400">Your inquiry has been sent. We'll be in touch within 24 hours.</p>
           </div>
         ) : (
@@ -113,7 +113,7 @@ export default function Contact() {
               <button 
                 type="submit" 
                 disabled={submitting}
-                className="px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition label-text disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-10 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition label-text disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? 'Sending...' : 'Send Inquiry'}
               </button>
