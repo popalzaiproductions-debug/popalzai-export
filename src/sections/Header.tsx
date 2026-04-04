@@ -13,18 +13,15 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
   }
 
   return (
-    <div className="fixed w-full z-50 top-0 left-0">
-      {/* Announcement Bar - elegant, subtle */}
+    <div className="fixed w-full z-50 top-0">
       <div className="bg-black text-white text-center py-2.5">
         <p className="text-[11px] tracking-[0.15em] font-medium uppercase opacity-90">
           Production units in the UAE • Serving all seven emirates
         </p>
       </div>
       
-      {/* Main Navigation - clean and minimal */}
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
-          {/* Logo */}
           <div className="flex items-baseline gap-2">
             <span className="logo-display text-2xl tracking-tight">PCP</span>
             <span className="hidden sm:inline text-[10px] tracking-[0.1em] text-gray-400 uppercase font-medium">
@@ -32,7 +29,6 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             </span>
           </div>
           
-          {/* Desktop Nav - elegant spacing */}
           <nav className="hidden lg:flex items-center gap-8">
             <button onClick={() => scrollToSection('about')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">About</button>
             <button onClick={() => scrollToSection('services')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Services</button>
@@ -44,7 +40,6 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             </button>
           </nav>
           
-          {/* Mobile Menu Button */}
           <button 
             className="lg:hidden text-[13px] font-medium text-gray-600" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -53,7 +48,6 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
           </button>
         </div>
         
-        {/* Mobile Menu - clean dropdown */}
         <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:hidden bg-white border-t border-[#e5e5e5]`}>
           <div className="max-w-7xl mx-auto px-6 py-6 space-y-4">
             <button onClick={() => scrollToSection('about')} className="block text-[14px] text-gray-600 hover:text-black transition-colors">About</button>
