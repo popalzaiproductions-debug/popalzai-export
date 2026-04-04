@@ -42,7 +42,6 @@ export default function Process() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           
-          {/* Left - Title */}
           <div className="lg:col-span-4 text-center lg:text-left">
             <div className="lg:sticky lg:top-36">
               <p className="label-text mb-4">Process</p>
@@ -56,17 +55,14 @@ export default function Process() {
             </div>
           </div>
 
-          {/* Right - Steps */}
           <div className="lg:col-span-8 space-y-16">
             {processSteps.map((step, index) => (
               <div key={index} className="grid md:grid-cols-12 gap-6 md:gap-8 items-start">
                 
-                {/* Number */}
                 <div className="md:col-span-2 text-center md:text-left">
                   <span className="text-3xl font-light text-gray-300">{step.num}</span>
                 </div>
                 
-                {/* Content */}
                 <div className="md:col-span-6 text-center md:text-left">
                   <h3 className="text-lg font-semibold mb-3">{step.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed mb-3">
@@ -75,7 +71,6 @@ export default function Process() {
                   <p className="text-xs text-gray-400 label-text">{step.note}</p>
                 </div>
                 
-                {/* Image */}
                 <div className="md:col-span-4">
                   <div className="aspect-square image-placeholder rounded-lg overflow-hidden flex items-center justify-center">
                     <span className="text-gray-400 text-xs text-center px-3">{step.imageRef}</span>
