@@ -4,9 +4,8 @@ export default function About() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           
-          {/* Left - Title */}
           <div className="lg:col-span-4 text-center">
-         <div className="lg:sticky lg:top-36 text-center">
+            <div className="lg:sticky lg:top-36">
               <p className="label-text mb-4">About PCP</p>
               <h2 className="text-2xl md:text-3xl font-semibold leading-snug">
                 Why we don't use standard sizes
@@ -14,7 +13,6 @@ export default function About() {
             </div>
           </div>
           
-          {/* Right - Content */}
           <div className="lg:col-span-8 text-center lg:text-left">
             <div className="prose-custom max-w-2xl mx-auto lg:mx-0">
               <p>
@@ -37,7 +35,6 @@ export default function About() {
               </p>
             </div>
             
-            {/* Three Pillars */}
             <div className="grid md:grid-cols-3 gap-8 mt-14 pt-10 border-t border-[#e5e5e5] text-center md:text-left">
               <div>
                 <p className="text-lg font-semibold mb-2">Local</p>
