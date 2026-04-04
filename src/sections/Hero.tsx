@@ -11,7 +11,6 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           
-          {/* Left Content */}
           <div className="max-w-xl">
             <p className="label-text mb-6">Est. UAE • Made-to-Measure</p>
             
@@ -41,14 +40,11 @@ export default function Hero() {
             </div>
           </div>
           
-          {/* Right Content - Client List */}
           <div className="space-y-8">
-            {/* Image Placeholder */}
             <div className="aspect-[4/3] image-placeholder rounded-lg overflow-hidden flex items-center justify-center">
               <span className="text-gray-400 text-sm">KIMI_REF: Hero Image</span>
             </div>
             
-            {/* Client Grid - elegant spacing */}
             <div className="grid grid-cols-2 gap-x-8 gap-y-5">
               <div>
                 <p className="font-medium text-[15px] mb-0.5">La Gente</p>
