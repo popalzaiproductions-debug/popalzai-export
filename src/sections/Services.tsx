@@ -42,7 +42,6 @@ export default function Services() {
     <section id="services" className="py-20 md:py-28 bg-[#f8f8f8]">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header - centered */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="label-text mb-4">Services</p>
           <h2 className="text-2xl md:text-3xl font-semibold mb-5">What we offer</h2>
@@ -51,7 +50,6 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Service Cards - centered grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <div key={index} className="bg-white p-8 rounded-lg border border-[#e5e5e5] hover:shadow-md transition-shadow duration-200">
