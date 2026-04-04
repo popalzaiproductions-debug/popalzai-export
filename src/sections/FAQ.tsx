@@ -26,12 +26,10 @@ export default function FAQ() {
     <section className="py-20 md:py-28 bg-[#f8f8f8] border-t border-[#e5e5e5]">
       <div className="max-w-3xl mx-auto px-6">
         
-        {/* Header - centered */}
         <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
           Common Questions
         </h2>
         
-        {/* FAQ Items */}
         <div className="space-y-5">
           {faqs.map((faq, index) => (
             <div key={index} className="bg-white p-6 md:p-8 rounded-lg border border-[#e5e5e5]">
