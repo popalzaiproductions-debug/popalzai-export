@@ -2,16 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html, body {
   width: 100%;
-  max-width: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
@@ -23,26 +22,41 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Elegant typography */
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+}
+
+section {
+  width: 100%;
+  padding: 80px 0;
+}
+
+.max-w-7xl {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
-/* Classy spacing */
-section {
-  padding: 80px 0;
-}
-
-/* Logo styling */
 .logo-display {
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1;
 }
 
-/* Subtle label text */
 .label-text {
   letter-spacing: 0.08em;
   font-size: 0.7rem;
@@ -51,7 +65,6 @@ section {
   color: #888;
 }
 
-/* Prose for body text */
 .prose-custom {
   line-height: 1.8;
   color: #555;
@@ -62,45 +75,23 @@ section {
   margin-bottom: 1.5em;
 }
 
-/* Subtle borders */
 .border-light {
   border-color: #e5e5e5;
 }
 
-/* Sticky sidebar */
 .sticky-sidebar {
   position: sticky;
   top: 140px;
 }
 
-/* Image placeholders */
 .image-placeholder {
   background: linear-gradient(135deg, #f5f5f5 0%, #ebebeb 100%);
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Container - elegant max width, FORCE CENTER */
-.max-w-7xl {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto !important;
-  padding-left: 24px;
-  padding-right: 24px;
-  box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-  .max-w-7xl {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
-}
-
-/* Mobile adjustments */
 @media (max-width: 768px) {
   section {
     padding: 60px 0;
@@ -110,15 +101,4 @@ html {
     padding-left: 20px;
     padding-right: 20px;
   }
-}
-/* FORCE BODY CENTER - NO SHIFTING */
-main, section {
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* Fix any left alignment issues */
-#root > div {
-  margin: 0 auto;
-  width: 100%;
 }
