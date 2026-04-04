@@ -18,7 +18,13 @@ export default function Work() {
           {/* La Gente */}
           <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-[#e5e5e5] pt-12">
             <div className="lg:col-span-4">
-              <div className="aspect-[4/5] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
+<div className="aspect-[4/5] rounded-lg overflow-hidden mb-4">
+  <img 
+    src="/images/DSC004332.png" 
+    alt="La Gente Restaurant" 
+    className="w-full h-full object-cover"
+  />
+</div>
                 <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: La Gente</span>
               </div>
             </div>
