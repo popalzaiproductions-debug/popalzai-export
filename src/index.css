@@ -111,3 +111,14 @@ html {
     padding-right: 20px;
   }
 }
+/* FORCE BODY CENTER - NO SHIFTING */
+main, section {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Fix any left alignment issues */
+#root > div {
+  margin: 0 auto;
+  width: 100%;
+}
