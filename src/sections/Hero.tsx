@@ -40,10 +40,14 @@ export default function Hero() {
             </div>
           </div>
           
-          <div className="space-y-8">
-           <div className="aspect-[4/3] rounded-lg overflow-hidden">
-  <img 
-    src="/images/hero-suit.jpg" 
+         <div className="space-y-8">
+  <div className="aspect-[4/3] rounded-lg overflow-hidden">
+    <img 
+      src="/hero-suit.jpg" 
+      alt="Hero Image" 
+      className="w-full h-full object-cover"
+    />
+  </div>
     alt="Hero Image" 
     className="w-full h-full object-cover"
   />
