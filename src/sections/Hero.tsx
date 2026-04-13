@@ -41,9 +41,13 @@ export default function Hero() {
           </div>
           
           <div className="space-y-8">
-            <div className="aspect-[4/3] image-placeholder rounded-lg overflow-hidden flex items-center justify-center">
-              <span className="text-gray-400 text-sm">KIMI_REF: Hero Image</span>
-            </div>
+           <div className="aspect-[4/3] rounded-lg overflow-hidden">
+  <img 
+    src="/images/hero-suit.jpg" 
+    alt="Hero Image" 
+    className="w-full h-full object-cover"
+  />
+</div>
             
             <div className="grid grid-cols-2 gap-x-8 gap-y-5">
               <div>
