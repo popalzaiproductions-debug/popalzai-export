@@ -1,150 +1,71 @@
-export default function Work() {
+export default function Hero() {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
-    <section id="work" className="py-20 md:py-28 bg-white border-t border-[#e5e5e5]">
+    <section className="pt-24 pb-20 md:pt-32 md:pb-28">
       <div className="max-w-7xl mx-auto">
-        
-        <div className="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
-          <div>
-            <p className="label-text mb-3">Selected Work</p>
-            <h2 className="text-2xl md:text-3xl font-semibold">Recent partnerships</h2>
-          </div>
-          <p className="text-sm text-gray-500 max-w-md">
-            A selection of recent commissions across hospitality sectors in the UAE.
-          </p>
-        </div>
-
-        <div className="space-y-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           
-          {/* La Gente */}
-          <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-[#e5e5e5] pt-12">
-            <div className="lg:col-span-4">
-              <div className="aspect-[4/5] rounded-lg overflow-hidden mb-4">
-                <img 
-                  src="/DSC004332.png" 
-                  alt="La Gente Restaurant" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="lg:col-span-8">
-              <div className="flex justify-between items-baseline mb-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-1">La Gente</h3>
-                  <p className="text-sm text-gray-500">Contemporary Latin Restaurant • Dubai</p>
-                </div>
-                <span className="label-text text-gray-400">2024</span>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <p className="label-text mb-2">The Brief</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    Full front-of-house uniform program for new opening. Required breathable 
-                    fabrics for high-energy service environment and easy movement for table-side 
-                    presentations.
-                  </p>
-                </div>
-                <div>
-                  <p className="label-text mb-2">Solution</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    Washed linen-blend service shirts with reinforced underarm gussets. 
-                    Cross-back apron design to distribute weight evenly during long shifts. 
-                    Individual sizing for 24 staff members.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-8 text-sm border-t border-[#e5e5e5] pt-6">
-                <div>
-                  <span className="label-text block mb-1">Scope</span>
-                  <span className="font-medium">FOH Service Team</span>
-                </div>
-                <div>
-                  <span className="label-text block mb-1">Materials</span>
-                  <span className="font-medium">Linen-Cotton Blend</span>
-                </div>
-                <div>
-                  <span className="label-text block mb-1">Timeline</span>
-                  <span className="font-medium">8 Weeks</span>
-                </div>
-              </div>
+          <div className="max-w-xl">
+            <p className="label-text mb-6">Est. UAE • Made-to-Measure</p>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold leading-[1.1] mb-8 tracking-tight">
+              Uniform production<br />
+              <span className="text-gray-400">for hospitality.</span>
+            </h1>
+            
+            <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-10 max-w-md">
+              Individual pattern drafting for restaurants, hotels, and service teams. 
+              No standard sizes. No minimum orders. Produced locally in the UAE.
+            </p>
+            
+            <div className="flex flex-wrap gap-4">
+              <button 
+                onClick={() => scrollToSection('contact')} 
+                className="px-8 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors duration-200"
+              >
+                Request Consultation
+              </button>
+              <button 
+                onClick={() => scrollToSection('work')} 
+                className="px-8 py-3.5 border border-gray-300 text-sm font-medium rounded-full hover:border-black transition-colors duration-200"
+              >
+                View Recent Work
+              </button>
             </div>
           </div>
-
-          {/* Sea Level Cafe */}
-          <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-[#e5e5e5] pt-12">
-            <div className="lg:col-span-4">
-              <div className="aspect-[4/5] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: Sea Level Cafe</span>
-              </div>
+          
+          <div className="space-y-8">
+            <div className="aspect-[4/3] rounded-lg overflow-hidden">
+              <img 
+                src="/hero-suit.jpg" 
+                alt="Hero Image" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="lg:col-span-8">
-              <div className="flex justify-between items-baseline mb-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-1">Sea Level Cafe</h3>
-                  <p className="text-sm text-gray-500">Coastal Café • Multiple UAE Locations</p>
-                </div>
-                <span className="label-text text-gray-400">2023-2024</span>
+            
+            <div className="grid grid-cols-2 gap-x-8 gap-y-5">
+              <div>
+                <p className="font-medium text-[15px] mb-0.5">La Gente</p>
+                <p className="text-gray-400 text-xs">Restaurant • Dubai</p>
               </div>
-              
-              <div className="grid md:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <p className="label-text mb-2">The Brief</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    Uniform program for 12-location rollout. Required industrial laundry 
-                    durability, coastal color palette, and consistent sizing across all 
-                    locations for staff transfers.
-                  </p>
-                </div>
-                <div>
-                  <p className="label-text mb-2">Solution</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    Heavyweight cotton twill, pre-shrunk and industrial wash-tested to 150 cycles. 
-                    Individual name embroidery. Coordinated rollout across three emirates.
-                  </p>
-                </div>
+              <div>
+                <p className="font-medium text-[15px] mb-0.5">Sea Level Cafe</p>
+                <p className="text-gray-400 text-xs">Multi-location • UAE</p>
               </div>
-
-              <div className="flex gap-8 text-sm border-t border-[#e5e5e5] pt-6">
-                <div>
-                  <span className="label-text block mb-1">Scope</span>
-                  <span className="font-medium">12 Locations</span>
-                </div>
-                <div>
-                  <span className="label-text block mb-1">Materials</span>
-                  <span className="font-medium">Cotton Twill</span>
-                </div>
-                <div>
-                  <span className="label-text block mb-1">Service</span>
-                  <span className="font-medium">Ongoing Replenishment</span>
-                </div>
+              <div>
+                <p className="font-medium text-[15px] mb-0.5">No Cap Barbershop</p>
+                <p className="text-gray-400 text-xs">Grooming • Abu Dhabi</p>
               </div>
-            </div>
-          </div>
-
-          {/* No Cap & Room 5 */}
-          <div className="grid md:grid-cols-2 gap-12 border-t border-[#e5e5e5] pt-12">
-            <div>
-              <div className="aspect-[16/9] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: No Cap Barbershop</span>
+              <div>
+                <p className="font-medium text-[15px] mb-0.5">Room 5 Group</p>
+                <p className="text-gray-400 text-xs">Hotels • UAE</p>
               </div>
-              <h3 className="text-lg font-semibold mb-1">No Cap Barbershop</h3>
-              <p className="text-sm text-gray-500 mb-4">Modern Grooming Studio • Abu Dhabi</p>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                Heavyweight canvas vests with tool-specific pocketing and chemical-resistant 
-                treatment. Streetwear aesthetic with professional durability.
-              </p>
-            </div>
-            <div>
-              <div className="aspect-[16/9] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: Room 5 Group</span>
-              </div>
-              <h3 className="text-lg font-semibold mb-1">Room 5 Group</h3>
-              <p className="text-sm text-gray-500 mb-4">Boutique Hotels • UAE</p>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                Multi-department program: suiting for concierge, utility wear for housekeeping, 
-                maintenance jackets. Individual measurement across three properties.
-              </p>
             </div>
           </div>
           
