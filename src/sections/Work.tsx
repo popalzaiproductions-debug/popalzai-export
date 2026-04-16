@@ -30,7 +30,7 @@ export default function Work() {
               <div className="flex justify-between items-baseline mb-6">
                 <div>
                   <h3 className="text-xl font-semibold mb-1">La Gente</h3>
-                  <p className="text-sm text-gray-500">Contemporary Latin Restaurant • Dubai</p>
+                  <p className="text-sm text-gray-500">La Gente Roastery is a homegrown specialty coffee brand • Dubai</p>
                 </div>
                 <span className="label-text text-gray-400">2024</span>
               </div>
@@ -65,7 +65,7 @@ export default function Work() {
                 </div>
                 <div>
                   <span className="label-text block mb-1">Timeline</span>
-                  <span className="font-medium">8 Weeks</span>
+                  <span className="font-medium">2 Weeks</span>
                 </div>
               </div>
             </div>
@@ -86,9 +86,9 @@ export default function Work() {
               <div className="flex justify-between items-baseline mb-6">
                 <div>
                   <h3 className="text-xl font-semibold mb-1">Sea Level Cafe</h3>
-                  <p className="text-sm text-gray-500">Coastal Café • Multiple UAE Locations</p>
+                  <p className="text-sm text-gray-500">Coastal Café • Kite beach UAE Locations</p>
                 </div>
-                <span className="label-text text-gray-400">2023-2024</span>
+                <span className="label-text text-gray-400">2026 </span>
               </div>
               
               <div className="grid md:grid-cols-2 gap-8 mb-8">
@@ -104,7 +104,7 @@ export default function Work() {
                   <p className="label-text mb-2">Solution</p>
                   <p className="text-sm text-gray-500 leading-relaxed">
                     Heavyweight cotton twill, pre-shrunk and industrial wash-tested to 150 cycles. 
-                    Individual name embroidery. Coordinated rollout across three emirates.
+                    Individual name embroidery.
                   </p>
                 </div>
               </div>
@@ -137,9 +137,9 @@ export default function Work() {
                 />
               </div>
               <h3 className="text-lg font-semibold mb-1">No Cap Barbershop</h3>
-              <p className="text-sm text-gray-500 mb-4">Modern Grooming Studio • Abu Dhabi</p>
+              <p className="text-sm text-gray-500 mb-4">Modern Grooming Studio • Satwa Dubai </p>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Heavyweight canvas vests with tool-specific pocketing and chemical-resistant 
+                Heavyweight canvas set with tool-specific pocketing and chemical-resistant 
                 treatment. Streetwear aesthetic with professional durability.
               </p>
             </div>
@@ -151,11 +151,11 @@ export default function Work() {
                   className="w-full h-full object-cover brightness-50"
                 />
               </div>
-              <h3 className="text-lg font-semibold mb-1">Room 5 Group</h3>
-              <p className="text-sm text-gray-500 mb-4">Boutique Hotels • UAE</p>
+              <h3 className="text-lg font-semibold mb-1">Lost Boys</h3>
+              <p className="text-sm text-gray-500 mb-4">Abu Dhabi Based Brand • UAE</p>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Multi-department program: suiting for concierge, utility wear for housekeeping, 
-                maintenance jackets. Individual measurement across three properties.
+         an Abu Dhabi brand built on street energy and raw expression, I produced bespoke uniforms that mirror their
+                'rebellious but refined' philosophy—balancing technical durability with a distinct, unpolished edge."
               </p>
             </div>
           </div>
