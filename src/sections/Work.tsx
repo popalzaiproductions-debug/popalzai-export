@@ -32,7 +32,7 @@ export default function Work() {
                   <h3 className="text-xl font-semibold mb-1">La Gente</h3>
                   <p className="text-sm text-gray-500">La Gente Roastery is a homegrown specialty coffee brand • Dubai</p>
                 </div>
-                <span className="label-text text-gray-400">2024</span>
+                <span className="label-text text-gray-400">2025</span>
               </div>
               
               <div className="grid md:grid-cols-2 gap-8 mb-8">
@@ -95,9 +95,9 @@ export default function Work() {
                 <div>
                   <p className="label-text mb-2">The Brief</p>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    Uniform program for 12-location rollout. Required industrial laundry 
+                    Required industrial laundry 
                     durability, coastal color palette, and consistent sizing across all 
-                    locations for staff transfers.
+                    staff transfers.
                   </p>
                 </div>
                 <div>
@@ -112,7 +112,7 @@ export default function Work() {
               <div className="flex gap-8 text-sm border-t border-[#e5e5e5] pt-6">
                 <div>
                   <span className="label-text block mb-1">Scope</span>
-                  <span className="font-medium">12 Locations</span>
+                  <span className="font-medium">1 Location</span>
                 </div>
                 <div>
                   <span className="label-text block mb-1">Materials</span>
