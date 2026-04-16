@@ -5,7 +5,7 @@ const faqs = [
   },
   {
     question: 'How long does the process take?',
-    answer: 'Initial measurement sessions can be scheduled within a week. Production takes 6-8 weeks from measurement completion. Rush orders for single replacements can be accommodated in 2 weeks.'
+    answer: 'Initial measurement sessions can be scheduled within a week. Production takes 2-3 weeks from measurement completion. Rush orders for single replacements can be accommodated in 1 week.'
   },
   {
     question: 'Do you serve all of the UAE?',
