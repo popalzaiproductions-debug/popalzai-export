@@ -17,14 +17,14 @@ const processSteps = [
     num: '03',
     title: 'Pattern Drafting & Sampling',
     description: 'Individual patterns are drafted by hand in our UAE studio. For orders over 15 garments, we produce a full sample set for management approval before bulk production begins. Patterns are digitized and stored for future reference.',
-    note: '2-3 weeks • Patterns archived indefinitely',
+    note: '3-6 Days • Patterns archived indefinitely',
     image: '/pattern.jpg'
   },
   {
     num: '04',
     title: 'Production & Quality Control',
     description: 'Garments are cut single-layer to ensure grain alignment, then constructed in our UAE facility. Three-stage quality control: after cutting, after construction, and after pressing. Weekly progress updates provided.',
-    note: '6-8 weeks • In-house production',
+    note: '2-3 weeks • In-house production',
     image: '/pexels-cottonbro-studio-4622397.jpg'
   },
   {
