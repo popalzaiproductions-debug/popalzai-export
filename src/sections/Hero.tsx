@@ -52,19 +52,19 @@ export default function Hero() {
             <div className="grid grid-cols-2 gap-x-8 gap-y-5">
               <div>
                 <p className="font-medium text-[15px] mb-0.5">La Gente</p>
-                <p className="text-gray-400 text-xs">Restaurant • Dubai</p>
+                <p className="text-gray-400 text-xs">Specilty Coffee Roastery • Dubai</p>
               </div>
               <div>
                 <p className="font-medium text-[15px] mb-0.5">Sea Level Cafe</p>
-                <p className="text-gray-400 text-xs">Multi-location • UAE</p>
+                <p className="text-gray-400 text-xs">Coastal Café • UAE</p>
               </div>
               <div>
                 <p className="font-medium text-[15px] mb-0.5">No Cap Barbershop</p>
                 <p className="text-gray-400 text-xs">Grooming • Abu Dhabi</p>
               </div>
               <div>
-                <p className="font-medium text-[15px] mb-0.5">Room 5 Group</p>
-                <p className="text-gray-400 text-xs">Hotels • UAE</p>
+                <p className="font-medium text-[15px] mb-0.5">Lost Boys</p>
+                <p className="text-gray-400 text-xs">Abu Dhabi Based Brand • UAE</p>
               </div>
             </div>
           </div>
