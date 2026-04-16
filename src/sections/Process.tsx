@@ -25,7 +25,7 @@ const processSteps = [
     title: 'Production & Quality Control',
     description: 'Garments are cut single-layer to ensure grain alignment, then constructed in our UAE facility. Three-stage quality control: after cutting, after construction, and after pressing. Weekly progress updates provided.',
     note: '6-8 weeks • In-house production',
-    image: '/production.jpg'
+    image: '/pexels-cottonbro-studio-4622397.jpg'
   },
   {
     num: '05',
