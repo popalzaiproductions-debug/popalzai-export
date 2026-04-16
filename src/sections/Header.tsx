@@ -25,7 +25,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
           <a href="#" className="flex items-center">
             <img 
               src="/logo.png" 
-              alt="PCP Logo" 
+              alt="logo.png" 
               className="h-10 w-auto"
             />
           </a>
