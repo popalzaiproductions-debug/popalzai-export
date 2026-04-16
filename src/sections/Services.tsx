@@ -4,7 +4,7 @@ export default function Services() {
       num: '01',
       title: 'Made-to-Measure Programs',
       description: 'Complete uniform solutions for new openings or rebrands. Individual measurement sessions, sample approvals, and full production with individual garment labeling.',
-      features: ['Individual 26-point measurement', 'Pattern drafting & storage', '6-8 week production', 'No minimum order']
+      features: ['Individual 26-point measurement', 'Pattern drafting & storage', '2-6 week production', 'No minimum order']
     },
     {
       num: '02',
