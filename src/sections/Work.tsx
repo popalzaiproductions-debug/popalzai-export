@@ -20,7 +20,7 @@ export default function Work() {
             <div className="lg:col-span-4">
               <div className="aspect-[4/5] rounded-lg overflow-hidden mb-4">
                 <img 
-                  src="/DSC004332.png" 
+                  src="/la-gente.jpg" 
                   alt="La Gente Restaurant" 
                   className="w-full h-full object-cover"
                 />
@@ -74,8 +74,12 @@ export default function Work() {
           {/* Sea Level Cafe */}
           <div className="grid lg:grid-cols-12 gap-12 items-start border-t border-[#e5e5e5] pt-12">
             <div className="lg:col-span-4">
-              <div className="aspect-[4/5] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: Sea Level Cafe</span>
+              <div className="aspect-[4/5] rounded-lg overflow-hidden mb-4">
+                <img 
+                  src="/sea-level.jpg" 
+                  alt="Sea Level Cafe" 
+                  className="w-full h-full object-cover brightness-50"
+                />
               </div>
             </div>
             <div className="lg:col-span-8">
@@ -125,8 +129,12 @@ export default function Work() {
           {/* No Cap & Room 5 */}
           <div className="grid md:grid-cols-2 gap-12 border-t border-[#e5e5e5] pt-12">
             <div>
-              <div className="aspect-[16/9] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: No Cap Barbershop</span>
+              <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4">
+                <img 
+                  src="/no-cap.jpg" 
+                  alt="No Cap Barbershop" 
+                  className="w-full h-full object-cover brightness-50"
+                />
               </div>
               <h3 className="text-lg font-semibold mb-1">No Cap Barbershop</h3>
               <p className="text-sm text-gray-500 mb-4">Modern Grooming Studio • Abu Dhabi</p>
@@ -136,8 +144,12 @@ export default function Work() {
               </p>
             </div>
             <div>
-              <div className="aspect-[16/9] image-placeholder rounded-lg overflow-hidden mb-4 flex items-center justify-center">
-                <span className="text-gray-400 text-xs text-center px-2">KIMI_REF: Room 5 Group</span>
+              <div className="aspect-[16/9] rounded-lg overflow-hidden mb-4">
+                <img 
+                  src="/room-5.jpg" 
+                  alt="Room 5 Group" 
+                  className="w-full h-full object-cover brightness-50"
+                />
               </div>
               <h3 className="text-lg font-semibold mb-1">Room 5 Group</h3>
               <p className="text-sm text-gray-500 mb-4">Boutique Hotels • UAE</p>
