@@ -29,8 +29,8 @@ export default function About() {
                 for the life of the garment.
               </p>
               <p>
-                Our clients range from single-location cafés to multi-property hotel groups. 
-                What unites them is a recognition that staff appearance is part of brand identity, 
+                Our clients range from single-location cafés to governmental entities. 
+                What unites them is a recognition that staff appearance and quality is part of brand identity, 
                 and that well-fitting workwear reduces turnover and improves team confidence.
               </p>
             </div>
