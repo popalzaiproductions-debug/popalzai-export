@@ -22,11 +22,13 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
       
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
-          <div className="flex items-baseline gap-2">
-            <span className="logo-display text-2xl tracking-tight">PCP</span>
-            <span className="hidden sm:inline text-[10px] tracking-[0.1em] text-gray-400 uppercase font-medium">
-              Popalzai Clothing Production
-            </span>
+         <a href="#" className="flex items-center">
+  <img 
+    src="/logo.png" 
+    alt="PCP Logo" 
+    className="h-10 w-auto"
+  />
+</a>
           </div>
           
           <nav className="hidden lg:flex items-center gap-8">
