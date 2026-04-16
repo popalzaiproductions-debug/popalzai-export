@@ -4,7 +4,6 @@ import Hero from './sections/Hero'
 import About from './sections/About'
 import Services from './sections/Services'
 import Process from './sections/Process'
-import Studio from './sections/Studio'
 import Work from './sections/Work'
 import FAQ from './sections/FAQ'
 import Contact from './sections/Contact'
@@ -23,7 +22,6 @@ function App() {
         <About />
         <Services />
         <Process />
-        <Studio />
         <Work />
         <FAQ />
         <Contact />
