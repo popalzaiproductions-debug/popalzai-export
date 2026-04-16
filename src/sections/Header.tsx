@@ -22,21 +22,19 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
       
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
-         <a href="#" className="flex items-center">
-  <img 
-    src="/logo.png" 
-    alt="PCP Logo" 
-    className="h-10 w-auto"
-  />
-</a>
-          </div>
+          <a href="#" className="flex items-center">
+            <img 
+              src="/logo.png" 
+              alt="PCP Logo" 
+              className="h-10 w-auto"
+            />
+          </a>
           
           <nav className="hidden lg:flex items-center gap-8">
             <button onClick={() => scrollToSection('about')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">About</button>
             <button onClick={() => scrollToSection('services')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Services</button>
             <button onClick={() => scrollToSection('work')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Work</button>
             <button onClick={() => scrollToSection('process')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Process</button>
-            <button onClick={() => scrollToSection('studio')} className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Studio</button>
             <button onClick={() => scrollToSection('contact')} className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">
               Start Project
             </button>
