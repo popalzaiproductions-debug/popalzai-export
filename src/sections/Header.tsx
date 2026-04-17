@@ -24,10 +24,10 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
           <a href="#" className="flex items-center">
             <img 
-              src="/Final.png" 
-              alt="Final.png" 
-              classNamew-"[100px], w-[80px]"
-            />
+             src="/logo.png" 
+             alt="PCP Logo" 
+             className="w-[100px] h-auto"
+          />
           </a>
           
           <nav className="hidden lg:flex items-center gap-8">
