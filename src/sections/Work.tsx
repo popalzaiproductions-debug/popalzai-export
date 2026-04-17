@@ -154,8 +154,7 @@ export default function Work() {
               <h3 className="text-lg font-semibold mb-1">Lost Boys</h3>
               <p className="text-sm text-gray-500 mb-4">Abu Dhabi Based Brand • UAE</p>
               <p className="text-sm text-gray-500 leading-relaxed">
-         an Abu Dhabi brand built on street energy and raw expression, I produced bespoke uniforms that mirror their
-                'rebellious but refined' philosophy—balancing technical durability with a distinct, unpolished edge."
+         an Abu Dhabi brand built on street energy and raw expression, with a distinct, polished edge."
               </p>
             </div>
           </div>
