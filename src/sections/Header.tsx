@@ -26,7 +26,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <img 
               src="/Final.png" 
               alt="Final.png" 
-              className="h-[100x] w-auto"
+              className="h-[95x] w-auto"
             />
           </a>
           
