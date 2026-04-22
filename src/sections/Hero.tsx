@@ -20,7 +20,7 @@ export default function Hero() {
           </div>
           <div className="space-y-8">
             <div className="aspect-[4/3] rounded-lg overflow-hidden">
-              <img src="/Final.png" alt="PCP" className="w-full h-full object-cover" />
+              <img src="/hero-suit.jpg" alt="PCP" className="w-full h-full object-cover" />
             </div>
             <div className="grid grid-cols-2 gap-8">
               <div><strong>La Gente</strong><div className="text-xs text-gray-500">Specilty Coffee Roastery • Dubai</div></div>
