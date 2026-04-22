@@ -1,4 +1,4 @@
-export default function ClientsPage(){
+export default function ClientsPage() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto">
