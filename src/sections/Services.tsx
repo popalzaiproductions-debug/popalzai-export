@@ -3,37 +3,37 @@ export default function Services() {
     {
       num: '01',
       title: 'Made-to-Measure Programs',
-      description: 'Complete uniform solutions for new openings or rebrands. Individual measurement sessions, sample approvals, and full production with individual garment labeling.',
+      description: 'Complete garment solutions for new openings, brand launches, or private wardrobe builds. Individual measurement sessions, sample approvals, and full production with individual labeling.',
       features: ['Individual 26-point measurement', 'Pattern drafting & storage', '2-6 week production', 'No minimum order']
     },
     {
       num: '02',
-      title: 'New Hire Onboarding',
-      description: 'Established relationship for ongoing staffing needs. We maintain your pattern library and produce garments for new team members as needed.',
+      title: 'Private Client Tailoring',
+      description: 'Individual commissions for clients who require precise fit and personal oversight. From single garments to seasonal wardrobe development.',
       features: ['2-week turnaround for additions', 'Consistent with existing program', 'Direct delivery to property', 'Size record maintenance']
     },
     {
       num: '03',
-      title: 'Replacements & Alterations',
-      description: 'Weight changes, wear-and-tear, or staff promotions. We keep patterns on file indefinitely and offer lifetime alterations on all garments.',
+      title: 'Brand Production',
+      description: 'Small-batch production for independent labels and emerging brands. Pattern development, sampling, and controlled runs with consistent quality.',
       features: ['Free alterations for life', 'Pattern adjustments stored', 'Individual garment replacement', 'Same-fabric matching']
     },
     {
       num: '04',
-      title: 'Material Sourcing',
-      description: 'In-house library of hospitality-appropriate fabrics. Industrial wash-tested, stain-resistant treatments, and climate-appropriate weights for UAE conditions.',
+      title: 'New Hire & Team Onboarding',
+      description: 'Maintain your pattern library for ongoing staffing needs. Two-week turnaround for additions.',
       features: ['Pre-washed fabrics', 'Industrial laundry tested', 'Climate-specific weights', 'Stain-resistant options']
     },
     {
       num: '05',
-      title: 'Design Development',
-      description: 'From concept to pattern. We develop custom styles specific to your brand, accounting for movement requirements and durability needs.',
+      title: 'Replacements, Alterations & Maintenance',
+      description: 'Lifetime alterations on all garments we produce. Pattern adjustments stored indefinitely.',
       features: ['Custom pattern drafting', 'Sample prototyping', 'Function testing', 'Brand alignment']
     },
     {
       num: '06',
-      title: 'Multi-Location Rollout',
-      description: 'Coordinated uniform deployment across multiple properties. Centralized measurement coordination and consistent quality across all locations.',
+      title: 'Material Sourcing & Development',
+      description: 'In-house fabric library spanning technical hospitality cloths to premium shirtings and coating. Industrial-tested and climate-appropriate for UAE conditions.',
       features: ['Centralized coordination', 'Consistent cross-location', 'Individual property delivery', 'Unified invoicing']
     }
   ]
