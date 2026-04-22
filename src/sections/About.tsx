@@ -16,22 +16,19 @@ export default function About() {
           <div className="lg:col-span-8 text-center lg:text-left">
             <div className="prose-custom max-w-2xl mx-auto lg:mx-0">
               <p>
-                Popalzai Clothing Production was founded on a simple observation: hospitality staff 
-                spend 8-16 hours per day in their uniforms, yet most are wearing garments graded 
-                from arbitrary size charts that account for neither posture variation nor the 
-                physical demands of service work.
+               Popalzai Clothing Production was founded on a simple observation: most people—whether they are front-of-house staff, brand founders, or private
+               clients—are wearing garments graded from arbitrary size charts that ignore posture, movement, and individual proportion.
               </p>
               <p>
-                We operate production units in the UAE, allowing us to maintain direct oversight 
-                of every stage—from initial measurement to final pressing. This local presence 
-                means we can offer services that outsourced manufacturing cannot: individual 
-                pattern drafting, indefinite pattern storage for future hires, and alterations 
-                for the life of the garment.
+               We operate production units in the UAE, maintaining direct oversight of every stage
+                from initial measurement to final pressing. This local presence allows us to offer
+                services that outsourced manufacturing cannot: individual pattern drafting, indefinite pattern archiving, 
+                and lifetime alterations.
               </p>
               <p>
-                Our clients range from single-location cafés to governmental entities. 
-                What unites them is a recognition that staff appearance and quality is part of brand identity, 
-                and that well-fitting workwear reduces turnover and improves team confidence.
+               Our clients range from single-location cafés to multi-property hotel groups, and from emerging fashion labels 
+                to individuals who require precise, consistent fit. What unites them is the understanding that well-fitting garments
+                are part of identity—whether that identity is a brand or a personal wardrobe.
               </p>
             </div>
             
