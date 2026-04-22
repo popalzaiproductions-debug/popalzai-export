@@ -12,14 +12,11 @@ export default function Hero() {
               <span className="text-gray-400">for hospitality.</span>
             </h1>
             <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-10 max-w-md">
-              Individual pattern drafting for restaurants, hotels, and service teams. 
-              No standard sizes. No minimum orders. Produced locally in the UAE.
+              …
             </p>
             <div className="flex flex-wrap gap-4">
-             <div className="flex flex-wrap gap-4">
- 
-               <Link to="/inquiry" className="px-8 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Request Consultation</Link>
-               <Link to="/work" className="px-8 py-3.5 border border-gray-300 text-sm font-medium rounded-full hover:border-black transition-colors duration-200">View Recent Work</Link>
+              <Link to="/inquiry" className="px-8 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Request Consultation</Link>
+              <Link to="/work" className="px-8 py-3.5 border border-gray-300 text-sm font-medium rounded-full hover:border-black transition-colors duration-200">View Recent Work</Link>
             </div>
           </div>
           <div className="space-y-8">
