@@ -26,7 +26,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <Link to="/work" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Work</Link>
             <Link to="/process" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Process</Link>
             <Link to="/studio" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Studio</Link>
-            <Link to="/clients" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
+            <Link to="/inquiry" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
           </nav>
 
           <button className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>Menu</button>
