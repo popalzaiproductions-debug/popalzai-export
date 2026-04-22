@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Header from './sections/Header'
-import Hero from './sections/Hero'
-import About from './sections/About'
-import Services from './sections/Services'
-import Process from './sections/Process'
-import Work from './sections/Work'
+import Home from './pages/Home'
+import AboutPage from './pages/AboutPage'
+import ServicesPage from './pages/ServicesPage'
+import WorkPage from './pages/WorkPage'
+import ProcessPage from './pages/ProcessPage'
+import StudioPage from './pages/StudioPage'
+import ClientsPage from './pages/ClientsPage'
 import FAQ from './sections/FAQ'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
@@ -18,17 +21,21 @@ function App() {
       <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
       <div className="h-[104px]"></div>
       <main>
-        <Hero />
-        <About />
-        <Services />
-        <Process />
-        <Work />
-        <FAQ />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/work" element={<WorkPage />} />
+          <Route path="/process" element={<ProcessPage />} />
+          <Route path="/studio" element={<StudioPage />} />
+          <Route path="/clients" element={<ClientsPage />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </main>
       <Footer />
     </div>
   )
 }
-
 export default App
