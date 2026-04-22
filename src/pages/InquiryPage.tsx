@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 export default function InquiryPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -7,23 +9,43 @@ export default function InquiryPage() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const ENDPOINT = 'https://formspree.io/f/xvzvwgla'
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+
     if (!name.trim()) { setError('Name is required'); return }
     if (!email.includes('@')) { setError('Valid email required'); return }
 
-    setLoading(true)
-    // simulate API call
-    await new Promise((r) => setTimeout(r, 800))
-    setLoading(false)
-    setSubmitted(true)
-    // clear form
-    setName('')
-    setEmail('')
-    setCompany('')
-    setDetails('')
-  }
+    setLoading(true);
+    const form = new URLSearchParams();
+    form.append('name', name);
+    form.append('email', email);
+    form.append('company', company);
+    form.append('details', details);
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: form.toString(),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setName('');
+        setEmail('');
+        setCompany('');
+        setDetails('');
+      } else {
+        setError('Submission failed. Please try again.');
+      }
+    } catch {
+      setError('Network error.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (submitted) {
     return (
@@ -36,7 +58,7 @@ export default function InquiryPage() {
           </button>
         </div>
       </section>
-    )
+    );
   }
 
   return (
@@ -48,19 +70,19 @@ export default function InquiryPage() {
         <form className="space-y-4" onSubmit={onSubmit}>
           <div>
             <label>Name</label>
-            <input className="w-full mt-1 border rounded px-3 py-2" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Your name" />
+            <input className="w-full mt-1 border rounded px-3 py-2" value={name} onChange={e => setName(e.target.value)} placeholder="Your name" />
           </div>
           <div>
             <label>Email</label>
-            <input className="w-full mt-1 border rounded px-3 py-2" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" type="email" />
+            <input className="w-full mt-1 border rounded px-3 py-2" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" type="email" />
           </div>
           <div>
             <label>Company</label>
-            <input className="w-full mt-1 border rounded px-3 py-2" value={company} onChange={(e)=>setCompany(e.target.value)} placeholder="Company" />
+            <input className="w-full mt-1 border rounded px-3 py-2" value={company} onChange={e => setCompany(e.target.value)} placeholder="Company" />
           </div>
           <div>
             <label>Project Details</label>
-            <textarea className="w-full mt-1 border rounded px-3 py-2" value={details} onChange={(e)=>setDetails(e.target.value)} placeholder="Tell us about your project" rows={4}></textarea>
+            <textarea className="w-full mt-1 border rounded px-3 py-2" value={details} onChange={e => setDetails(e.target.value)} placeholder="Tell us about your project" rows={4}></textarea>
           </div>
           <button type="submit" className="px-4 py-2 bg-black text-white rounded" disabled={loading}>
             {loading ? 'Sending...' : 'Submit'}
@@ -68,5 +90,5 @@ export default function InquiryPage() {
         </form>
       </div>
     </section>
-  )
+  );
 }
