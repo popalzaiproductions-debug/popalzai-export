@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 interface HeaderProps {
+  // Controls the mobile menu visibility
   mobileMenuOpen: boolean
   setMobileMenuOpen: (open: boolean) => void
 }
@@ -17,7 +18,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
           <Link to="/" className="flex items-center">
-            <img src="/Final.png" alt="PCP Logo" className="h-12" />
+            <img src="/logo.png" alt="PCP Logo" className="h-12" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8">
@@ -38,10 +39,10 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <Link to="/services" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Services</Link>
             <Link to="/work" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Work</Link>
             <Link to="/process" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Process</Link>
-            <Link to="/inquiry" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
+            <Link to="/inquiry" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Start Project</Link>
           </div>
         </div>
       </header>
     </div>
-  )
+  );
 }
