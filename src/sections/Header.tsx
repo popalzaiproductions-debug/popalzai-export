@@ -38,7 +38,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <Link to="/services" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Services</Link>
             <Link to="/work" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Work</Link>
             <Link to="/process" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Process</Link>
-            <Link to="/clients" className="block text-[14px] font-semibold text-black">Start Project</Link>
+            <Link to="/inquiry" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
           </div>
         </div>
       </header>
