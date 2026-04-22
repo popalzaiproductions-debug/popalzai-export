@@ -6,8 +6,12 @@ interface HeaderProps {
 }
 
 export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProps) {
-  const goTo = (path: string) => {
-    // For internal hash scrolling if you want, otherwise routing will handle it
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+    setMobileMenuOpen(false)
   }
 
   return (
@@ -17,11 +21,13 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
           Production units in the UAE • Serving all seven emirates
         </p>
       </div>
+
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
           <Link to="/" className="flex items-center">
             <img src="/logo.png" alt="PCP Logo" className="h-12" />
           </Link>
+
           <nav className="hidden lg:flex items-center gap-8">
             <Link to="/about" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">About</Link>
             <Link to="/services" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Services</Link>
@@ -30,8 +36,10 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <Link to="/studio" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Studio</Link>
             <Link to="/clients" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
           </nav>
+
           <button className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>Menu</button>
         </div>
+
         <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:hidden bg-white border-t border-[#e5e5e5]`}>
           <div className="max-w-7xl mx-auto px-6 py-6 space-y-4">
             <Link to="/about" className="block text-[14px] text-gray-600 hover:text-black transition-colors">About</Link>
