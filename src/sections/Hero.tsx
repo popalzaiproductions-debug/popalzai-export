@@ -11,7 +11,7 @@ export default function Hero() {
               Made-to-Measure Production
             </h1>
             <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-10 max-w-md">
-              Made-to-Measure Production for brands, governments, retailers, hospitality, and the food & beverage sector. No standard sizes. No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
+              Individual pattern drafting for hospitality groups, independent brands, and private clients. No standard sizes. No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/inquiry" className="px-8 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Request Consultation</Link>
