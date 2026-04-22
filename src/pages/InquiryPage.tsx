@@ -9,7 +9,6 @@ export default function InquiryPage() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Use your Formspree endpoint
   const ENDPOINT = 'https://formspree.io/f/xvzvwgla'
 
   const onSubmit = async (e: React.FormEvent) => {
