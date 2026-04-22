@@ -43,8 +43,8 @@ export default function Hero() {
           <div className="space-y-8">
             <div className="aspect-[4/3] rounded-lg overflow-hidden">
               <img 
-                src="/Final.png"
-                alt="/Final.png"
+                src=""/hero-suit.jpg"
+                alt=""/hero-suit.jpg"
                 className="w-full h-full object-cover"
               />
             </div>
