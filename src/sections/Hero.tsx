@@ -6,7 +6,6 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="max-w-xl">
-            <p className="label-text mb-6">Made-to-Measure Production</p>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold leading-tight mb-8">
               Made-to-Measure Production
             </h1>
