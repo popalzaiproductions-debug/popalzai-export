@@ -1,36 +1,36 @@
 const processSteps = [
   {
     num: '01',
-    title: 'Consultation & Site Visit',
-    description: 'We visit your property to understand the environment, observe staff movement, and assess fabric requirements. A kitchen requires different durability than a front desk. We discuss timeline, quantities, and design direction.',
+    title: 'Consultation',
+    description: 'We meet to understand your environment, your brand, or your personal requirements. A kitchen demands different durability than a concierge desk; a private client demands different discretion than a group rollout. We discuss timeline, proportion, and design direction.',
     note: 'Duration: 1-2 hours • No charge',
     image: '/consultation.jpg'
   },
   {
     num: '02',
-    title: 'Measurement Sessions',
-    description: 'We return with portable fitting equipment to measure each staff member individually. Sessions take 15 minutes per person and can be scheduled during prep hours or between shifts to avoid service disruption. We record 26 measurements per individual.',
-    note: 'On-site across all UAE emirates',
+    title: 'Measurement',
+    description: 'Individual sessions using portable fitting equipment. We record 26 measurements per person, scheduled at your convenience. Available across all UAE emirates.',
+    note: 'On-site or in-studio',
     image: '/measurment.jpg'
   },
   {
     num: '03',
-    title: 'Pattern Drafting & Sampling',
-    description: 'Individual patterns are drafted by hand in our UAE studio. For orders over 15 garments, we produce a full sample set for management approval before bulk production begins. Patterns are digitized and stored for future reference.',
+    title: 'Pattern & Sampling',
+    description: 'Patterns drafted by hand in our UAE studio. For orders over 15 garments or multi-piece private commissions, we produce approval samples before full production. All patterns are digitized and archived.',
     note: '3-6 Days • Patterns archived indefinitely',
     image: '/pattern.jpg'
   },
   {
     num: '04',
     title: 'Production & Quality Control',
-    description: 'Garments are cut single-layer to ensure grain alignment, then constructed in our UAE facility. Three-stage quality control: after cutting, after construction, and after pressing. Weekly progress updates provided.',
+    description: 'Single-layer cutting for grain alignment. Three-stage QC: after cutting, after construction, after pressing. Weekly progress updates.',
     note: '2-3 weeks • In-house production',
     image: '/pexels-cottonbro-studio-4622397.jpg'
   },
   {
     num: '05',
     title: 'Delivery & Fitting',
-    description: 'Garments are individually packaged with name labels and care instructions. We coordinate delivery to your property anywhere in the UAE. Optional on-site fitting session to address any final adjustments.',
+    description: 'Individually packaged with labeling and care instructions. Optional on-site fitting for final adjustments.',
     note: 'Delivery across all emirates',
     image: '/delivery.jpg'
   }
