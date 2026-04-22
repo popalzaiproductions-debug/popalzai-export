@@ -1,5 +1,3 @@
 import Hero from '../sections/Hero'
 
-export default function Home() {
-return (
-  
+export default function Home() { return (
