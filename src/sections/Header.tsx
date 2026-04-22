@@ -6,14 +6,6 @@ interface HeaderProps {
 }
 
 export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProps) {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-    setMobileMenuOpen(false)
-  }
-
   return (
     <div className="fixed w-full z-50 top-0">
       <div className="bg-black text-white text-center py-2.5">
