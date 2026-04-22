@@ -18,7 +18,7 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
       <header className="bg-white border-b border-[#e5e5e5]">
         <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
           <Link to="/" className="flex items-center">
-            <img src="/logo.png" alt="PCP Logo" className="h-12" />
+            <img src="/Final.png" alt="PCP Logo" className="h-12" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8">
