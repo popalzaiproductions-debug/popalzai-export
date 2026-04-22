@@ -6,4 +6,5 @@ export default function InquiryPage() {
   const [company, setCompany] = useState('')
   const [details, setDetails] = useState('')
   const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = use
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] =
