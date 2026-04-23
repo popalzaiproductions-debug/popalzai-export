@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './sections/Header'
 import Hero from './sections/Hero'
+import Systems from './sections/Systems'
 import About from './sections/About'
 import Services from './sections/Services'
 import Process from './sections/Process'
@@ -21,6 +22,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Hero />} />
+          <Route path="/systems" element={<Systems />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/work" element={<Work />} />
