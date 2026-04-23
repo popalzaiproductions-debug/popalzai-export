@@ -1,46 +1,80 @@
+import { useState } from 'react'
+
 const faqs = [
   {
-    question: 'What is your minimum order?',
-    answer: 'We have no minimum order quantity. We regularly produce single garments for individual new hires at established clients, as well as full staff complements for new openings.'
+    q: 'What is your minimum order?',
+    a: 'We have no minimum order quantity. We regularly produce single garments for individual new hires at established clients, as well as full staff complements for new openings.',
   },
   {
-    question: 'How long does the process take?',
-    answer: 'Initial measurement sessions can be scheduled within a week. Production takes 2-3 weeks from measurement completion. Rush orders for single replacements can be accommodated in 1 week.'
+    q: 'How long does the process take?',
+    a: 'Initial measurement sessions can be scheduled within a week. Production takes 2–3 weeks from measurement completion. Rush orders for single replacements can be accommodated in 1 week.',
   },
   {
-    question: 'Do you serve all of the UAE?',
-    answer: 'Yes. We are based in the UAE with production units locally operated. We conduct on-site measurements and deliver finished garments to all seven emirates.'
+    q: 'Do you serve all of the UAE?',
+    a: 'Yes. We are based in the UAE with production units locally operated. We conduct on-site measurements and deliver finished garments to all seven emirates.',
   },
   {
-    question: 'What happens when we hire new staff?',
-    answer: 'We keep all patterns archived indefinitely. New team members can be measured and garments produced to the exact specifications of your existing program, ensuring consistency. Turnaround for additions is 2 weeks.'
+    q: 'What happens when we hire new staff?',
+    a: 'We keep all patterns archived indefinitely. New team members can be measured and garments produced to the exact specifications of your existing programme, ensuring consistency. Turnaround for additions is 2 weeks.',
   },
   {
-    question: 'Are alterations really included?',
-    answer: 'Yes. Weight fluctuations, adjustments for comfort, or refinements after wear-testing are all covered. We adjust the pattern and the garment at no additional cost.'
-  }
+    q: 'Are alterations really included?',
+    a: 'Yes. Weight fluctuations, adjustments for comfort, or refinements after wear-testing are all covered. We adjust the pattern and the garment at no additional cost.',
+  },
 ]
 
 export default function FAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+
   return (
-    <section className="py-20 md:py-28 bg-[#f8f8f8] border-t border-[#e5e5e5]">
-      <div className="max-w-3xl mx-auto px-6">
-        
-        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
-          Common Questions
-        </h2>
-        
-        <div className="space-y-5">
-          {faqs.map((faq, index) => (
-            <div key={index} className="bg-white p-6 md:p-8 rounded-lg border border-[#e5e5e5]">
-              <h3 className="font-semibold text-base mb-3 text-center md:text-left">{faq.question}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed text-center md:text-left">
-                {faq.answer}
-              </p>
-            </div>
-          ))}
+    <section style={{ padding: '6rem 0', background: 'var(--cream)' }}>
+      <div className="container">
+
+        <div className="rule mb-16 pt-1 flex justify-between items-center">
+          <span className="eyebrow">FAQ</span>
         </div>
-        
+
+        <div className="grid lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-4">
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)' }}>
+              Common<br />
+              <span className="serif-italic" style={{ color: 'var(--ink-muted)' }}>questions</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-8">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                style={{ borderTop: '1px solid var(--rule)', cursor: 'pointer' }}
+                onClick={() => setOpen(open === i ? null : i)}
+              >
+                <div className="flex justify-between items-center" style={{ padding: '1.5rem 0' }}>
+                  <p style={{ fontSize: '0.95rem', fontWeight: 400, color: 'var(--ink)', paddingRight: '2rem' }}>{faq.q}</p>
+                  <span
+                    style={{
+                      color: 'var(--ink-muted)',
+                      fontSize: '1.2rem',
+                      transition: 'transform 0.2s ease',
+                      transform: open === i ? 'rotate(45deg)' : 'none',
+                      flexShrink: 0,
+                    }}
+                  >+</span>
+                </div>
+                <div
+                  style={{
+                    overflow: 'hidden',
+                    maxHeight: open === i ? '200px' : '0',
+                    transition: 'max-height 0.35s ease',
+                  }}
+                >
+                  <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.8, paddingBottom: '1.5rem' }}>{faq.a}</p>
+                </div>
+              </div>
+            ))}
+            <div style={{ borderTop: '1px solid var(--rule)' }} />
+          </div>
+        </div>
+
       </div>
     </section>
   )
