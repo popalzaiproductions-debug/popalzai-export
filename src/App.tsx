@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Header from './sections/Header'
-import Home from './pages/Home'
-import InquiryPage from './pages/InquiryPage'
-import AboutPage from './pages/AboutPage'
-import ServicesPage from './pages/ServicesPage'
-import WorkPage from './pages/WorkPage'
-import ProcessPage from './pages/ProcessPage'
-import StudioPage from './pages/StudioPage'
+import Hero from './sections/Hero'
+import About from './sections/About'
+import Services from './sections/Services'
+import Process from './sections/Process'
+import Work from './sections/Work'
 import FAQ from './sections/FAQ'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
@@ -17,25 +15,23 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <div className="h-[104px]"></div>
+      <div className="h-[92px]"></div>
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/inquiry" element={<InquiryPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/work" element={<WorkPage />} />
-          <Route path="/process" element={<ProcessPage />} />
-          <Route path="/studio" element={<StudioPage />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<><Hero /></>} />
+          <Route path="/about" element={<><Hero /><About /></>} />
+          <Route path="/services" element={<><Hero /><Services /></>} />
+          <Route path="/work" element={<><Hero /><Work /></>} />
+          <Route path="/process" element={<><Hero /><Process /></>} />
+          <Route path="/inquiry" element={<><Hero /><Contact /></>} />
+          <Route path="/faq" element={<><Hero /><FAQ /></>} />
         </Routes>
       </main>
       <Footer />
     </div>
   )
 }
+
 export default App
