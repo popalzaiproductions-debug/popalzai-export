@@ -1,34 +1,99 @@
 import { Link } from 'react-router-dom'
 
+const clients = [
+  { name: 'La Gente', sub: 'Specialty Coffee Roastery · Dubai' },
+  { name: 'Sea Level Cafe', sub: 'Coastal Café · Kite Beach UAE' },
+  { name: 'No Cap Barbershop', sub: 'Grooming Studio · Dubai' },
+  { name: 'Lost Boys', sub: 'Abu Dhabi Brand · UAE' },
+]
+
 export default function Hero() {
   return (
-    <section className="pt-24 pb-20 md:pt-32 md:pb-28">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold leading-tight mb-8">
-              Made-to-Measure Production
-            </h1>
-            <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-10 max-w-md">
-              Individual pattern drafting for hospitality groups, independent brands, and private clients. No standard sizes. No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/inquiry" className="px-8 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Request Consultation</Link>
-              <Link to="/work" className="px-8 py-3.5 border border-gray-300 text-sm font-medium rounded-full hover:border-black transition-colors duration-200">View Recent Work</Link>
-            </div>
-          </div>
-          <div className="space-y-8">
-            <div className="aspect-[4/3] rounded-lg overflow-hidden">
-              <img src="/hero-suit.jpg" alt="PCP" className="w-full h-full object-cover" />
-            </div>
-            <div className="grid grid-cols-2 gap-8">
-              <div><strong>La Gente</strong><div className="text-xs text-gray-500">Specilty Coffee Roastery • Dubai</div></div>
-              <div><strong>Sea Level Cafe</strong><div className="text-xs text-gray-500">Coastal Café • UAE</div></div>
-              <div><strong>No Cap Barbershop</strong><div className="text-xs text-gray-500">Grooming • Abu Dhabi</div></div>
-              <div><strong>Room 5</strong><div className="text-xs text-gray-500">Hotels • UAE</div></div>
-            </div>
-          </div>
+    <section style={{ paddingTop: '5rem', paddingBottom: '5rem', background: 'var(--cream)' }}>
+      <div className="container">
+
+        {/* Top rule + label */}
+        <div className="rule mb-12 pt-1 flex items-center justify-between">
+          <span className="eyebrow">Est. UAE</span>
+          <span className="eyebrow">Made-to-Measure</span>
         </div>
+
+        {/* Main grid */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+          {/* Left — headline + CTAs */}
+          <div className="lg:col-span-5 fade-up fade-up-1">
+            <h1
+              className="mb-8 leading-none"
+              style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)' }}
+            >
+              Production<br />
+              <span className="serif-italic" style={{ color: 'var(--ink-muted)' }}>without</span>{' '}
+              standard sizes.
+            </h1>
+            <p
+              className="mb-10 leading-relaxed"
+              style={{ color: 'var(--ink-muted)', fontSize: '1rem', maxWidth: '38ch', fontWeight: 300 }}
+            >
+              Individual pattern drafting for hospitality groups, independent brands, and private clients.
+              No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/inquiry" className="btn-primary">Request Consultation</Link>
+              <Link to="/work" className="btn-ghost">View Work</Link>
+            </div>
+          </div>
+
+          {/* Center — hero image */}
+          <div className="lg:col-span-4 fade-up fade-up-2">
+            <div className="img-hover" style={{ aspectRatio: '3/4', borderRadius: '2px', overflow: 'hidden' }}>
+              <img
+                src="/hero-suit.jpg"
+                alt="Made-to-measure garment"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
+          {/* Right — clients list */}
+          <div className="lg:col-span-3 fade-up fade-up-3 flex flex-col justify-end h-full">
+            <div style={{ paddingTop: '2rem' }}>
+              <p className="eyebrow mb-6">Selected Clients</p>
+              <div className="flex flex-col" style={{ gap: '0' }}>
+                {clients.map((c, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      borderTop: '1px solid var(--rule)',
+                      paddingTop: '1rem',
+                      paddingBottom: '1rem',
+                    }}
+                  >
+                    <p style={{ fontWeight: 400, fontSize: '0.875rem', color: 'var(--ink)' }}>{c.name}</p>
+                    <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)', marginTop: '0.15rem' }}>{c.sub}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom stats strip */}
+        <div className="rule mt-16 pt-10 grid grid-cols-2 md:grid-cols-4 gap-6 fade-up fade-up-4">
+          {[
+            { num: '26', label: 'Measurements per person' },
+            { num: '2–3 wk', label: 'Production timeline' },
+            { num: '0', label: 'Standard sizes used' },
+            { num: '∞', label: 'Pattern archive' },
+          ].map(({ num, label }) => (
+            <div key={label}>
+              <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: '2rem', lineHeight: 1 }}>{num}</p>
+              <p className="eyebrow mt-1" style={{ fontSize: '0.6rem' }}>{label}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   )
