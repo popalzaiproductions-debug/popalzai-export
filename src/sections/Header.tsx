@@ -1,48 +1,136 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
-interface HeaderProps {
-  // Controls the mobile menu visibility
-  mobileMenuOpen: boolean
-  setMobileMenuOpen: (open: boolean) => void
-}
+const navLinks = [
+  { to: '/about',    label: 'About' },
+  { to: '/services', label: 'Services' },
+  { to: '/work',     label: 'Work' },
+  { to: '/process',  label: 'Process' },
+  { to: '/studio',   label: 'Studio' },
+]
 
-export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProps) {
+export default function Header() {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <div className="fixed w-full z-50 top-0">
-      <div className="bg-black text-white text-center py-2.5">
-        <p className="text-[11px] tracking-[0.15em] font-medium uppercase opacity-90">
-          Production units in the UAE • Serving all seven emirates
+    <div className="fixed w-full z-50 top-0" style={{ height: 'var(--header-h)' }}>
+      {/* Announcement bar */}
+      <div style={{ background: 'var(--ink)', color: 'var(--cream)' }}
+        className="text-center py-2.5">
+        <p className="eyebrow" style={{ color: 'rgba(245,242,237,0.65)', fontSize: '0.6rem' }}>
+          UAE-based production &nbsp;·&nbsp; All seven emirates &nbsp;·&nbsp; No minimums
         </p>
       </div>
 
-      <header className="bg-white border-b border-[#e5e5e5]">
-        <div className="max-w-7xl mx-auto py-5 flex justify-between items-center">
-          <Link to="/" className="flex items-center">
-            <img src="/Final.png" alt="PCP Logo" className="h-12" />
+      {/* Main header */}
+      <header
+        style={{
+          background: 'var(--cream)',
+          borderBottom: scrolled ? '1px solid var(--rule)' : '1px solid transparent',
+          transition: 'border-color 0.3s ease',
+        }}
+      >
+        <div className="container flex items-center justify-between" style={{ height: '72px' }}>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 shrink-0">
+            <img src="/Final.png" alt="PCP" className="h-9" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            <Link to="/about" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">About</Link>
-            <Link to="/services" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Services</Link>
-            <Link to="/work" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Work</Link>
-            <Link to="/process" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Process</Link>
-            <Link to="/studio" className="text-[13px] text-gray-600 hover:text-black transition-colors duration-200">Studio</Link>
-            <Link to="/inquiry" className="ml-2 px-5 py-2.5 bg-black text-white text-[12px] font-medium rounded-full hover:bg-gray-800 transition-colors duration-200">Start Project</Link>
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-10">
+            {navLinks.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="eyebrow transition-colors"
+                style={{
+                  color: pathname === to ? 'var(--ink)' : 'var(--ink-muted)',
+                  fontSize: '0.62rem',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--ink)')}
+                onMouseLeave={e => (e.currentTarget.style.color = pathname === to ? 'var(--ink)' : 'var(--ink-muted)')}
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
-          <button className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>Menu</button>
+          <div className="flex items-center gap-4">
+            <Link to="/inquiry" className="btn-primary hidden lg:inline-flex" style={{ padding: '0.6rem 1.4rem', fontSize: '0.62rem' }}>
+              Start Project
+            </Link>
+
+            {/* Hamburger */}
+            <button
+              className="lg:hidden flex flex-col gap-1.5 p-1"
+              onClick={() => setOpen(o => !o)}
+              aria-label="Menu"
+            >
+              <span
+                className="block w-6 h-px transition-all duration-300"
+                style={{
+                  background: 'var(--ink)',
+                  transform: open ? 'translateY(5px) rotate(45deg)' : 'none',
+                }}
+              />
+              <span
+                className="block w-4 h-px transition-all duration-300"
+                style={{
+                  background: 'var(--ink)',
+                  opacity: open ? 0 : 1,
+                }}
+              />
+              <span
+                className="block w-6 h-px transition-all duration-300"
+                style={{
+                  background: 'var(--ink)',
+                  transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none',
+                }}
+              />
+            </button>
+          </div>
         </div>
 
-        <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:hidden bg-white border-t border-[#e5e5e5]`}>
-          <div className="max-w-7xl mx-auto px-6 py-6 space-y-4">
-            <Link to="/about" className="block text-[14px] text-gray-600 hover:text-black transition-colors">About</Link>
-            <Link to="/services" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Services</Link>
-            <Link to="/work" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Work</Link>
-            <Link to="/process" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Process</Link>
-            <Link to="/inquiry" className="block text-[14px] text-gray-600 hover:text-black transition-colors">Start Project</Link>
+        {/* Mobile drawer */}
+        <div
+          className="lg:hidden overflow-hidden transition-all duration-300"
+          style={{
+            maxHeight: open ? '400px' : '0',
+            borderTop: open ? '1px solid var(--rule)' : 'none',
+            background: 'var(--cream)',
+          }}
+        >
+          <div className="container py-8 flex flex-col gap-6">
+            {navLinks.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className="eyebrow"
+                style={{ fontSize: '0.7rem', color: pathname === to ? 'var(--ink)' : 'var(--ink-muted)' }}
+              >
+                {label}
+              </Link>
+            ))}
+            <div className="pt-4 rule">
+              <Link to="/inquiry" className="btn-primary mt-6" style={{ fontSize: '0.62rem' }}>
+                Start Project
+              </Link>
+            </div>
           </div>
         </div>
       </header>
     </div>
-  );
+  )
 }
