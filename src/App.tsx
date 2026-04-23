@@ -20,13 +20,13 @@ function App() {
       <div className="h-[92px]"></div>
       <main>
         <Routes>
-          <Route path="/" element={<><Hero /></>} />
-          <Route path="/about" element={<><Hero /><About /></>} />
-          <Route path="/services" element={<><Hero /><Services /></>} />
-          <Route path="/work" element={<><Hero /><Work /></>} />
-          <Route path="/process" element={<><Hero /><Process /></>} />
-          <Route path="/inquiry" element={<><Hero /><Contact /></>} />
-          <Route path="/faq" element={<><Hero /><FAQ /></>} />
+          <Route path="/" element={<Hero />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/work" element={<Work />} />
+          <Route path="/process" element={<Process />} />
+          <Route path="/inquiry" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
         </Routes>
       </main>
       <Footer />
