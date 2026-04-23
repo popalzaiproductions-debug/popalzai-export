@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Header from './sections/Header'
-import Hero from './sections/Hero'
-import Systems from './sections/Systems'
-import About from './sections/About'
-import Services from './sections/Services'
-import Process from './sections/Process'
-import Work from './sections/Work'
+import Home from './pages/Home'
+import InquiryPage from './pages/InquiryPage'
+import AboutPage from './pages/AboutPage'
+import ServicesPage from './pages/ServicesPage'
+import WorkPage from './pages/WorkPage'
+import ProcessPage from './pages/ProcessPage'
+import StudioPage from './pages/StudioPage'
 import FAQ from './sections/FAQ'
 import Contact from './sections/Contact'
 import Footer from './sections/Footer'
@@ -16,19 +17,21 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <div className="h-[92px]"></div>
+      <div className="h-[104px]"></div>
       <main>
         <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route path="/systems" element={<Systems />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/process" element={<Process />} />
-          <Route path="/inquiry" element={<Contact />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/inquiry" element={<InquiryPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/work" element={<WorkPage />} />
+          <Route path="/process" element={<ProcessPage />} />
+          <Route path="/studio" element={<StudioPage />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
       <Footer />
