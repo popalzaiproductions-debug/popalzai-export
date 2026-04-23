@@ -1,129 +1,132 @@
 import { useState } from 'react'
 
 export default function Contact() {
-  const [formState, setFormState] = useState({
-    name: '',
-    company: '',
-    email: '',
-    message: ''
-  })
+  const [form, setForm] = useState({ name: '', company: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     setSubmitting(true)
-    
     try {
-      const response = await fetch('https://formspree.io/f/xvzvwgla', {
+      const res = await fetch('https://formspree.io/f/xvzvwgla', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(formState)
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
       })
-      
-      if (response.ok) {
+      if (res.ok) {
         setSubmitted(true)
-        setFormState({ name: '', company: '', email: '', message: '' })
+        setForm({ name: '', company: '', email: '', message: '' })
+      } else {
+        setError('Submission failed. Please try again or email us directly.')
       }
-    } catch (error) {
-      console.error('Form submission error:', error)
+    } catch {
+      setError('Network error. Please email us at info@popalzai.com')
     } finally {
       setSubmitting(false)
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
   return (
-    <section id="contact" className="py-20 md:py-28 bg-black text-white">
-      <div className="max-w-4xl mx-auto px-6 text-center">
-        <p className="label-text text-gray-500 mb-4">Start a Project</p>
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Ready to discuss your team?</h2>
-        <p className="text-gray-400 mb-12 max-w-lg mx-auto">
-          Tell us about your property, your current uniform situation, and what you're looking to improve. 
-          We'll respond within 24 hours to schedule a consultation.
-        </p>
-        
-        {submitted ? (
-          <div className="max-w-md mx-auto bg-gray-900 p-8 rounded-lg">
-            <h3 className="text-xl font-semibold mb-4">Thank you!</h3>
-            <p className="text-gray-400">Your inquiry has been sent. We'll be in touch within 24 hours.</p>
+    <section style={{ padding: '6rem 0', background: 'var(--ink)', color: 'var(--cream)' }}>
+      <div className="container">
+
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginBottom: '4rem', paddingTop: '0.25rem' }}
+          className="flex justify-between items-center">
+          <span className="eyebrow" style={{ color: 'rgba(245,242,237,0.4)' }}>Start a Project</span>
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-12">
+
+          {/* Left */}
+          <div className="lg:col-span-5">
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: 'var(--cream)', marginBottom: '1.5rem' }}>
+              Ready to discuss<br />
+              <span className="serif-italic" style={{ color: 'var(--accent)' }}>your team?</span>
+            </h2>
+            <p style={{ fontSize: '0.9rem', color: 'rgba(245,242,237,0.55)', lineHeight: 1.8, maxWidth: '36ch', marginBottom: '3rem' }}>
+              Tell us about your property, your current uniform situation, and what you're looking to improve.
+              We'll respond within 24 hours to schedule a consultation.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <a href="mailto:info@popalzai.com" style={{ fontSize: '0.85rem', color: 'rgba(245,242,237,0.55)', textDecoration: 'none' }}>
+                info@popalzai.com
+              </a>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(245,242,237,0.35)' }}>United Arab Emirates</p>
+            </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6 text-left">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="label-text text-gray-500 mb-2 block">Name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  required
-                  value={formState.name}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-700 py-2 focus:border-white focus:outline-none transition text-white"
-                />
+
+          {/* Form */}
+          <div className="lg:col-span-6 lg:col-start-7">
+            {submitted ? (
+              <div style={{ padding: '3rem', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
+                <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.5rem', color: 'var(--cream)', marginBottom: '0.75rem' }}>
+                  Thank you.
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(245,242,237,0.5)' }}>
+                  We've received your inquiry and will be in touch within 24 hours.
+                </p>
               </div>
-              <div>
-                <label className="label-text text-gray-500 mb-2 block">Property</label>
-                <input 
-                  type="text" 
-                  name="company" 
-                  required
-                  value={formState.company}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-700 py-2 focus:border-white focus:outline-none transition text-white"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <label className="label-text text-gray-500 mb-2 block">Email</label>
-              <input 
-                type="email" 
-                name="email" 
-                required
-                value={formState.email}
-                onChange={handleChange}
-                className="w-full bg-transparent border-b border-gray-700 py-2 focus:border-white focus:outline-none transition text-white"
-              />
-            </div>
-            
-            <div>
-              <label className="label-text text-gray-500 mb-2 block">Message</label>
-              <textarea 
-                name="message" 
-                rows={4} 
-                required
-                value={formState.message}
-                onChange={handleChange}
-                className="w-full bg-transparent border-b border-gray-700 py-2 focus:border-white focus:outline-none transition text-white resize-none"
-                placeholder="Tell us about your team, timeline, and requirements..."
-              />
-            </div>
-            
-            <div className="text-center pt-4">
-              <button 
-                type="submit" 
-                disabled={submitting}
-                className="px-10 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition label-text disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {submitting ? 'Sending...' : 'Send Inquiry'}
-              </button>
-            </div>
-          </form>
-        )}
-        
-        <div className="mt-16 pt-8 border-t border-gray-800 text-sm text-gray-500">
-          <p>info@popalzai.com</p>
-          <p className="mt-1">United Arab Emirates</p>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                {error && (
+                  <p style={{ fontSize: '0.78rem', color: '#e07070' }}>{error}</p>
+                )}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="field-group">
+                    <label className="field-label" style={{ color: 'rgba(245,242,237,0.4)' }}>Name</label>
+                    <input
+                      type="text" name="name" required
+                      value={form.name} onChange={handleChange}
+                      className="field-input field-input-dark"
+                    />
+                  </div>
+                  <div className="field-group">
+                    <label className="field-label" style={{ color: 'rgba(245,242,237,0.4)' }}>Property / Company</label>
+                    <input
+                      type="text" name="company" required
+                      value={form.company} onChange={handleChange}
+                      className="field-input field-input-dark"
+                    />
+                  </div>
+                </div>
+                <div className="field-group">
+                  <label className="field-label" style={{ color: 'rgba(245,242,237,0.4)' }}>Email</label>
+                  <input
+                    type="email" name="email" required
+                    value={form.email} onChange={handleChange}
+                    className="field-input field-input-dark"
+                  />
+                </div>
+                <div className="field-group">
+                  <label className="field-label" style={{ color: 'rgba(245,242,237,0.4)' }}>Message</label>
+                  <textarea
+                    name="message" rows={4} required
+                    value={form.message} onChange={handleChange}
+                    placeholder="Tell us about your team, timeline, and requirements…"
+                    className="field-input field-input-dark"
+                    style={{ resize: 'none' }}
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="btn-primary"
+                    style={{ background: 'var(--cream)', color: 'var(--ink)', opacity: submitting ? 0.6 : 1 }}
+                  >
+                    {submitting ? 'Sending…' : 'Send Inquiry'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>
