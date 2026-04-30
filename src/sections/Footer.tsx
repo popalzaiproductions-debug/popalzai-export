@@ -47,10 +47,10 @@ export default function Footer() {
           <div>
             <p className="eyebrow mb-5" style={{ color: 'rgba(245,242,237,0.3)' }}>Contact</p>
             <a
-              href="mailto:info@popalzai.com"
+              href="mailto:popalzaiproductions@gmail.com"
               style={{ fontSize: '0.8rem', color: 'rgba(245,242,237,0.5)', display: 'block', marginBottom: '0.5rem', textDecoration: 'none' }}
             >
-              info@popalzai.com
+              popalzaiproductions@gmail.com
             </a>
             <p style={{ fontSize: '0.78rem', color: 'rgba(245,242,237,0.3)' }}>United Arab Emirates</p>
             <Link
