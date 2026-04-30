@@ -5,167 +5,138 @@ export default function Work() {
 
         <div className="rule mb-16 pt-1 flex justify-between items-center">
           <span className="eyebrow">Selected Work</span>
-          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014 – 2026</span>
+          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014 – 2020</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-
-          {/* Legacy hospitality timeline */}
-          <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '4rem' }}>
-            <div className="flex justify-between items-baseline mb-10">
-              <div>
-                <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.3rem' }}>
-                  Hospitality Programmes
-                </h3>
-                <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Large-scale uniform production across UAE hotel groups</p>
-              </div>
-              <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014–2020</span>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
-              {[
-                { year: '2014', name: 'Four Seasons Resort Jumeirah Beach', location: 'Dubai' },
-                { year: '2014', name: 'Waldorf Astoria Palm Jumeirah', location: 'Dubai' },
-                { year: '2016', name: 'Four Seasons DIFC', location: 'Dubai' },
-                { year: '2017', name: 'Waldorf Astoria DIFC', location: 'Dubai' },
-                { year: '2017', name: 'Renaissance Downtown Dubai', location: 'Dubai' },
-                { year: '2017', name: 'FIVE Palm Jumeirah', location: 'Dubai' },
-                { year: '2019', name: 'FIVE Jumeirah Village', location: 'Dubai' },
-                { year: '2019', name: 'Mandarin Oriental Jumeira', location: 'Dubai' },
-                { year: '2019', name: 'W Dubai – The Palm', location: 'Dubai' },
-                { year: '2020', name: 'W Abu Dhabi – Yas Island', location: 'Abu Dhabi' },
-              ].map((c) => (
-                <div
-                  key={c.name}
-                  style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}
-                >
-                  <span className="eyebrow" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--ink-faint)' }}>{c.year}</span>
-                  <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
-                  <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.location}</p>
-                </div>
-              ))}
-            </div>
-            <p style={{ fontSize: '0.72rem', color: 'var(--ink-faint)', marginTop: '1rem', fontStyle: 'italic' }}>
-              Production records prior to 2014 are partial. The above represents verified programmes from the latter period.
-            </p>
-          </div>
-
-          {/* La Gente */}
-          <div className="grid lg:grid-cols-12 gap-10 items-start" style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '4rem' }}>
-            <div className="lg:col-span-5 img-hover" style={{ borderRadius: '2px', overflow: 'hidden', aspectRatio: '4/5' }}>
-              <img src="/la-gente.jpg" alt="La Gente" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div className="lg:col-span-7 lg:pt-4 flex flex-col justify-between h-full">
-              <div>
-                <div className="flex justify-between items-baseline mb-8">
-                  <div>
-                    <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.6rem', fontWeight: 400, marginBottom: '0.3rem' }}>La Gente</h3>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Specialty Coffee Roastery · Dubai</p>
-                  </div>
-                  <span className="eyebrow">2025</span>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8 mb-10">
-                  <div>
-                    <p className="eyebrow mb-3">The Brief</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                      Full front-of-house uniform programme for new opening. Required breathable fabrics for a
-                      high-energy service environment and easy movement for table-side presentations.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="eyebrow mb-3">Our Solution</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                      Washed linen-blend service shirts with reinforced underarm gussets. Cross-back apron design
-                      to distribute weight evenly during long shifts. Individual sizing for 24 staff members.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4" style={{ borderTop: '1px solid var(--rule)', paddingTop: '1.5rem' }}>
-                {[['Scope', 'FOH Service Team'], ['Materials', 'Linen-Cotton Blend'], ['Timeline', '2 Weeks']].map(([l, v]) => (
-                  <div key={l}>
-                    <p className="eyebrow mb-1">{l}</p>
-                    <p style={{ fontSize: '0.85rem', fontWeight: 400 }}>{v}</p>
-                  </div>
-                ))}
-              </div>
+        {/* History paragraph */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 mb-16">
+          <div className="lg:col-span-4">
+            <div style={{ position: 'sticky', top: 'calc(var(--header-h) + 2rem)' }}>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', marginBottom: '1.5rem' }}>
+                A decade of<br />
+                <span className="serif-italic" style={{ color: 'var(--ink-muted)' }}>hotel production</span>
+              </h2>
+              <div style={{ width: '2.5rem', height: '1px', background: 'var(--accent)' }} />
             </div>
           </div>
-
-          {/* Sea Level */}
-          <div className="grid lg:grid-cols-12 gap-10 items-start" style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '4rem' }}>
-            <div className="lg:col-span-7 lg:order-2 img-hover" style={{ borderRadius: '2px', overflow: 'hidden', aspectRatio: '4/5' }}>
-              <img src="/sea-level.jpg" alt="Sea Level Cafe" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div className="lg:col-span-5 lg:order-1 lg:pt-4 flex flex-col justify-between h-full">
-              <div>
-                <div className="flex justify-between items-baseline mb-8">
-                  <div>
-                    <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.6rem', fontWeight: 400, marginBottom: '0.3rem' }}>Sea Level Cafe</h3>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Coastal Café · Kite Beach UAE</p>
-                  </div>
-                  <span className="eyebrow">2026</span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2.5rem' }}>
-                  <div>
-                    <p className="eyebrow mb-3">The Brief</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                      Industrial laundry durability, coastal colour palette, and consistent sizing across all staff transfers.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="eyebrow mb-3">Our Solution</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                      Heavyweight cotton twill, pre-shrunk and industrial wash-tested to 150 cycles. Individual name embroidery.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4" style={{ borderTop: '1px solid var(--rule)', paddingTop: '1.5rem' }}>
-                {[['Scope', '1 Location'], ['Materials', 'Cotton Twill'], ['Service', 'Ongoing']].map(([l, v]) => (
-                  <div key={l}>
-                    <p className="eyebrow mb-1">{l}</p>
-                    <p style={{ fontSize: '0.85rem', fontWeight: 400 }}>{v}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* No Cap + Lost Boys */}
-          <div className="grid md:grid-cols-2 gap-8" style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '2rem' }}>
-            <div>
-              <div className="img-hover mb-6" style={{ borderRadius: '2px', overflow: 'hidden', aspectRatio: '16/10' }}>
-                <img src="/no-cap.jpg" alt="No Cap Barbershop" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div className="flex justify-between items-baseline mb-3">
-                <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.2rem', fontWeight: 400 }}>No Cap Barbershop</h3>
-                <span className="eyebrow">2025</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', marginBottom: '0.5rem' }}>Grooming Studio · Satwa, Dubai</p>
-              <p style={{ fontSize: '0.83rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                Heavyweight canvas sets with tool-specific pocketing and chemical-resistant treatment. Streetwear aesthetic with professional durability.
+          <div className="lg:col-span-8">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '60ch' }}>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
+                From 2014 through 2020, Popalzai operated as one of the UAE's primary hospitality uniform
+                producers — outfitting front-of-house teams across some of the country's most recognised
+                hotel brands. Properties under Four Seasons, Waldorf Astoria, Mandarin Oriental, W Hotels,
+                Renaissance, and FIVE were all dressed through this studio.
               </p>
-            </div>
-            <div>
-              <div className="img-hover mb-6" style={{ borderRadius: '2px', overflow: 'hidden', aspectRatio: '16/10' }}>
-                <img src="/room-5.jpg" alt="Lost Boys" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div className="flex justify-between items-baseline mb-3">
-                <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.2rem', fontWeight: 400 }}>Lost Boys</h3>
-                <span className="eyebrow">2026</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', marginBottom: '0.5rem' }}>Abu Dhabi Brand · UAE</p>
-              <p style={{ fontSize: '0.83rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-                An Abu Dhabi brand built on street energy and raw expression, with a distinct, polished edge. Custom production run developed from initial concept through sampling.
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
+                The work was large in scale — hundreds of staff across multiple properties, with seasonal
+                replenishment, new hire onboarding, and ongoing alterations handled throughout. Every
+                programme required individual measurement sessions conducted on-site at the property,
+                pattern drafting for each role, and fabric selection appropriate to the environment —
+                whether a poolside bar, a fine dining room, or a concierge desk.
+              </p>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
+                That period built the operational foundations the studio runs on today — the pattern
+                archiving system, the on-site measurement process, the quality control stages, and the
+                understanding that fit is not a finishing touch but the starting point of everything.
               </p>
             </div>
           </div>
-
         </div>
+
+        {/* Timeline */}
+        <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', marginBottom: '4rem' }}>
+          <div className="flex justify-between items-baseline mb-12">
+            <p className="eyebrow">Studio Timeline</p>
+            <p className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2009 – Present</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              {
+                year: '2009',
+                title: 'Founded',
+                body: 'Popalzai is established in the United Arab Emirates. Production begins serving the local hospitality sector.',
+              },
+              {
+                year: '2014',
+                title: 'First Major Hotel Commissions',
+                body: 'Four Seasons Resort Jumeirah Beach and Waldorf Astoria Palm Jumeirah become the studio\'s first large-scale hotel clients. Individual measurement sessions and full FOH programmes are delivered.',
+              },
+              {
+                year: '2016–2017',
+                title: 'DIFC Expansion',
+                body: 'Four Seasons DIFC and Waldorf Astoria DIFC follow — two of Dubai\'s most prominent business district properties. Renaissance Downtown Dubai and FIVE Palm Jumeirah are added the same year.',
+              },
+              {
+                year: '2019',
+                title: 'Peak Production Period',
+                body: 'The studio\'s most active year: FIVE Jumeirah Village, Mandarin Oriental Jumeira, and W Dubai – The Palm are all outfitted. Multiple concurrent programmes are managed simultaneously.',
+              },
+              {
+                year: '2020',
+                title: 'W Abu Dhabi',
+                body: 'W Abu Dhabi – Yas Island marks the studio\'s first Abu Dhabi hotel commission, extending reach beyond Dubai for the first time.',
+              },
+              {
+                year: '2025',
+                title: 'New Direction',
+                body: 'Under second-generation leadership — trained in fashion and fabric science in Italy — the studio refocuses: fewer commissions, deeper craft, and individual pattern drafting returned to the centre of every project.',
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="grid lg:grid-cols-12 gap-6 items-start"
+                style={{ borderTop: '1px solid var(--rule)', paddingTop: '2rem', paddingBottom: '2rem' }}
+              >
+                <div className="lg:col-span-2">
+                  <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: '0.95rem', color: 'var(--ink-faint)', fontStyle: 'italic' }}>{item.year}</p>
+                </div>
+                <div className="lg:col-span-3">
+                  <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.05rem', fontWeight: 400, color: 'var(--ink)' }}>{item.title}</p>
+                </div>
+                <div className="lg:col-span-7">
+                  <p style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', lineHeight: 1.8 }}>{item.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Client grid */}
+        <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem' }}>
+          <div className="flex justify-between items-baseline mb-10">
+            <div>
+              <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.3rem' }}>
+                Hospitality Programmes
+              </h3>
+              <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Verified commissions from the period 2014–2020</p>
+            </div>
+            <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014–2020</span>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
+            {[
+              { year: '2014', name: 'Four Seasons Resort Jumeirah Beach', location: 'Dubai' },
+              { year: '2014', name: 'Waldorf Astoria Palm Jumeirah', location: 'Dubai' },
+              { year: '2016', name: 'Four Seasons DIFC', location: 'Dubai' },
+              { year: '2017', name: 'Waldorf Astoria DIFC', location: 'Dubai' },
+              { year: '2017', name: 'Renaissance Downtown Dubai', location: 'Dubai' },
+              { year: '2017', name: 'FIVE Palm Jumeirah', location: 'Dubai' },
+              { year: '2019', name: 'FIVE Jumeirah Village', location: 'Dubai' },
+              { year: '2019', name: 'Mandarin Oriental Jumeira', location: 'Dubai' },
+              { year: '2019', name: 'W Dubai – The Palm', location: 'Dubai' },
+              { year: '2020', name: 'W Abu Dhabi – Yas Island', location: 'Abu Dhabi' },
+            ].map((c) => (
+              <div key={c.name} style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}>
+                <span className="eyebrow" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--ink-faint)' }}>{c.year}</span>
+                <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
+                <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.location}</p>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: '0.72rem', color: 'var(--ink-faint)', marginTop: '1rem', fontStyle: 'italic' }}>
+            Production records prior to 2014 are partial. The above represents verified programmes from the latter period.
+          </p>
+        </div>
+
       </div>
     </section>
   )
