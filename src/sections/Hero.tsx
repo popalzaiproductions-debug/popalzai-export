@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 
 const clients = [
-  { name: 'La Gente', sub: 'Specialty Coffee Roastery · Dubai' },
-  { name: 'Sea Level Cafe', sub: 'Coastal Café · Kite Beach UAE' },
-  { name: 'No Cap Barbershop', sub: 'Grooming Studio · Dubai' },
-  { name: 'Lost Boys', sub: 'Abu Dhabi Brand · UAE' },
+  { name: 'Four Seasons', sub: 'Resort Jumeirah Beach · Dubai' },
+  { name: 'Waldorf Astoria', sub: 'Palm Jumeirah · Dubai' },
+  { name: 'Mandarin Oriental', sub: 'Jumeira · Dubai' },
+  { name: 'W Hotels', sub: 'Dubai & Abu Dhabi · UAE' },
 ]
 
 export default function Hero() {
@@ -58,7 +58,7 @@ export default function Hero() {
           {/* Right — clients list */}
           <div className="lg:col-span-3 fade-up fade-up-3 flex flex-col justify-end h-full">
             <div style={{ paddingTop: '2rem' }}>
-              <p className="eyebrow mb-6">Selected Clients</p>
+              <p className="eyebrow mb-6">Past Clients · 2014–2020</p>
               <div className="flex flex-col" style={{ gap: '0' }}>
                 {clients.map((c, i) => (
                   <div
