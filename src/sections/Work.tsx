@@ -5,10 +5,49 @@ export default function Work() {
 
         <div className="rule mb-16 pt-1 flex justify-between items-center">
           <span className="eyebrow">Selected Work</span>
-          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2025 – 2026</span>
+          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014 – 2026</span>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+
+          {/* Legacy hospitality timeline */}
+          <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '4rem' }}>
+            <div className="flex justify-between items-baseline mb-10">
+              <div>
+                <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.3rem' }}>
+                  Hospitality Programmes
+                </h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Large-scale uniform production across UAE hotel groups</p>
+              </div>
+              <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014–2020</span>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
+              {[
+                { year: '2014', name: 'Four Seasons Resort Jumeirah Beach', location: 'Dubai' },
+                { year: '2014', name: 'Waldorf Astoria Palm Jumeirah', location: 'Dubai' },
+                { year: '2016', name: 'Four Seasons DIFC', location: 'Dubai' },
+                { year: '2017', name: 'Waldorf Astoria DIFC', location: 'Dubai' },
+                { year: '2017', name: 'Renaissance Downtown Dubai', location: 'Dubai' },
+                { year: '2017', name: 'FIVE Palm Jumeirah', location: 'Dubai' },
+                { year: '2019', name: 'FIVE Jumeirah Village', location: 'Dubai' },
+                { year: '2019', name: 'Mandarin Oriental Jumeira', location: 'Dubai' },
+                { year: '2019', name: 'W Dubai – The Palm', location: 'Dubai' },
+                { year: '2020', name: 'W Abu Dhabi – Yas Island', location: 'Abu Dhabi' },
+              ].map((c) => (
+                <div
+                  key={c.name}
+                  style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}
+                >
+                  <span className="eyebrow" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--ink-faint)' }}>{c.year}</span>
+                  <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
+                  <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.location}</p>
+                </div>
+              ))}
+            </div>
+            <p style={{ fontSize: '0.72rem', color: 'var(--ink-faint)', marginTop: '1rem', fontStyle: 'italic' }}>
+              Production records prior to 2014 are partial. The above represents verified programmes from the latter period.
+            </p>
+          </div>
 
           {/* La Gente */}
           <div className="grid lg:grid-cols-12 gap-10 items-start" style={{ borderTop: '1px solid var(--rule)', paddingTop: '4rem', paddingBottom: '4rem' }}>
