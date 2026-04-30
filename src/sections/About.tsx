@@ -34,9 +34,11 @@ export default function About() {
                 manufacturing cannot: individual pattern drafting, indefinite pattern archiving, and lifetime alterations.
               </p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
-                Our clients range from single-location cafés to multi-property hotel groups, and from emerging fashion
-                labels to individuals who require precise, consistent fit. What unites them is the understanding that
-                well-fitting garments are part of identity—whether that identity is a brand or a personal wardrobe.
+                Founded in 2009, Popalzai spent the following decade outfitting hundreds of hotels, restaurants,
+                and hospitality groups across the Emirates — including properties under Four Seasons, Waldorf Astoria,
+                Mandarin Oriental, and W Hotels. The studio is now under new direction: returning from training in
+                fashion and fabric science in Italy, the second generation has refocused the practice toward fewer
+                projects, deeper craft, and individual pattern drafting at the centre of every commission.
               </p>
             </div>
 
