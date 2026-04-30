@@ -5,7 +5,7 @@ export default function Studio() {
 
         <div className="rule mb-16 pt-1 flex justify-between items-center">
           <span className="eyebrow">Studio</span>
-          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>Dubai, UAE</span>
+          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>Sharjah, UAE</span>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 mb-16">
@@ -17,7 +17,7 @@ export default function Studio() {
           </div>
           <div className="lg:col-span-5 lg:col-start-8 flex items-end">
             <p style={{ fontSize: '0.9rem', color: 'var(--ink-muted)', lineHeight: 1.75 }}>
-              Located in Dubai, our studio houses pattern drafting equipment, an extensive fabric archive,
+              Located in Sharjah, our studio houses pattern drafting equipment, an extensive fabric archive,
               and full in-house production facilities. Every stage of production remains under direct oversight.
             </p>
           </div>
@@ -68,7 +68,7 @@ export default function Studio() {
         {/* Studio facts */}
         <div className="grid md:grid-cols-4 gap-8 mt-14" style={{ borderTop: '1px solid var(--rule)', paddingTop: '2.5rem' }}>
           {[
-            { label: 'Location', value: 'Dubai, UAE' },
+            { label: 'Location', value: 'Sharjah, UAE' },
             { label: 'Capacity', value: 'Full production in-house' },
             { label: 'Archive', value: 'All client patterns held indefinitely' },
             { label: 'Visits', value: 'Open by appointment' },
