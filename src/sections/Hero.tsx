@@ -46,7 +46,7 @@ export default function Hero() {
 
           {/* Center — hero image */}
           <div className="lg:col-span-4 fade-up fade-up-2">
-            <div className="img-hover" style={{ aspectRatio: '3/4', borderRadius: '2px', overflow: 'hidden' }}>
+            <div className="img-hover" style={{ aspectRatio: '4/5', borderRadius: '2px', overflow: 'hidden' }}>
               <img
                 src="/hero-suit.jpg"
                 alt="Made-to-measure garment"
