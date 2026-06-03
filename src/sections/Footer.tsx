@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 mb-12" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '3rem' }}>
           {/* Brand */}
           <div>
-            <img src="/Final.png" alt="PCP" style={{ height: '4.25rem', marginBottom: '1rem', filter: 'invert(1)' }} />
+            <img src="/Final.png" alt="PCP" style={{ height: '7.25rem', marginBottom: '1rem', filter: 'invert(1)' }} />
             <p style={{ fontSize: '0.78rem', color: 'rgba(245,242,237,0.4)', lineHeight: 1.7 }}>
               Made-to-measure garments for hospitality groups, independent brands, and private clients.
               UAE-based production.
