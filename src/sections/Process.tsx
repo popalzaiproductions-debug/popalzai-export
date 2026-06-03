@@ -66,13 +66,10 @@ export default function Process() {
                 <div className="md:col-span-1">
                   <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: '0.9rem', color: 'var(--ink-faint)', fontStyle: 'italic' }}>{step.num}</span>
                 </div>
-                <div className="md:col-span-7">
+                <div className="md:col-span-11">
                   <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.15rem', fontWeight: 400, marginBottom: '0.75rem' }}>{step.title}</h3>
                   <p style={{ fontSize: '0.83rem', color: 'var(--ink-muted)', lineHeight: 1.8, marginBottom: '0.75rem' }}>{step.description}</p>
                   <p className="eyebrow" style={{ fontSize: '0.58rem', color: 'var(--accent)' }}>{step.note}</p>
-                </div>
-                <div className="md:col-span-4 img-hover" style={{ borderRadius: '2px', overflow: 'hidden', aspectRatio: '1' }}>
-                  <img src={step.image} alt={step.title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'saturate(0.85)' }} />
                 </div>
               </div>
             ))}
