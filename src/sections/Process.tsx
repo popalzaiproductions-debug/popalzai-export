@@ -4,7 +4,6 @@ const steps = [
     title: 'Consultation',
     description: 'We meet to understand your environment, your brand, or your personal requirements. A kitchen demands different durability than a concierge desk; a private client demands different discretion than a group rollout. We discuss timeline, proportion, and design direction.',
     note: '1–2 hours · No charge',
-    image: '/consultation.jpg',
   },
   {
     num: '02',
