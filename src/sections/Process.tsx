@@ -10,28 +10,24 @@ const steps = [
     title: 'Measurement',
     description: 'Individual sessions using portable fitting equipment. We record 26 measurements per person, scheduled at your convenience. Available across all UAE emirates.',
     note: 'On-site or in-studio',
-    image: '/measurment.jpg',
   },
   {
     num: '03',
     title: 'Pattern & Sampling',
     description: 'Patterns drafted by hand in our UAE studio. For orders over 15 garments or multi-piece private commissions, we produce approval samples before full production. All patterns are digitised and archived indefinitely.',
     note: '3–6 days · Patterns archived indefinitely',
-    image: '/pattern.jpg',
   },
   {
     num: '04',
     title: 'Production & Quality Control',
     description: 'Single-layer cutting for grain alignment. Three-stage QC: after cutting, after construction, after pressing. Weekly progress updates throughout.',
     note: '2–3 weeks · In-house production',
-    image: '/pexels-cottonbro-studio-4622397.jpg',
   },
   {
     num: '05',
     title: 'Delivery & Fitting',
     description: 'Individually packaged with labelling and care instructions. Optional on-site fitting session for final adjustments. Delivery across all seven emirates.',
     note: 'All emirates · Optional on-site fitting',
-    image: '/delivery.jpg',
   },
 ]
 
