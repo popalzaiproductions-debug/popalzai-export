@@ -6,7 +6,6 @@ const navLinks = [
   { to: '/services', label: 'Services' },
   { to: '/work',     label: 'Work' },
   { to: '/process',  label: 'Process' },
-  { to: '/studio',   label: 'Studio' },
 ]
 
 export default function Header() {
