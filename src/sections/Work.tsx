@@ -5,7 +5,7 @@ export default function Work() {
 
         <div className="rule mb-16 pt-1 flex justify-between items-center">
           <span className="eyebrow">Selected Work</span>
-          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014 – 2020</span>
+          <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2009 – Present</span>
         </div>
 
         {/* History paragraph */}
@@ -24,8 +24,8 @@ export default function Work() {
               <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
                 From 2014 through 2020, Popalzai operated as one of the UAE's primary hospitality uniform
                 producers — outfitting front-of-house teams across some of the country's most recognised
-                hotel brands. Properties under Four Seasons, Waldorf Astoria, Mandarin Oriental, W Hotels,
-                Renaissance, and FIVE were all dressed through this studio.
+                hotel brands, with programmes spanning beachfront resorts, palm-front residences, and
+                downtown business-district hotels across Dubai and Abu Dhabi.
               </p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
                 The work was large in scale — hundreds of staff across multiple properties, with seasonal
@@ -59,27 +59,27 @@ export default function Work() {
               {
                 year: '2014',
                 title: 'First Major Hotel Commissions',
-                body: 'Four Seasons Resort Jumeirah Beach and Waldorf Astoria Palm Jumeirah become the studio\'s first large-scale hotel clients. Individual measurement sessions and full FOH programmes are delivered.',
+                body: 'A beachfront resort and a palm-front luxury residence in Dubai become the studio\'s first large-scale hotel clients. Individual measurement sessions and full FOH programmes are delivered.',
               },
               {
                 year: '2016–2017',
                 title: 'DIFC Expansion',
-                body: 'Four Seasons DIFC and Waldorf Astoria DIFC follow — two of Dubai\'s most prominent business district properties. Renaissance Downtown Dubai and FIVE Palm Jumeirah are added the same year.',
+                body: 'Two more prominent Dubai business-district hotel properties follow, alongside additional downtown and Palm Jumeirah commissions the same year.',
               },
               {
                 year: '2019',
                 title: 'Peak Production Period',
-                body: 'The studio\'s most active year: FIVE Jumeirah Village, Mandarin Oriental Jumeira, and W Dubai – The Palm are all outfitted. Multiple concurrent programmes are managed simultaneously.',
+                body: 'The studio\'s most active year: three additional Dubai hotel properties are outfitted. Multiple concurrent programmes are managed simultaneously.',
               },
               {
                 year: '2020',
-                title: 'W Abu Dhabi',
-                body: 'W Abu Dhabi – Yas Island marks the studio\'s first Abu Dhabi hotel commission, extending reach beyond Dubai for the first time.',
+                title: 'Abu Dhabi Expansion',
+                body: 'A Yas Island resort marks the studio\'s first Abu Dhabi hotel commission, extending reach beyond Dubai for the first time.',
               },
               {
                 year: '2025',
                 title: 'New Direction',
-                body: 'Under second-generation leadership — trained in fashion and fabric science in Italy — the studio refocuses: fewer commissions, deeper craft, and individual pattern drafting returned to the centre of every project.',
+                body: 'Under second-generation leadership — trained in fashion and fabric science in Italy — the studio refocuses: fewer commissions, deeper craft, and individual pattern drafting returned to the centre of every project. The studio begins exploring new collaborations with a wider mix of regional brands and companies.',
               },
             ].map((item, i) => (
               <div
@@ -106,34 +106,31 @@ export default function Work() {
           <div className="flex justify-between items-baseline mb-10">
             <div>
               <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.3rem' }}>
-                Hospitality Programmes
+                Regional Collaborations
               </h3>
-              <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Verified commissions from the period 2014–2020</p>
+              <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Current and ongoing partnerships across the region</p>
             </div>
-            <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2014–2020</span>
+            <span className="eyebrow" style={{ color: 'var(--ink-faint)' }}>2025 – Present</span>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
             {[
-              { year: '2014', name: 'Four Seasons Resort Jumeirah Beach', location: 'Dubai' },
-              { year: '2014', name: 'Waldorf Astoria Palm Jumeirah', location: 'Dubai' },
-              { year: '2016', name: 'Four Seasons DIFC', location: 'Dubai' },
-              { year: '2017', name: 'Waldorf Astoria DIFC', location: 'Dubai' },
-              { year: '2017', name: 'Renaissance Downtown Dubai', location: 'Dubai' },
-              { year: '2017', name: 'FIVE Palm Jumeirah', location: 'Dubai' },
-              { year: '2019', name: 'FIVE Jumeirah Village', location: 'Dubai' },
-              { year: '2019', name: 'Mandarin Oriental Jumeira', location: 'Dubai' },
-              { year: '2019', name: 'W Dubai – The Palm', location: 'Dubai' },
-              { year: '2020', name: 'W Abu Dhabi – Yas Island', location: 'Abu Dhabi' },
+              { name: 'Swey', category: 'F&B Concept' },
+              { name: 'Bad Berry Club', category: 'Nightlife & Events' },
+              { name: 'No Cap Barbershop', category: 'Grooming & Retail' },
+              { name: '8 Studios', category: 'Creative Production' },
+              { name: 'Lostboys Studios', category: 'Creative Production' },
+              { name: 'WIP Workinprogress', category: 'Streetwear & Apparel' },
+              { name: 'The Karak', category: 'F&B Concept' },
+              { name: 'Losing Dog Company', category: 'Apparel & Design' },
             ].map((c) => (
               <div key={c.name} style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}>
-                <span className="eyebrow" style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--ink-faint)' }}>{c.year}</span>
                 <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
-                <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.location}</p>
+                <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.category}</p>
               </div>
             ))}
           </div>
           <p style={{ fontSize: '0.72rem', color: 'var(--ink-faint)', marginTop: '1rem', fontStyle: 'italic' }}>
-            Production records prior to 2014 are partial. The above represents verified programmes from the latter period.
+            The studio is actively expanding into new regional markets — additional collaborations are added on an ongoing basis.
           </p>
         </div>
 

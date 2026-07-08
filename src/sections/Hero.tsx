@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 
 const clients = [
-  { name: 'Four Seasons', sub: 'Resort Jumeirah Beach · Dubai' },
-  { name: 'Waldorf Astoria', sub: 'Palm Jumeirah · Dubai' },
-  { name: 'Mandarin Oriental', sub: 'Jumeira · Dubai' },
-  { name: 'W Hotels', sub: 'Dubai & Abu Dhabi · UAE' },
+  { name: 'Swey', sub: 'F&B Concept · UAE' },
+  { name: 'Bad Berry Club', sub: 'Nightlife & Events · UAE' },
+  { name: 'No Cap Barbershop', sub: 'Grooming & Retail · UAE' },
+  { name: '8 Studios', sub: 'Creative Production · UAE' },
+  { name: 'Lostboys Studios', sub: 'Creative Production · UAE' },
+  { name: 'WIP Workinprogress', sub: 'Streetwear & Apparel · UAE' },
+  { name: 'The Karak', sub: 'F&B Concept · UAE' },
+  { name: 'Losing Dog Company', sub: 'Apparel & Design · UAE' },
 ]
 
 export default function Hero() {
@@ -58,7 +62,7 @@ export default function Hero() {
           {/* Right — clients list */}
           <div className="lg:col-span-3 fade-up fade-up-3 flex flex-col justify-end h-full">
             <div style={{ paddingTop: '2rem' }}>
-              <p className="eyebrow mb-6">Past Clients · 2014–2020</p>
+              <p className="eyebrow mb-6">Regional Collaborators</p>
               <div className="flex flex-col" style={{ gap: '0' }}>
                 {clients.map((c, i) => (
                   <div

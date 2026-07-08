@@ -35,10 +35,12 @@ export default function About() {
               </p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
                 Founded in 2009, Popalzai spent the following decade outfitting hundreds of hotels, restaurants,
-                and hospitality groups across the Emirates — including properties under Four Seasons, Waldorf Astoria,
-                Mandarin Oriental, and W Hotels. The studio is now under new direction: returning from training in
-                fashion and fabric science in Italy, the second generation has refocused the practice toward fewer
-                projects, deeper craft, and individual pattern drafting at the centre of every commission.
+                and hospitality groups across the Emirates. The studio is now moving in a new direction: returning
+                from training in fashion and fabric science in Italy, the second generation has refocused the
+                practice toward fewer projects, deeper craft, and individual pattern drafting at the centre of every
+                commission — while exploring collaborations with a wider mix of regional brands and companies,
+                including Swey, Bad Berry Club, No Cap Barbershop, 8 Studios, Lostboys Studios, WIP Workinprogress,
+                The Karak, and Losing Dog Company.
               </p>
             </div>
 
