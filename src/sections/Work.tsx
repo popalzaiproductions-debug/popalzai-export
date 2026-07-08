@@ -124,22 +124,6 @@ export default function Work() {
               { name: 'Losing Dog Company', category: 'Apparel & Design' },
             ].map((c) => (
               <div key={c.name} style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}>
-                <div
-                  className="img-hover"
-                  style={{
-                    aspectRatio: '4/3',
-                    background: 'var(--cream)',
-                    border: '1px solid var(--rule)',
-                    borderRadius: '2px',
-                    marginBottom: '1rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    padding: '1rem',
-                  }}
-                >
-                  <span className="eyebrow" style={{ fontSize: '0.55rem', color: 'var(--ink-faint)' }}>KIMI_REF: craft/production detail</span>
-                </div>
                 <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
                 <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.category}</p>
               </div>
