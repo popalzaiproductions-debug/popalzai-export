@@ -106,7 +106,7 @@ export default function Work() {
           <div className="flex justify-between items-baseline mb-10">
             <div>
               <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.4rem', fontWeight: 400, marginBottom: '0.3rem' }}>
-                Regional Collaborations
+                Recent Regional Collaborations
               </h3>
               <p style={{ fontSize: '0.78rem', color: 'var(--ink-muted)' }}>Current and ongoing partnerships across the region</p>
             </div>
@@ -114,16 +114,32 @@ export default function Work() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
             {[
-              { name: 'Swey', category: 'F&B Concept' },
-              { name: 'Bad Berry Club', category: 'Nightlife & Events' },
+              { name: 'Swey', category: 'Concept Store' },
+              { name: 'Bad Berry Club', category: 'Apparel' },
               { name: 'No Cap Barbershop', category: 'Grooming & Retail' },
-              { name: '8 Studios', category: 'Creative Production' },
+              { name: '8 Studios', category: 'Barbershop & Creative Hub' },
               { name: 'Lostboys Studios', category: 'Creative Production' },
               { name: 'WIP Workinprogress', category: 'Streetwear & Apparel' },
-              { name: 'The Karak', category: 'F&B Concept' },
+              { name: 'The Karak', category: 'Events Company' },
               { name: 'Losing Dog Company', category: 'Apparel & Design' },
             ].map((c) => (
               <div key={c.name} style={{ background: 'var(--white)', padding: '1.5rem 2rem' }}>
+                <div
+                  className="img-hover"
+                  style={{
+                    aspectRatio: '4/3',
+                    background: 'var(--cream)',
+                    border: '1px solid var(--rule)',
+                    borderRadius: '2px',
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    padding: '1rem',
+                  }}
+                >
+                  <span className="eyebrow" style={{ fontSize: '0.55rem', color: 'var(--ink-faint)' }}>KIMI_REF: craft/production detail</span>
+                </div>
                 <p style={{ fontSize: '0.88rem', fontWeight: 400, color: 'var(--ink)', marginBottom: '0.2rem' }}>{c.name}</p>
                 <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)' }}>{c.category}</p>
               </div>

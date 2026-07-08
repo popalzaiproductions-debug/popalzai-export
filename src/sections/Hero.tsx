@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 
 const clients = [
-  { name: 'Swey', sub: 'F&B Concept · UAE' },
-  { name: 'Bad Berry Club', sub: 'Nightlife & Events · UAE' },
+  { name: 'Swey', sub: 'Concept Store · UAE' },
+  { name: 'Bad Berry Club', sub: 'Apparel · UAE' },
   { name: 'No Cap Barbershop', sub: 'Grooming & Retail · UAE' },
-  { name: '8 Studios', sub: 'Creative Production · UAE' },
+  { name: '8 Studios', sub: 'Barbershop & Creative Hub · UAE' },
   { name: 'Lostboys Studios', sub: 'Creative Production · UAE' },
   { name: 'WIP Workinprogress', sub: 'Streetwear & Apparel · UAE' },
-  { name: 'The Karak', sub: 'F&B Concept · UAE' },
+  { name: 'The Karak', sub: 'Events Company · UAE' },
   { name: 'Losing Dog Company', sub: 'Apparel & Design · UAE' },
 ]
 
