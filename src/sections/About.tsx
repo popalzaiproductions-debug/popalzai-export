@@ -34,7 +34,7 @@ export default function About() {
                 manufacturing cannot: individual pattern drafting, indefinite pattern archiving, and lifetime alterations.
               </p>
               <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
-                Founded in 2009, Popalzai spent the following decade outfitting hundreds of hotels, restaurants,
+                Founded in 2009, Popalzai spent the following decade outfitting hundreds of restaurants
                 and hospitality groups across the Emirates. The studio is now moving in a new direction: returning
                 from training in fashion and fabric science in Italy, the second generation has refocused the
                 practice toward fewer projects, deeper craft, and individual pattern drafting at the centre of every
