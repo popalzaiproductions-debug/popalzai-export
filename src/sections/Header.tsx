@@ -45,7 +45,7 @@ export default function Header() {
         <div className="container flex items-center justify-between" style={{ height: '72px' }}>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <img src="/Final.png" alt="PCP" className="h-9" />
+            <img src="/Final.png" alt="PCP" className="h-20" />
           </Link>
 
           {/* Desktop nav */}
