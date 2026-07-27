@@ -5,7 +5,7 @@ const links = [
   { to: '/services', label: 'Services' },
   { to: '/work', label: 'Work' },
   { to: '/process', label: 'Process' },
-  { to: '/studio', label: 'Studio' },
+
   { to: '/faq', label: 'FAQ' },
   { to: '/contact', label: 'Contact' },
 ]
@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 mb-12" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '3rem' }}>
           {/* Brand */}
           <div>
-            <img src="/Final.png" alt="PCP" style={{ height: '7.25rem', marginBottom: '1rem', filter: 'invert(1)' }} />
+            <img src="/Final.png" alt="PCP" style={{ height: '2.25rem', marginBottom: '1rem', filter: 'invert(1)' }} />
             <p style={{ fontSize: '0.78rem', color: 'rgba(245,242,237,0.4)', lineHeight: 1.7 }}>
               Made-to-measure garments for hospitality groups, independent brands, and private clients.
               UAE-based production.
@@ -47,10 +47,10 @@ export default function Footer() {
           <div>
             <p className="eyebrow mb-5" style={{ color: 'rgba(245,242,237,0.3)' }}>Contact</p>
             <a
-              href="mailto:popalzaiproductions@gmail.com"
+              href="mailto:info@popalzai.com"
               style={{ fontSize: '0.8rem', color: 'rgba(245,242,237,0.5)', display: 'block', marginBottom: '0.5rem', textDecoration: 'none' }}
             >
-              popalzaiproductions@gmail.com
+              info@popalzai.com
             </a>
             <p style={{ fontSize: '0.78rem', color: 'rgba(245,242,237,0.3)' }}>United Arab Emirates</p>
             <Link
