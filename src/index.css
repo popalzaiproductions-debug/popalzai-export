@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --cream: #f5f2ed;
-  --ink: #111010;
-  --ink-soft: #3a3835;
-  --ink-muted: #7a7672;
-  --ink-faint: #c4bfb8;
-  --rule: #ddd8d0;
+  --cream: #f8f8f8;
+  --ink: #0a0a0a;
+  --ink-soft: #1f1f1f;
+  --ink-muted: #666666;
+  --ink-faint: #b0b0b0;
+  --rule: #e0e0e0;
   --white: #ffffff;
-  --accent: #b5a48a;
+  --accent: #333333;
   --header-h: 100px;
 }
 
