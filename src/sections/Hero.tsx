@@ -16,16 +16,13 @@ export default function Hero() {
     <section style={{ paddingTop: '5rem', paddingBottom: '5rem', background: 'var(--cream)' }}>
       <div className="container">
 
-        {/* Top rule + label */}
         <div className="rule mb-12 pt-1 flex items-center justify-between">
-          <span className="eyebrow">Est. UAE</span>
+          <span className="eyebrow">Est. UAE · 2009</span>
           <span className="eyebrow">Made-to-Measure</span>
         </div>
 
-        {/* Main grid */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-          {/* Left — headline + CTAs */}
           <div className="lg:col-span-5 fade-up fade-up-1">
             <h1
               className="mb-8 leading-none"
@@ -39,7 +36,7 @@ export default function Hero() {
               className="mb-10 leading-relaxed"
               style={{ color: 'var(--ink-muted)', fontSize: '1rem', maxWidth: '38ch', fontWeight: 300 }}
             >
-              Individual pattern drafting for hospitality groups, independent brands, and private clients.
+              Individual pattern drafting for independent brands, hospitality groups, and private clients.
               No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -48,7 +45,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Center — hero image */}
           <div className="lg:col-span-4 fade-up fade-up-2">
             <div className="img-hover" style={{ aspectRatio: '1/1', borderRadius: '2px', overflow: 'hidden' }}>
               <img
@@ -59,10 +55,9 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right — clients list */}
           <div className="lg:col-span-3 fade-up fade-up-3 flex flex-col justify-end h-full">
             <div style={{ paddingTop: '2rem' }}>
-              <p className="eyebrow mb-6">Regional Collaborators</p>
+              <p className="eyebrow mb-6">Current Clients</p>
               <div className="flex flex-col" style={{ gap: '0' }}>
                 {clients.map((c, i) => (
                   <div
@@ -83,11 +78,10 @@ export default function Hero() {
 
         </div>
 
-        {/* Bottom stats strip */}
         <div className="rule mt-16 pt-10 grid grid-cols-2 md:grid-cols-4 gap-6 fade-up fade-up-4">
           {[
+            { num: '15+', label: 'Years of production' },
             { num: '26', label: 'Measurements per person' },
-            { num: '2–3 wk', label: 'Production timeline' },
             { num: '0', label: 'Standard sizes used' },
             { num: '∞', label: 'Pattern archive' },
           ].map(({ num, label }) => (
