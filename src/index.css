@@ -27,13 +27,12 @@
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  --bar-h:    30px;   /* announcement ticker */
   --nav-h:    64px;   /* nav row */
-  --header-h: 94px;   /* bar + nav — keep in sync with the two above */
+  --header-h: 64px;   /* keep in sync with --nav-h */
 }
 
 @media (max-width: 640px) {
-  :root { --bar-h: 26px; --nav-h: 56px; --header-h: 82px; }
+  :root { --nav-h: 56px; --header-h: 56px; }
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -228,68 +227,6 @@ h1, h2, h3, h4 {
   font-size: 0.75rem;
 }
 .skip-link:focus { left: 0.5rem; top: 0.5rem; }
-
-/* ---------- imagery ---------- */
-
-/* Instagram treatment: cold, high-contrast, near-monochrome.
-   Colour returns on hover so the work still reads as real product. */
-.img-frame {
-  position: relative;
-  overflow: hidden;
-  background: var(--paper-dim);
-}
-
-.img-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.12);
-  transition: filter 0.5s ease, transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.img-frame:hover img,
-.img-frame:focus-within img {
-  filter: grayscale(0) contrast(1);
-  transform: scale(1.03);
-}
-
-/* Hard 1-bit-ish treatment for decorative crops */
-.img-threshold img {
-  filter: grayscale(1) contrast(2.6) brightness(1.06);
-}
-.img-threshold:hover img { filter: grayscale(1) contrast(2.6) brightness(1.06); }
-
-/* ---------- marquee ticker ---------- */
-
-.marquee {
-  display: flex;
-  overflow: hidden;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.marquee__track {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 2.5rem;
-  padding-right: 2.5rem;
-  min-width: 100%;
-  animation: marquee 42s linear infinite;
-}
-
-.marquee:hover .marquee__track { animation-play-state: paused; }
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track { animation: none; }
-  .marquee { overflow-x: auto; }
-}
 
 /* ---------- form fields ---------- */
 
