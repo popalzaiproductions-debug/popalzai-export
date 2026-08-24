@@ -6,7 +6,7 @@ export default function Manifesto() {
   return (
     <section style={{ background: 'var(--paper)', paddingBlock: '6.5rem' }}>
       <div className="container">
-        <SectionHead label="Why proportions matter" meta="01 / Position" />
+        <SectionHead label="On sizing" meta="01 / Position" />
 
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-7">

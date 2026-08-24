@@ -32,8 +32,8 @@ export default function Work({ preview = false, level = 2 }: Props) {
           </div>
         </div>
 
-        {/* Client index */}
-        <ol style={{ listStyle: 'none' }}>
+        {/* Client index — unnumbered on purpose: a numbered list reads as a ranking */}
+        <ul style={{ listStyle: 'none' }}>
           {clients.map((c, i) => (
             <Reveal key={c.name} as="li" delay={0.03}>
               <div
@@ -44,9 +44,8 @@ export default function Work({ preview = false, level = 2 }: Props) {
                   borderBottom: i === clients.length - 1 ? '1px solid var(--rule)' : undefined,
                 }}
               >
-                <span className="label col-span-2 sm:col-span-1">{String(i + 1).padStart(2, '0')}</span>
                 <p
-                  className="col-span-10 sm:col-span-5"
+                  className="col-span-12 sm:col-span-6"
                   style={{
                     fontFamily: 'var(--mono)',
                     fontSize: 'clamp(1rem, 2vw, 1.375rem)',
@@ -55,13 +54,13 @@ export default function Work({ preview = false, level = 2 }: Props) {
                 >
                   {c.name}
                 </p>
-                <p className="label col-start-3 col-span-10 sm:col-start-7 sm:col-span-6">
+                <p className="label col-span-12 sm:col-span-6 sm:text-right">
                   {c.sector} · UAE
                 </p>
               </div>
             </Reveal>
           ))}
-        </ol>
+        </ul>
 
         <Reveal delay={0.1}>
           <div className="mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">

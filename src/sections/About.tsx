@@ -1,6 +1,5 @@
 import Reveal from '../components/Reveal'
 import SectionHead from '../components/SectionHead'
-import { FOUNDED } from '../data/site'
 import { leadTag, type HeadingLevel } from '../components/Heading'
 
 const pillars = [
@@ -15,7 +14,7 @@ export default function About({ level = 2 }: { level?: HeadingLevel }) {
   return (
     <section style={{ background: 'var(--paper)', paddingBlock: '6.5rem' }}>
       <div className="container">
-        <SectionHead label="About" meta={`Est. ${FOUNDED}`} />
+        <SectionHead label="About" meta="United Arab Emirates" />
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-4">
@@ -34,7 +33,7 @@ export default function About({ level = 2 }: { level?: HeadingLevel }) {
             <Reveal>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <p className="prose-body">
-                  Popalzai Clothing Production began in {FOUNDED} on a simple observation: most people —
+                  Popalzai Clothing Production works from a simple observation: most people —
                   front-of-house staff, brand founders, private clients alike — are wearing garments
                   graded from arbitrary size charts that ignore posture, movement, and individual
                   proportion.
@@ -46,11 +45,11 @@ export default function About({ level = 2 }: { level?: HeadingLevel }) {
                   none of which outsourced manufacturing can offer.
                 </p>
                 <p className="prose-body">
-                  The first decade was spent outfitting restaurants and hospitality groups across the
-                  Emirates. The studio is now moving in a different direction. Returning from training
-                  in fashion and fabric science in Italy, the second generation has refocused the
-                  practice toward fewer projects, deeper craft, and individual pattern drafting at the
-                  centre of every commission — alongside a widening mix of regional brands and creative
+                  The studio's earlier work was largely restaurants and hospitality groups across the
+                  Emirates. It is now moving in a different direction. Returning from training in
+                  fashion and fabric science in Italy, the second generation has refocused the practice
+                  toward fewer projects, deeper craft, and individual pattern drafting at the centre of
+                  every commission — alongside a widening mix of regional brands and creative
                   companies.
                 </p>
               </div>

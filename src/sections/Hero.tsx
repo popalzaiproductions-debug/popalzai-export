@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom'
-import { FOUNDED } from '../data/site'
+
+const points = [
+  'No minimum order',
+  '26 measurements per person',
+  'Patterns kept for life',
+]
 
 export default function Hero() {
   return (
@@ -21,73 +26,33 @@ export default function Hero() {
           className="rise rise-1 flex items-baseline justify-between gap-4"
           style={{ borderTop: '1px solid var(--rule-dark)', paddingTop: '0.75rem' }}
         >
-          <span className="label">Est. UAE · {FOUNDED}</span>
           <span className="label">Made-to-measure</span>
+          <span className="label">United Arab Emirates</span>
         </div>
 
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingBlock: '3rem 2.5rem' }}>
           <div className="grid lg:grid-cols-12 gap-x-8 gap-y-12 w-full items-end">
             <div className="lg:col-span-8">
-              <p
-                className="rise rise-2 display"
-                style={{
-                  fontSize: 'clamp(1.25rem, 2.6vw, 2rem)',
-                  lineHeight: 1.25,
-                  letterSpacing: '-0.03em',
-                  color: 'var(--paper-45)',
-                  maxWidth: '26ch',
-                  marginBottom: '2rem',
-                }}
-              >
-                Clothing production here has meant a choice between two bad options.
-              </p>
-
-              <ol
-                className="rise rise-3 mono"
-                style={{
-                  listStyle: 'none',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginBottom: '2.5rem',
-                  fontSize: 'clamp(0.8125rem, 1.4vw, 1rem)',
-                  color: 'var(--paper-45)',
-                  maxWidth: '30rem',
-                }}
-              >
-                <li
-                  style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    borderTop: '1px solid var(--rule-dark)',
-                    paddingBlock: '0.75rem',
-                  }}
-                >
-                  <span style={{ color: 'var(--paper-28)' }}>A.</span> local, inconsistent
-                </li>
-                <li
-                  style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    borderTop: '1px solid var(--rule-dark)',
-                    borderBottom: '1px solid var(--rule-dark)',
-                    paddingBlock: '0.75rem',
-                  }}
-                >
-                  <span style={{ color: 'var(--paper-28)' }}>B.</span> overseas, unpredictable
-                </li>
-              </ol>
-
               <h1
-                className="rise rise-3"
+                className="rise rise-2"
                 style={{
-                  fontSize: 'clamp(2.75rem, 8.2vw, 7rem)',
-                  lineHeight: 0.94,
-                  marginBottom: '2.5rem',
+                  fontSize: 'clamp(2.5rem, 7.4vw, 6.25rem)',
+                  lineHeight: 0.96,
+                  marginBottom: '2.25rem',
                   color: 'var(--paper)',
                 }}
               >
-                There is<br />a third.
+                Cut to the person,<br />not the chart.
               </h1>
+
+              <p
+                className="rise rise-3 prose-body"
+                style={{ fontSize: '1.0625rem', maxWidth: '52ch', marginBottom: '2.75rem' }}
+              >
+                Uniforms and garments drafted from individual measurements and produced here in the
+                UAE — under direct oversight from the first fitting to the final press. Nothing graded,
+                nothing outsourced, nothing ordered by the container.
+              </p>
 
               <div className="rise rise-4 flex flex-wrap gap-3">
                 <Link to="/inquiry" className="btn btn-invert">
@@ -99,14 +64,23 @@ export default function Hero() {
             </div>
 
             <div className="lg:col-span-4">
-              <p
-                className="rise rise-4 prose-body"
-                style={{ fontSize: '0.9375rem', maxWidth: '36ch' }}
-              >
-                Individual pattern drafting for independent brands, hospitality groups, and private
-                clients. Produced locally in the UAE with direct oversight from first measurement to
-                final press. No minimums.
-              </p>
+              <ul className="rise rise-4" style={{ listStyle: 'none' }}>
+                {points.map((point, i) => (
+                  <li
+                    key={point}
+                    className="mono"
+                    style={{
+                      fontSize: '0.875rem',
+                      color: 'var(--paper-70)',
+                      borderTop: '1px solid var(--rule-dark)',
+                      borderBottom: i === points.length - 1 ? '1px solid var(--rule-dark)' : undefined,
+                      paddingBlock: '0.875rem',
+                    }}
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -115,7 +89,7 @@ export default function Hero() {
           className="rise rise-4 flex items-center justify-between gap-4"
           style={{ borderTop: '1px solid var(--rule-dark)', paddingTop: '0.75rem' }}
         >
-          <span className="label">United Arab Emirates</span>
+          <span className="label">Independent brands · Hospitality · Private clients</span>
           <span className="label">All seven emirates</span>
         </div>
       </div>

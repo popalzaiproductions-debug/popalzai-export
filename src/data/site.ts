@@ -17,7 +17,6 @@ export const EMAIL = 'majid@popalzaiproduction.com'
 export const INSTAGRAM = 'https://www.instagram.com/popalzaiproduction/'
 export const INSTAGRAM_HANDLE = '@popalzaiproduction'
 export const LOCATION = 'United Arab Emirates'
-export const FOUNDED = 2009
 
 /** Formspree endpoint — submissions land at formspree.io/forms/xvzvwgla/submissions */
 export const FORM_ENDPOINT = 'https://formspree.io/f/xvzvwgla'
@@ -31,7 +30,8 @@ export const nav = [
 ] as const
 
 /**
- * The client index is a plain text list — every entry renders identically.
+ * The client index is a plain, unnumbered list — every entry renders
+ * identically. Numbering it read as a ranking, which it is not.
  * The site carries no photography at all; it is typographic throughout.
  */
 export type Client = {
@@ -40,7 +40,6 @@ export type Client = {
 }
 
 export const clients: Client[] = [
-  { name: 'Swey',               sector: 'Concept Store' },
   { name: 'Bad Berry Club',     sector: 'Apparel' },
   { name: 'No Cap Barbershop',  sector: 'Grooming & Retail' },
   { name: '8 Studios',          sector: 'Barbershop & Creative Hub' },
@@ -51,10 +50,10 @@ export const clients: Client[] = [
 ]
 
 export const stats = [
-  { value: '2009', label: 'Producing since' },
-  { value: '26',   label: 'Measurements per person' },
-  { value: '0',    label: 'Standard sizes used' },
-  { value: '∞',    label: 'Pattern archive' },
+  { value: '26', label: 'Measurements per person' },
+  { value: '0',  label: 'Standard sizes used' },
+  { value: '7',  label: 'Emirates served' },
+  { value: '∞',  label: 'Pattern archive' },
 ]
 
 /** Terms panel on the homepage. Each line restates a commitment made elsewhere on the site. */

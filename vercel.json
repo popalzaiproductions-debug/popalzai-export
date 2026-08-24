@@ -3,15 +3,13 @@
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
-      "comment": "Vite fingerprints these filenames, so they can never go stale.",
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "comment": "Brand images are not fingerprinted — cache for a day so an updated logo still propagates.",
-      "source": "/(logo|logo-white|favicon|favicon-dark|apple-touch-icon|og).(png|jpg)",
+      "source": "/:file(logo|logo-white|favicon|favicon-dark|apple-touch-icon|og).:ext(png|jpg)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
       ]
