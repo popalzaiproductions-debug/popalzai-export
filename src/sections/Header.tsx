@@ -1,136 +1,179 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { nav, ticker } from '../data/site'
 
-const navLinks = [
-  { to: '/about',    label: 'About' },
-  { to: '/services', label: 'Services' },
-  { to: '/work',     label: 'Work' },
-  { to: '/process',  label: 'Process' },
-
-]
+function Ticker() {
+  // Two identical tracks so the loop is seamless; the copy is aria-hidden.
+  const items = [...ticker, ...ticker]
+  return (
+    <div
+      className="marquee"
+      style={{ background: 'var(--black)', height: 'var(--bar-h)' }}
+      aria-hidden="true"
+    >
+      {[0, 1].map((track) => (
+        <div className="marquee__track" key={track}>
+          {items.map((item, i) => (
+            <span
+              key={`${track}-${i}`}
+              className="mono"
+              style={{
+                fontSize: '0.625rem',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--paper-45)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2.5rem',
+              }}
+            >
+              {item}
+              <span style={{ color: 'var(--paper-28)' }}>/</span>
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
 
-  useEffect(() => {
-    setOpen(false)
-  }, [pathname])
+  // Close the drawer on navigation.
+  useEffect(() => { setOpen(false) }, [pathname])
 
+  // Lock background scroll while the drawer is open, and close on Escape.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prev
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  const linkStyle = ({ isActive }: { isActive: boolean }) => ({
+    fontFamily: 'var(--mono)',
+    fontSize: '0.6875rem',
+    letterSpacing: '0.16em',
+    textTransform: 'uppercase' as const,
+    textDecoration: 'none',
+    color: isActive ? 'var(--black)' : 'var(--ink-45)',
+    paddingBottom: '0.25rem',
+    borderBottom: `1px solid ${isActive ? 'var(--black)' : 'transparent'}`,
+    transition: 'color 0.18s ease, border-color 0.18s ease',
+  })
 
   return (
-    <div className="fixed w-full z-50 top-0" style={{ height: 'var(--header-h)' }}>
-      {/* Announcement bar */}
-      <div style={{ background: 'var(--ink)', color: 'var(--cream)' }}
-        className="text-center py-2.5">
-        <p className="eyebrow" style={{ color: 'rgba(245,242,237,0.65)', fontSize: '0.6rem' }}>
-          UAE-based production &nbsp;·&nbsp; All seven emirates &nbsp;·&nbsp; No minimums
-        </p>
-      </div>
+    <div className="fixed top-0 w-full z-50" style={{ height: 'var(--header-h)' }}>
+      <Ticker />
 
-      {/* Main header */}
       <header
         style={{
-          background: 'var(--cream)',
-          borderBottom: scrolled ? '1px solid var(--rule)' : '1px solid transparent',
-          transition: 'border-color 0.3s ease',
+          background: 'var(--paper)',
+          borderBottom: '1px solid var(--rule)',
+          height: 'var(--nav-h)',
         }}
       >
-        <div className="container flex items-center justify-between" style={{ height: '72px' }}>
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <img src="/Final.png" alt="PCP" className="h-20" />
+        <div className="container flex items-center justify-between h-full gap-6">
+          <Link to="/" aria-label="Popalzai Clothing Production — home" className="shrink-0 flex items-center">
+            <img
+              src="/logo.png"
+              alt="Popalzai"
+              width={1200}
+              height={429}
+              style={{ height: '26px', width: 'auto', display: 'block' }}
+            />
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-10">
-            {navLinks.map(({ to, label }) => (
-              <Link
-                key={to}
-                to={to}
-                className="eyebrow transition-colors"
-                style={{
-                  color: pathname === to ? 'var(--ink)' : 'var(--ink-muted)',
-                  fontSize: '0.62rem',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--ink)')}
-                onMouseLeave={e => (e.currentTarget.style.color = pathname === to ? 'var(--ink)' : 'var(--ink-muted)')}
-              >
-                {label}
-              </Link>
+          <nav className="hidden lg:flex items-center gap-9" aria-label="Primary">
+            {nav.map(({ to, label }) => (
+              <NavLink key={to} to={to} style={linkStyle}>{label}</NavLink>
             ))}
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link to="/inquiry" className="btn-primary hidden lg:inline-flex" style={{ padding: '0.6rem 1.4rem', fontSize: '0.62rem' }}>
-              Start Project
+            <Link
+              to="/inquiry"
+              className="btn hidden lg:inline-flex"
+              style={{ padding: '0.6875rem 1.375rem', fontSize: '0.625rem' }}
+            >
+              Start a project
             </Link>
 
-            {/* Hamburger */}
             <button
-              className="lg:hidden flex flex-col gap-1.5 p-1"
+              type="button"
+              className="lg:hidden flex flex-col justify-center gap-[5px] p-2 -mr-2"
               onClick={() => setOpen(o => !o)}
-              aria-label="Menu"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              aria-label={open ? 'Close menu' : 'Open menu'}
             >
               <span
-                className="block w-6 h-px transition-all duration-300"
-                style={{
-                  background: 'var(--ink)',
-                  transform: open ? 'translateY(5px) rotate(45deg)' : 'none',
-                }}
+                className="block w-6 h-px transition-transform duration-300"
+                style={{ background: 'var(--black)', transform: open ? 'translateY(3px) rotate(45deg)' : 'none' }}
               />
               <span
-                className="block w-4 h-px transition-all duration-300"
-                style={{
-                  background: 'var(--ink)',
-                  opacity: open ? 0 : 1,
-                }}
-              />
-              <span
-                className="block w-6 h-px transition-all duration-300"
-                style={{
-                  background: 'var(--ink)',
-                  transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none',
-                }}
+                className="block w-6 h-px transition-transform duration-300"
+                style={{ background: 'var(--black)', transform: open ? 'translateY(-3px) rotate(-45deg)' : 'none' }}
               />
             </button>
           </div>
         </div>
-
-        {/* Mobile drawer */}
-        <div
-          className="lg:hidden overflow-hidden transition-all duration-300"
-          style={{
-            maxHeight: open ? '400px' : '0',
-            borderTop: open ? '1px solid var(--rule)' : 'none',
-            background: 'var(--cream)',
-          }}
-        >
-          <div className="container py-8 flex flex-col gap-6">
-            {navLinks.map(({ to, label }) => (
-              <Link
-                key={to}
-                to={to}
-                className="eyebrow"
-                style={{ fontSize: '0.7rem', color: pathname === to ? 'var(--ink)' : 'var(--ink-muted)' }}
-              >
-                {label}
-              </Link>
-            ))}
-            <div className="pt-4 rule">
-              <Link to="/inquiry" className="btn-primary mt-6" style={{ fontSize: '0.62rem' }}>
-                Start Project
-              </Link>
-            </div>
-          </div>
-        </div>
       </header>
+
+      {/* Mobile drawer */}
+      <div
+        id="mobile-menu"
+        className="lg:hidden"
+        style={{
+          position: 'fixed',
+          inset: 'var(--header-h) 0 0 0',
+          background: 'var(--paper)',
+          transform: open ? 'translateY(0)' : 'translateY(-100%)',
+          opacity: open ? 1 : 0,
+          visibility: open ? 'visible' : 'hidden',
+          // visibility flips instantly on open, but waits for the slide-out to
+          // finish on close — transitioning it over a duration just makes the
+          // panel un-hittable while it is still on screen.
+          transition: open
+            ? 'transform 0.35s cubic-bezier(0.22,0.61,0.36,1), opacity 0.25s ease, visibility 0s'
+            : 'transform 0.35s cubic-bezier(0.22,0.61,0.36,1), opacity 0.25s ease, visibility 0s linear 0.35s',
+          overflowY: 'auto',
+        }}
+      >
+        <div className="container py-10 flex flex-col gap-1">
+          {nav.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className="display"
+              style={({ isActive }) => ({
+                fontSize: '1.75rem',
+                textDecoration: 'none',
+                color: isActive ? 'var(--black)' : 'var(--ink-45)',
+                borderTop: '1px solid var(--rule)',
+                padding: '1.125rem 0',
+              })}
+            >
+              {label}
+            </NavLink>
+          ))}
+
+          <Link
+            to="/inquiry"
+            className="btn mt-8 self-start"
+          >
+            Start a project
+            <span className="arrow" aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

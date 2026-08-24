@@ -1,64 +1,97 @@
-export default function About() {
-  return (
-    <section style={{ padding: '6rem 0', background: 'var(--white)' }}>
-      <div className="container">
+import Reveal from '../components/Reveal'
+import SectionHead from '../components/SectionHead'
+import { FOUNDED } from '../data/site'
+import { leadTag, type HeadingLevel } from '../components/Heading'
 
-        <div className="rule mb-16 pt-1 flex justify-between items-center">
-          <span className="eyebrow">About PCP</span>
-        </div>
+const pillars = [
+  { title: 'Local',      body: 'UAE-based production under direct oversight. No outsourcing to third-party facilities.' },
+  { title: 'Individual', body: 'Every pattern drafted from individual measurements. Nothing graded from a standard size.' },
+  { title: 'Ongoing',    body: 'Patterns archived indefinitely, so new hires can be added at any time without drift.' },
+]
+
+export default function About({ level = 2 }: { level?: HeadingLevel }) {
+  const H = leadTag(level)
+
+  return (
+    <section style={{ background: 'var(--paper)', paddingBlock: '6.5rem' }}>
+      <div className="container">
+        <SectionHead label="About" meta={`Est. ${FOUNDED}`} />
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
-
-          {/* Sticky heading */}
           <div className="lg:col-span-4">
-            <div style={{ position: 'sticky', top: 'calc(var(--header-h) + 2rem)' }}>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', marginBottom: '1.5rem' }}>
-                Why we don't use<br />
-                <span className="serif-italic" style={{ color: 'var(--ink-muted)' }}>standard sizes</span>
-              </h2>
-              <div style={{ width: '2.5rem', height: '1px', background: 'var(--accent)' }} />
+            {/* sticky works now that overflow-x:hidden is off the root elements */}
+            <div style={{ position: 'sticky', top: 'calc(var(--header-h) + 2.5rem)' }}>
+              <Reveal>
+                <H style={{ fontSize: 'clamp(1.75rem, 3.2vw, 2.75rem)', marginBottom: '1.5rem' }}>
+                  A production house, not a factory.
+                </H>
+                <div style={{ width: '2.5rem', height: '1px', background: 'var(--black)' }} />
+              </Reveal>
             </div>
           </div>
 
-          {/* Body */}
           <div className="lg:col-span-8">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '60ch' }}>
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
-                Popalzai Clothing Production was founded on a simple observation: most people—whether they are
-                front-of-house staff, brand founders, or private clients—are wearing garments graded from arbitrary
-                size charts that ignore posture, movement, and individual proportion.
-              </p>
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
-                We operate production units in the UAE, maintaining direct oversight of every stage from initial
-                measurement to final pressing. This local presence allows us to offer services that outsourced
-                manufacturing cannot: individual pattern drafting, indefinite pattern archiving, and lifetime alterations.
-              </p>
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--ink-soft)', fontWeight: 300 }}>
-                Founded in 2009, Popalzai spent the following decade outfitting hundreds of restaurants
-                and hospitality groups across the Emirates. The studio is now moving in a new direction: returning
-                from training in fashion and fabric science in Italy, the second generation has refocused the
-                practice toward fewer projects, deeper craft, and individual pattern drafting at the centre of every
-                commission — while exploring collaborations with a wider mix of regional brands and companies,
-                including Swey, Bad Berry Club, No Cap Barbershop, 8 Studios, Lostboys Studios, WIP Workinprogress,
-                The Karak, and Losing Dog Company.
-              </p>
-            </div>
+            <Reveal>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <p className="prose-body">
+                  Popalzai Clothing Production began in {FOUNDED} on a simple observation: most people —
+                  front-of-house staff, brand founders, private clients alike — are wearing garments
+                  graded from arbitrary size charts that ignore posture, movement, and individual
+                  proportion.
+                </p>
+                <p className="prose-body">
+                  We operate production in the UAE and keep direct oversight of every stage from first
+                  measurement to final pressing. That local presence is what makes the rest possible:
+                  individual pattern drafting, indefinite pattern archiving, and lifetime alterations —
+                  none of which outsourced manufacturing can offer.
+                </p>
+                <p className="prose-body">
+                  The first decade was spent outfitting restaurants and hospitality groups across the
+                  Emirates. The studio is now moving in a different direction. Returning from training
+                  in fashion and fabric science in Italy, the second generation has refocused the
+                  practice toward fewer projects, deeper craft, and individual pattern drafting at the
+                  centre of every commission — alongside a widening mix of regional brands and creative
+                  companies.
+                </p>
+              </div>
+            </Reveal>
 
-            {/* Three pillars */}
-            <div className="grid md:grid-cols-3 gap-8 mt-14" style={{ borderTop: '1px solid var(--rule)', paddingTop: '2.5rem' }}>
-              {[
-                { title: 'Local', body: 'UAE-based production with direct oversight. No outsourcing to third-party facilities.' },
-                { title: 'Individual', body: 'Every pattern drafted from individual measurements. No grading from standard sizes.' },
-                { title: 'Ongoing', body: 'Patterns archived indefinitely. Easy onboarding for new hires at any time.' },
-              ].map(({ title, body }) => (
-                <div key={title}>
-                  <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: '1.1rem', marginBottom: '0.6rem' }}>{title}</p>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--ink-muted)', lineHeight: 1.7 }}>{body}</p>
-                </div>
+            <div className="grid sm:grid-cols-3 gap-px mt-14" style={{ background: 'var(--rule)' }}>
+              {pillars.map(({ title, body }, i) => (
+                <Reveal key={title} delay={i * 0.07}>
+                  <div style={{ background: 'var(--paper)', padding: '2rem 1.5rem 1.5rem', height: '100%' }}>
+                    <p className="label label-strong" style={{ marginBottom: '0.875rem' }}>{title}</p>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--ink-70)', lineHeight: 1.7 }}>{body}</p>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </div>
 
+            <Reveal delay={0.1}>
+              <div className="grid sm:grid-cols-2 gap-4 mt-14">
+                <div className="img-frame" style={{ aspectRatio: '3 / 4' }}>
+                  <img
+                    src="/img/barber-work.jpg"
+                    alt="Barber in a Popalzai-made uniform shirt and apron at work in the shop"
+                    width={1600}
+                    height={2844}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="img-frame" style={{ aspectRatio: '3 / 4' }}>
+                  <img
+                    src="/img/detail-apron.jpg"
+                    alt="Detail of an apron's fitted tool pockets holding brushes and a comb"
+                    width={1600}
+                    height={2844}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
