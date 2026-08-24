@@ -27,10 +27,12 @@ npm run preview  # serve the built output
 
 ```
 public/
-  img/            production photography (web-sized, see "Images" below)
-  logo.png        Popalzai wordmark, black on transparent
-  og.jpg          1200×630 link-preview card
-  favicon.png
+  logo.png          Popalzai wordmark, black on transparent
+  logo-white.png    the same wordmark in white, for dark grounds
+  og.jpg            1200×630 link-preview card
+  favicon.png       the "P" mark — light browser chrome
+  favicon-dark.png  the "P" mark in white — dark browser chrome
+  apple-touch-icon.png
 src/
   data/site.ts    ← all copy, clients, services, process, FAQ, contact details
   components/     Meta (per-route SEO), Reveal (scroll-in), SectionHead
@@ -66,19 +68,26 @@ consumed everywhere. Change it there and it changes sitewide.
 | `/studio` | → redirects to `/about` |
 | anything else | 404 page |
 
-## Images
+## Imagery
 
-Production photography is resized from the camera originals — the 6000×3376
-Sony files are *not* in the repo. Web copies live in `public/img/` at 1400–2400px
-wide, quality 82.
+**The site carries no photography.** It is typographic throughout — black and
+white, monospace, hairline rules. The only images are the wordmark and the
+favicons, all derived from the original `Final.png` logo artwork.
 
-To add more, resize before committing; do not drop multi-megabyte originals into
-`public/`. Every `<img>` carries explicit `width`/`height` (to prevent layout
-shift) and `loading="lazy"` below the fold.
+If photography is added later, note that the previous version shipped 7.6 MB of
+images that nothing referenced. Resize before committing and reference the file
+from a component in the same change.
 
-Images render greyscale with raised contrast and return to full colour on hover —
-this is the `.img-frame` treatment in `src/index.css`, matching the Instagram
-grid's look.
+### Logo and icons
+
+Generated from the 7000×5000 `Final.png` original (kept out of the repo; it lives
+in git history on the pre-redesign commits):
+
+- `logo.png` / `logo-white.png` — the full wordmark, trimmed to its ink bounds.
+  The footer uses the white file rather than a CSS `invert()` filter.
+- `favicon.png` / `favicon-dark.png` — the "P" and its underline on a transparent
+  ground, swapped by `prefers-color-scheme` so the mark stays visible in both
+  light and dark browser chrome. Deliberately not a filled square.
 
 ## Contact form
 

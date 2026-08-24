@@ -67,30 +67,6 @@ export default function About({ level = 2 }: { level?: HeadingLevel }) {
               ))}
             </div>
 
-            <Reveal delay={0.1}>
-              <div className="grid sm:grid-cols-2 gap-4 mt-14">
-                <div className="img-frame" style={{ aspectRatio: '3 / 4' }}>
-                  <img
-                    src="/img/barber-work.jpg"
-                    alt="Barber in a Popalzai-made uniform shirt and apron at work in the shop"
-                    width={1600}
-                    height={2844}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div className="img-frame" style={{ aspectRatio: '3 / 4' }}>
-                  <img
-                    src="/img/detail-apron.jpg"
-                    alt="Detail of an apron's fitted tool pockets holding brushes and a comb"
-                    width={1600}
-                    height={2844}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </div>
-            </Reveal>
           </div>
         </div>
       </div>

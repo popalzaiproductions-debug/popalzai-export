@@ -1,41 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { nav, ticker } from '../data/site'
-
-function Ticker() {
-  // Two identical tracks so the loop is seamless; the copy is aria-hidden.
-  const items = [...ticker, ...ticker]
-  return (
-    <div
-      className="marquee"
-      style={{ background: 'var(--black)', height: 'var(--bar-h)' }}
-      aria-hidden="true"
-    >
-      {[0, 1].map((track) => (
-        <div className="marquee__track" key={track}>
-          {items.map((item, i) => (
-            <span
-              key={`${track}-${i}`}
-              className="mono"
-              style={{
-                fontSize: '0.625rem',
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: 'var(--paper-45)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '2.5rem',
-              }}
-            >
-              {item}
-              <span style={{ color: 'var(--paper-28)' }}>/</span>
-            </span>
-          ))}
-        </div>
-      ))}
-    </div>
-  )
-}
+import { nav } from '../data/site'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -71,8 +36,6 @@ export default function Header() {
 
   return (
     <div className="fixed top-0 w-full z-50" style={{ height: 'var(--header-h)' }}>
-      <Ticker />
-
       <header
         style={{
           background: 'var(--paper)',
@@ -86,7 +49,7 @@ export default function Header() {
               src="/logo.png"
               alt="Popalzai"
               width={1200}
-              height={429}
+              height={430}
               style={{ height: '26px', width: 'auto', display: 'block' }}
             />
           </Link>

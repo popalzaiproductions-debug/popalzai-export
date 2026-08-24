@@ -1,9 +1,9 @@
 /**
  * Single source of truth for site content.
  *
- * Previously the client list lived in both Hero.tsx and Work.tsx, and three
- * different email addresses were scattered across Footer/Contact. Everything
- * that appears in more than one place now lives here.
+ * The client list used to live in both Hero.tsx and Work.tsx, and three
+ * different email addresses were scattered across Footer/Contact. Anything
+ * appearing in more than one place now lives here.
  */
 
 /* ------------------------------------------------------------------ *
@@ -30,19 +30,9 @@ export const nav = [
   { to: '/faq',      label: 'FAQ' },
 ] as const
 
-export const ticker = [
-  'UAE-based production',
-  'All seven emirates',
-  'No minimums',
-  '26 measurements per person',
-  'Zero standard sizes',
-  'Patterns archived indefinitely',
-]
-
 /**
- * The client index is a plain text list — every entry is rendered the same way,
- * with no per-client imagery. Photography lives in the gallery in Work.tsx and
- * is kept separate from this list on purpose.
+ * The client index is a plain text list — every entry renders identically.
+ * The site carries no photography at all; it is typographic throughout.
  */
 export type Client = {
   name: string
@@ -65,6 +55,18 @@ export const stats = [
   { value: '26',   label: 'Measurements per person' },
   { value: '0',    label: 'Standard sizes used' },
   { value: '∞',    label: 'Pattern archive' },
+]
+
+/** Terms panel on the homepage. Each line restates a commitment made elsewhere on the site. */
+export const specs = [
+  { term: 'Minimum order',   value: 'None' },
+  { term: 'Measurements',    value: '26 per person' },
+  { term: 'Grading',         value: 'Never — every pattern individual' },
+  { term: 'Pattern storage', value: 'Archived indefinitely' },
+  { term: 'Alterations',     value: 'Free, for the life of the garment' },
+  { term: 'Production',      value: 'In-house, UAE' },
+  { term: 'Lead time',       value: '2–3 weeks from measurement' },
+  { term: 'Coverage',        value: 'All seven emirates' },
 ]
 
 export type Service = {

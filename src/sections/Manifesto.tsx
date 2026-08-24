@@ -1,6 +1,6 @@
 import Reveal from '../components/Reveal'
 import SectionHead from '../components/SectionHead'
-import { stats } from '../data/site'
+import { stats, specs } from '../data/site'
 
 export default function Manifesto() {
   return (
@@ -31,21 +31,38 @@ export default function Manifesto() {
             </Reveal>
           </div>
 
+          {/* Terms panel — replaces what used to be a photograph */}
           <div className="lg:col-span-5">
             <Reveal delay={0.12}>
-              <div className="img-frame img-threshold" style={{ aspectRatio: '4 / 5' }}>
-                <img
-                  src="/img/detail-tools.jpg"
-                  alt="Barber's apron with shears, combs and brushes in fitted tool pockets"
-                  width={1600}
-                  height={2844}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <p className="label" style={{ marginTop: '0.875rem' }}>
-                Tool-pocket apron · No Cap Barbershop
-              </p>
+              <dl style={{ margin: 0 }}>
+                {specs.map(({ term, value }, i) => (
+                  <div
+                    key={term}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      justifyContent: 'space-between',
+                      gap: '1.5rem',
+                      borderTop: '1px solid var(--rule)',
+                      borderBottom: i === specs.length - 1 ? '1px solid var(--rule)' : undefined,
+                      paddingBlock: '0.875rem',
+                    }}
+                  >
+                    <dt className="label" style={{ flexShrink: 0 }}>{term}</dt>
+                    <dd
+                      className="mono"
+                      style={{
+                        margin: 0,
+                        fontSize: '0.8125rem',
+                        color: 'var(--black)',
+                        textAlign: 'right',
+                      }}
+                    >
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </Reveal>
           </div>
         </div>

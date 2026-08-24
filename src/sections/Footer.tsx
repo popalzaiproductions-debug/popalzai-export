@@ -43,11 +43,11 @@ export default function Footer() {
         >
           <div className="md:col-span-5">
             <img
-              src="/logo.png"
+              src="/logo-white.png"
               alt="Popalzai"
               width={1200}
-              height={429}
-              style={{ height: '30px', width: 'auto', filter: 'invert(1)', marginBottom: '1.25rem' }}
+              height={430}
+              style={{ height: '30px', width: 'auto', marginBottom: '1.25rem' }}
             />
             <p style={{ fontSize: '0.875rem', color: 'var(--paper-45)', lineHeight: 1.7, maxWidth: '34ch' }}>
               Made-to-measure garments for hospitality groups, independent brands, and private clients.
