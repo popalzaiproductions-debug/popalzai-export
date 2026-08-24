@@ -1,97 +1,128 @@
 import { Link } from 'react-router-dom'
-
-const clients = [
-  { name: 'Swey', sub: 'Concept Store · UAE' },
-  { name: 'Bad Berry Club', sub: 'Apparel · UAE' },
-  { name: 'No Cap Barbershop', sub: 'Grooming & Retail · UAE' },
-  { name: '8 Studios', sub: 'Barbershop & Creative Hub · UAE' },
-  { name: 'Lostboys Studios', sub: 'Creative Production · UAE' },
-  { name: 'WIP Workinprogress', sub: 'Streetwear & Apparel · UAE' },
-  { name: 'The Karak', sub: 'Events Company · UAE' },
-  { name: 'Losing Dog Company', sub: 'Apparel & Design · UAE' },
-]
+import { FOUNDED } from '../data/site'
 
 export default function Hero() {
   return (
-    <section style={{ paddingTop: '5rem', paddingBottom: '5rem', background: 'var(--cream)' }}>
-      <div className="container">
+    <section
+      className="on-black relative"
+      style={{
+        background: 'var(--black)',
+        color: 'var(--paper)',
+        minHeight: 'calc(100svh - var(--header-h))',
+        display: 'flex',
+        alignItems: 'stretch',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Ground */}
+      <div style={{ position: 'absolute', inset: 0 }} aria-hidden="true">
+        <img
+          src="/img/hero.jpg"
+          alt=""
+          width={2400}
+          height={1350}
+          fetchPriority="high"
+          decoding="async"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 42%',
+            filter: 'grayscale(1) contrast(1.25) brightness(0.5)',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 42%, rgba(0,0,0,0.9) 100%)',
+          }}
+        />
+      </div>
 
-        <div className="rule mb-12 pt-1 flex items-center justify-between">
-          <span className="eyebrow">Est. UAE · 2009</span>
-          <span className="eyebrow">Made-to-Measure</span>
+      <div className="container relative flex flex-col justify-between" style={{ paddingBlock: '3.5rem 2.5rem', zIndex: 1 }}>
+        <div className="rise rise-1 flex items-baseline justify-between gap-4" style={{ borderTop: '1px solid var(--rule-dark)', paddingTop: '0.75rem' }}>
+          <span className="label">Est. UAE · {FOUNDED}</span>
+          <span className="label">Made-to-measure</span>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-
-          <div className="lg:col-span-5 fade-up fade-up-1">
-            <h1
-              className="mb-8 leading-none"
-              style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)' }}
-            >
-              Production<br />
-              <span className="serif-italic" style={{ color: 'var(--ink-muted)' }}>without</span>{' '}
-              standard sizes.
-            </h1>
+        <div className="grid lg:grid-cols-12 gap-8 items-end" style={{ paddingBlock: '4rem 0', flex: 1, alignContent: 'center' }}>
+          <div className="lg:col-span-8">
             <p
-              className="mb-10 leading-relaxed"
-              style={{ color: 'var(--ink-muted)', fontSize: '1rem', maxWidth: '38ch', fontWeight: 300 }}
+              className="rise rise-2 display"
+              style={{
+                fontSize: 'clamp(1.35rem, 3.1vw, 2.5rem)',
+                lineHeight: 1.22,
+                letterSpacing: '-0.03em',
+                color: 'var(--paper-70)',
+                maxWidth: '24ch',
+                marginBottom: '2rem',
+              }}
             >
-              Individual pattern drafting for independent brands, hospitality groups, and private clients.
-              No minimums. Produced locally in the UAE with direct oversight from first measurement to final press.
+              Clothing production here has meant a choice between two bad options.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/inquiry" className="btn-primary">Request Consultation</Link>
-              <Link to="/work" className="btn-ghost">View Work</Link>
+
+            <ol
+              className="rise rise-3 mono"
+              style={{
+                listStyle: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+                marginBottom: '2.75rem',
+                fontSize: 'clamp(0.875rem, 1.5vw, 1.0625rem)',
+                color: 'var(--paper-45)',
+              }}
+            >
+              <li style={{ display: 'flex', gap: '0.875rem' }}>
+                <span style={{ color: 'var(--paper-28)' }}>A.</span> local, inconsistent
+              </li>
+              <li style={{ display: 'flex', gap: '0.875rem' }}>
+                <span style={{ color: 'var(--paper-28)' }}>B.</span> overseas, unpredictable
+              </li>
+            </ol>
+
+            <h1
+              className="rise rise-3"
+              style={{
+                fontSize: 'clamp(2.75rem, 8.5vw, 6.5rem)',
+                lineHeight: 0.95,
+                marginBottom: '2.5rem',
+                color: 'var(--paper)',
+              }}
+            >
+              There is a third.
+            </h1>
+
+            <div className="rise rise-4 flex flex-wrap gap-3">
+              <Link to="/inquiry" className="btn btn-invert">
+                Start a project
+                <span className="arrow" aria-hidden="true">→</span>
+              </Link>
+              <Link to="/work" className="btn btn-outline-invert">View the work</Link>
             </div>
           </div>
 
-          <div className="lg:col-span-4 fade-up fade-up-2">
-            <div className="img-hover" style={{ aspectRatio: '1/1', borderRadius: '2px', overflow: 'hidden' }}>
-              <img
-                src="/hero-suit.jpg"
-                alt="Made-to-measure garment"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
+          <div className="lg:col-span-4 hidden lg:block">
+            <p
+              className="rise rise-4 prose-body"
+              style={{ fontSize: '0.9375rem', maxWidth: '34ch', marginLeft: 'auto' }}
+            >
+              Individual pattern drafting for independent brands, hospitality groups, and private
+              clients. Produced locally in the UAE with direct oversight from first measurement to
+              final press. No minimums.
+            </p>
           </div>
-
-          <div className="lg:col-span-3 fade-up fade-up-3 flex flex-col justify-end h-full">
-            <div style={{ paddingTop: '2rem' }}>
-              <p className="eyebrow mb-6">Current Clients</p>
-              <div className="flex flex-col" style={{ gap: '0' }}>
-                {clients.map((c, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      borderTop: '1px solid var(--rule)',
-                      paddingTop: '1rem',
-                      paddingBottom: '1rem',
-                    }}
-                  >
-                    <p style={{ fontWeight: 400, fontSize: '0.875rem', color: 'var(--ink)' }}>{c.name}</p>
-                    <p style={{ fontSize: '0.7rem', color: 'var(--ink-muted)', marginTop: '0.15rem' }}>{c.sub}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <div className="rule mt-16 pt-10 grid grid-cols-2 md:grid-cols-4 gap-6 fade-up fade-up-4">
-          {[
-            { num: '15+', label: 'Years of production' },
-            { num: '26', label: 'Measurements per person' },
-            { num: '0', label: 'Standard sizes used' },
-            { num: '∞', label: 'Pattern archive' },
-          ].map(({ num, label }) => (
-            <div key={label}>
-              <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: '2rem', lineHeight: 1 }}>{num}</p>
-              <p className="eyebrow mt-1" style={{ fontSize: '0.6rem' }}>{label}</p>
-            </div>
-          ))}
+        <div
+          className="rise rise-4 flex items-center justify-between gap-4"
+          style={{ borderTop: '1px solid var(--rule-dark)', paddingTop: '0.75rem' }}
+        >
+          <span className="label">United Arab Emirates</span>
+          <span className="label">Scroll ↓</span>
         </div>
-
       </div>
     </section>
   )

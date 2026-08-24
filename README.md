@@ -1,76 +1,116 @@
-# Popalzai Clothing Production Website
+# Popalzai Clothing Production
 
-A modern, responsive website for Popalzai Clothing Production (PCP) - a UAE-based made-to-measure uniform production company serving the hospitality industry.
+Website for Popalzai Clothing Production — UAE-based made-to-measure uniform and
+garment production.
 
-## Live Site
+**Live:** https://www.popalzaiproduction.com
+**Instagram:** [@popalzaiproduction](https://www.instagram.com/popalzaiproduction/)
 
-🌐 [https://fafqy743gepqo.ok.kimi.link](https://fafqy743gepqo.ok.kimi.link)
+## Stack
 
-## Features
+React 19 · TypeScript · Vite 7 · React Router 6 · Tailwind (layout utilities only)
 
-- **Responsive Design** - Works on all devices
-- **Smooth Scrolling Navigation** - Fixed header with smooth scroll to sections
-- **Contact Form** - Integrated with Formspree (ID: xvzvwgla)
-- **Modern UI** - Clean, professional design with Tailwind CSS
-- **Fast Performance** - Built with Vite for optimal speed
-
-## Tech Stack
-
-- React + TypeScript
-- Vite
-- Tailwind CSS
-- Formspree (contact form handling)
-
-## Website Sections
-
-1. **Hero** - Main landing with CTA buttons
-2. **About** - Company story and values
-3. **Services** - 6 service offerings
-4. **Process** - 5-step workflow explanation
-5. **Studio** - Production facility gallery
-6. **Work** - Portfolio of client projects
-7. **FAQ** - Common questions
-8. **Contact** - Form for inquiries
-
-## Image Placeholders
-
-All placeholder images are marked with `KIMI_REF:` labels. Search the codebase for "KIMI_REF" to find and replace them with your actual images.
+Colour, type and spacing come from CSS custom properties in `src/index.css`, not
+from the Tailwind theme. Tailwind is kept purely for grid/flex/responsive
+utilities, with `preflight` disabled so it doesn't fight the design tokens.
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
+npm run dev      # http://localhost:5173
+npm run build    # type-check + production build to dist/
+npm run preview  # serve the built output
 ```
+
+## Structure
+
+```
+public/
+  img/            production photography (web-sized, see "Images" below)
+  logo.png        Popalzai wordmark, black on transparent
+  og.jpg          1200×630 link-preview card
+  favicon.png
+src/
+  data/site.ts    ← all copy, clients, services, process, FAQ, contact details
+  components/     Meta (per-route SEO), Reveal (scroll-in), SectionHead
+  sections/       Hero, Manifesto, About, Services, Process, Work, FAQ, Inquiry,
+                  Header, Footer
+  pages/          one thin wrapper per route, each supplying <Meta>
+```
+
+### Editing content
+
+**Almost everything lives in `src/data/site.ts`.** Client list, services, process
+steps, FAQ entries, navigation, and contact details are all defined once and
+consumed everywhere. Change it there and it changes sitewide.
+
+> **Contact email** is the single `EMAIL` constant at the top of
+> `src/data/site.ts` — currently `majid@popalzaiproduction.com`. It feeds the
+> footer, every `mailto:` link, the inquiry page and the JSON-LD in
+> `index.html`. The previous site displayed one address while linking to a
+> different one, so enquiries could land in an inbox nobody was reading.
+
+## Routes
+
+| Path | Notes |
+| --- | --- |
+| `/` | Full homepage: hero, position, services, work, process, FAQ |
+| `/about` | |
+| `/services` | |
+| `/work` | Gallery + client index |
+| `/process` | |
+| `/faq` | |
+| `/inquiry` | The single enquiry form |
+| `/contact` | → redirects to `/inquiry` |
+| `/studio` | → redirects to `/about` |
+| anything else | 404 page |
+
+## Images
+
+Production photography is resized from the camera originals — the 6000×3376
+Sony files are *not* in the repo. Web copies live in `public/img/` at 1400–2400px
+wide, quality 82.
+
+To add more, resize before committing; do not drop multi-megabyte originals into
+`public/`. Every `<img>` carries explicit `width`/`height` (to prevent layout
+shift) and `loading="lazy"` below the fold.
+
+Images render greyscale with raised contrast and return to full colour on hover —
+this is the `.img-frame` treatment in `src/index.css`, matching the Instagram
+grid's look.
+
+## Contact form
+
+Posts to Formspree: `https://formspree.io/f/xvzvwgla`
+Submissions: https://formspree.io/forms/xvzvwgla/submissions
+
+The form validates inline, exposes errors via `aria-invalid`/`aria-describedby`,
+and carries a `_gotcha` honeypot for spam. The endpoint is the `FORM_ENDPOINT`
+constant in `src/data/site.ts`.
 
 ## Deployment
 
-### Option 1: Vercel (Recommended)
-1. Connect your GitHub repo to Vercel
-2. Auto-deploys on every push to main branch
+Vercel, auto-deploying from `main`.
 
-### Option 2: Manual
-Build the project and deploy the `dist` folder to any static hosting service.
+`vercel.json` supplies the SPA rewrite — **this is required**. Without it, a hard
+refresh or direct link to `/about` returns 404, because the server looks for a
+file at that path instead of serving `index.html` and letting the router take
+over. It also sets immutable cache headers on `/assets/*` and `/img/*`.
 
-## Contact Form
+## Accessibility notes
 
-Form submissions go to: https://formspree.io/f/xvzvwgla
+Worth preserving if you edit these areas:
 
-View submissions at: https://formspree.io/forms/xvzvwgla/submissions
-
-## Custom Domain Setup
-
-1. Buy a domain (Namecheap, Cloudflare, etc.)
-2. Add domain in Vercel project settings
-3. Update DNS records at your registrar
-4. Wait for propagation (24-48 hours)
+- The FAQ accordion uses real `<button>`s with `aria-expanded`/`aria-controls`,
+  and animates `grid-template-rows: 0fr → 1fr` rather than capping `max-height` —
+  a fixed cap silently clips longer answers.
+- `overflow-x: hidden` is deliberately **not** set on `html`/`body`; it breaks
+  `position: sticky`, which the About and Process layouts rely on. Overflow is
+  contained on `#root` with `overflow-x: clip` instead.
+- Every animation is gated behind `prefers-reduced-motion`.
+- There's a skip link, and focus moves to the confirmation after the form sends.
 
 ---
 
-© 2026 Popalzai Clothing Production - UAE-Based Production
+© Popalzai Clothing Production — UAE-based production
