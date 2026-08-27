@@ -36,8 +36,8 @@ public/
 src/
   data/site.ts    ← all copy, clients, services, process, FAQ, contact details
   components/     Meta (per-route SEO), Reveal (scroll-in), SectionHead
-  sections/       Hero, Manifesto, About, Services, Process, Work, FAQ, Inquiry,
-                  Header, Footer
+  sections/       Hero, Manifesto, About, Services, OnSite, Process, Work, FAQ,
+                  Inquiry, Header, Footer
   pages/          one thin wrapper per route, each supplying <Meta>
 ```
 
@@ -46,6 +46,22 @@ src/
 **Almost everything lives in `src/data/site.ts`.** Client list, services, process
 steps, FAQ entries, navigation, and contact details are all defined once and
 consumed everywhere. Change it there and it changes sitewide.
+
+### Popalzai On-Site
+
+A second line of business, separate from made-to-measure production: master
+tailors brought into the UAE, sponsored, equipped and placed full time inside a
+hotel on a monthly subscription. Popalzai supplies the tailor, the visa, the
+machine and a materials allowance; the property supplies a workspace and
+accommodation.
+
+Its content lives in `src/data/site.ts` under the `onSite*` exports, and renders
+from `src/sections/OnSite.tsx` — which serves both the full `/on-site` page and
+the homepage teaser (`<OnSite preview />`).
+
+**No prices are published.** The rate is quoted per engagement, so the page ends
+at "request a quote". If you add figures later, put them in `site.ts`, not in
+the component.
 
 > **Contact email** is the single `EMAIL` constant at the top of
 > `src/data/site.ts` — currently `majid@popalzaiproduction.com`. It feeds the
@@ -60,7 +76,8 @@ consumed everywhere. Change it there and it changes sitewide.
 | `/` | Full homepage: hero, position, services, work, process, FAQ |
 | `/about` | |
 | `/services` | |
-| `/work` | Gallery + client index |
+| `/on-site` | Popalzai On-Site — the tailor-placement subscription |
+| `/work` | Client index |
 | `/process` | |
 | `/faq` | |
 | `/inquiry` | The single enquiry form |
@@ -105,7 +122,8 @@ Vercel, auto-deploying from `main`.
 `vercel.json` supplies the SPA rewrite — **this is required**. Without it, a hard
 refresh or direct link to `/about` returns 404, because the server looks for a
 file at that path instead of serving `index.html` and letting the router take
-over. It also sets immutable cache headers on `/assets/*` and `/img/*`.
+over. It also sets immutable cache headers on the fingerprinted `/assets/*`
+bundle and a one-day cache on the brand images.
 
 ## Accessibility notes
 

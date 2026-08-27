@@ -24,10 +24,131 @@ export const FORM_ENDPOINT = 'https://formspree.io/f/xvzvwgla'
 export const nav = [
   { to: '/about',    label: 'About' },
   { to: '/services', label: 'Services' },
+  { to: '/on-site',  label: 'On-Site' },
   { to: '/work',     label: 'Work' },
   { to: '/process',  label: 'Process' },
   { to: '/faq',      label: 'FAQ' },
 ] as const
+
+/* ------------------------------------------------------------------ *
+ * Popalzai On-Site
+ *
+ * A separate line of business from made-to-measure production: master
+ * tailors brought into the UAE, sponsored, equipped, and placed full time
+ * inside a property on a monthly subscription.
+ *
+ * No prices are published — the rate is quoted per engagement.
+ * ------------------------------------------------------------------ */
+export const ONSITE_NAME = 'Popalzai On-Site'
+
+/** What the subscription covers. */
+export const onSiteProvided = [
+  {
+    term: 'The tailor',
+    value: 'An experienced master tailor, recruited and brought into the country for the placement.',
+  },
+  {
+    term: 'Visa & sponsorship',
+    value: 'Entry, residency and sponsorship handled end to end. You do not process paperwork.',
+  },
+  {
+    term: 'Machinery',
+    value: 'Industrial machine and the equipment needed to produce and alter on site.',
+  },
+  {
+    term: 'Materials',
+    value: 'Cloth, trims and consumables for uniform production, up to an agreed monthly allowance.',
+  },
+  {
+    term: 'Ongoing support',
+    value: 'We remain the tailor’s employer of record and manage cover, replacement and escalation.',
+  },
+]
+
+/** What the property is responsible for. Deliberately short — it is the whole ask. */
+export const onSiteRequired = [
+  {
+    term: 'A workspace',
+    value: 'A room on the property for the tailor to work in, with power for the machine.',
+  },
+  {
+    term: 'Accommodation',
+    value: 'Housing for the tailor for the duration of the placement.',
+  },
+]
+
+/** Day-to-day scope once the tailor is installed. */
+export const onSiteScope = [
+  'Uniform production on the property, to your specification',
+  'Alterations and repairs as they arise, same day',
+  'Fittings and measurement for new hires',
+  'Maintenance of the existing uniform stock',
+]
+
+export const onSiteSteps = [
+  {
+    num: '01',
+    title: 'Scope',
+    description:
+      'We look at your headcount, your uniform programme and your turnover of staff, and work out whether a resident tailor is worth it — and if so, how many.',
+    note: 'No charge',
+  },
+  {
+    num: '02',
+    title: 'Matching',
+    description:
+      'We select a tailor against the work: hospitality shirting and tailoring are not the same skill as heavy kitchen wear or front-of-house formal. You approve the placement before we mobilise.',
+    note: 'You approve before mobilisation',
+  },
+  {
+    num: '03',
+    title: 'Visa & mobilisation',
+    description:
+      'We handle recruitment, entry, residency and sponsorship, and ship the machine and initial materials to the property.',
+    note: 'Handled entirely by us',
+  },
+  {
+    num: '04',
+    title: 'Installation',
+    description:
+      'The tailor is set up in the space you have provided, introduced to your team, and briefed on the uniform standard they are maintaining.',
+    note: 'On your premises',
+  },
+  {
+    num: '05',
+    title: 'Running',
+    description:
+      'The tailor works your hours, full time, on your floor. Materials are replenished against the monthly allowance. We handle cover for leave and replacement if a placement is not working.',
+    note: 'Monthly subscription',
+  },
+]
+
+export const onSiteFaqs = [
+  {
+    q: 'Who employs the tailor?',
+    a: 'We do. We sponsor the visa and remain the employer of record. The tailor works full time at your property, but payroll, sponsorship and the employment relationship sit with us.',
+  },
+  {
+    q: 'What does the property have to provide?',
+    a: 'Two things: a room for the tailor to work in with power for the machine, and accommodation for the duration of the placement. Everything else — the tailor, the visa, the machine, the materials — comes from us.',
+  },
+  {
+    q: 'What happens if the tailor is not the right fit?',
+    a: 'We replace them. Matching a tailor to a property is a judgement call and it does not always land first time; the subscription covers replacement rather than leaving you to manage it.',
+  },
+  {
+    q: 'Is there a limit on materials?',
+    a: 'Yes. The subscription includes cloth, trims and consumables up to an agreed monthly allowance, set against your expected production. Anything beyond that is quoted separately.',
+  },
+  {
+    q: 'Can we take more than one tailor?',
+    a: 'Yes. Larger properties and groups typically need more than one, and the placement is priced per tailor.',
+  },
+  {
+    q: 'How is it priced?',
+    a: 'A flat monthly subscription per tailor, covering everything listed above. The rate depends on the skill level required and the materials allowance, so it is quoted per engagement rather than published.',
+  },
+]
 
 /**
  * The client index is a plain, unnumbered list — every entry renders
@@ -224,6 +345,7 @@ export const faqs = [
 
 /** Project types offered in the inquiry form's select. */
 export const projectTypes = [
+  'On-site tailor placement (Popalzai On-Site)',
   'Uniform programme — new opening',
   'Uniform programme — existing team',
   'Brand production / small batch',

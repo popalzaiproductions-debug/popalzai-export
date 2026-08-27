@@ -5,6 +5,7 @@ import Footer from './sections/Footer'
 import Home from './pages/Home'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
+import OnSitePage from './pages/OnSitePage'
 import WorkPage from './pages/WorkPage'
 import ProcessPage from './pages/ProcessPage'
 import FAQPage from './pages/FAQPage'
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/"         element={<Home />} />
           <Route path="/about"    element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/on-site"  element={<OnSitePage />} />
           <Route path="/work"     element={<WorkPage />} />
           <Route path="/process"  element={<ProcessPage />} />
           <Route path="/faq"      element={<FAQPage />} />
