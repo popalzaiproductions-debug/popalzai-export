@@ -69,6 +69,33 @@ export default function GarmentFlat({
 
   const allShapes = [g.body, ...(g.parts ?? [])]
 
+  // A licensed photographic mockup replaces the vector flat entirely. Its
+  // viewBox, printArea, placements and cmPerUnit are authored in the image's own
+  // pixel space, so nothing here needs to rescale.
+  if (g.mockup) {
+    const m = g.mockup
+    if (simple) {
+      return (
+        <svg viewBox={g.viewBox} className={className} style={style} aria-hidden="true">
+          <image href={m.src} x="0" y="0" width={m.w} height={m.h} preserveAspectRatio="xMidYMid meet" />
+        </svg>
+      )
+    }
+    return (
+      <svg
+        ref={svgRef}
+        viewBox={g.viewBox}
+        className={className}
+        style={style}
+        role="img"
+        aria-label={title}
+      >
+        <image href={m.src} x="0" y="0" width={m.w} height={m.h} preserveAspectRatio="xMidYMid meet" />
+        {children}
+      </svg>
+    )
+  }
+
   if (simple) {
     return (
       <svg viewBox={g.viewBox} className={className} style={style} aria-hidden="true">

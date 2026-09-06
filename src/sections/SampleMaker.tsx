@@ -446,8 +446,8 @@ export default function SampleMaker({ level = 2 }: Props) {
           </div>
         </div>
 
-        {/* Colourway */}
-        <div style={{ marginBottom: '2.5rem' }}>
+        {/* Colourway — meaningless when the garment is a photograph */}
+        <div style={{ marginBottom: '2.5rem', display: garment.mockup ? 'none' : undefined }}>
           <p className="label" style={{ marginBottom: '1rem' }}>02 — Colour</p>
           <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap gap-2">
             {colourways.map(cw => {
