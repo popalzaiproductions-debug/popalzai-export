@@ -441,7 +441,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             role="radiogroup"
             aria-label="Garment"
             className="grid gap-px"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', background: 'var(--rule)' }}
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))' }}
           >
             {garments.map(g => {
               const active = g.id === garment.id
@@ -453,9 +453,13 @@ export default function SampleMaker({ level = 2 }: Props) {
                   aria-checked={active}
                   onClick={() => setGarment(g)}
                   style={{
-                    background: active ? 'var(--black)' : 'var(--paper)',
-                    color: active ? 'var(--paper)' : 'var(--black)',
+                    background: 'var(--paper)',
+                    color: 'var(--black)',
                     border: 'none',
+                    boxShadow: active
+                      ? 'inset 0 0 0 2px var(--black)'
+                      : 'inset 0 0 0 1px var(--rule)',
+                    fontWeight: active ? 600 : 400,
                     cursor: 'pointer',
                     padding: '1rem 0.5rem 0.75rem',
                     display: 'flex',
