@@ -129,47 +129,19 @@ export const garments: Garment[] = [
     id: 'hoodie',
     name: 'Hoodie',
     category: 'Tops',
-    viewBox: '0 0 1608 900',
-    mockup: { src: '/mockups/hoodie.png', w: 1608, h: 900 },
+    viewBox: '0 0 1703 900',
+    mockup: { src: '/mockups/hoodie.png', w: 1703, h: 900 },
     // Kept above the kangaroo pocket.
-    printArea: { x: 696, y: 260, w: 363, h: 300 },
-    cmPerUnit: 88 / INK,
+    printArea: { x: 650, y: 300, w: 400, h: 280 },
+    // 88 here made the sleeve span 169cm. This is a very wide drop-shoulder
+    // cut — 1.9x as wide as it is tall — so the height has to come down for
+    // the span to be a garment. Still an estimate; needs a real measurement.
+    cmPerUnit: 80 / INK,
     placements: [
-      { id: 'left-chest', label: 'Left chest', x: 921, y: 275, w: 91 },
-      { id: 'right-chest', label: 'Right chest', x: 742, y: 275, w: 91 },
-      { id: 'centre', label: 'Centre chest', x: 726, y: 300, w: 303 },
-      { id: 'full', label: 'Full front', x: 696, y: 260, w: 363 },
-    ],
-  },
-  {
-    id: 'ziphoodie',
-    name: 'Zip Hoodie',
-    category: 'Tops',
-    viewBox: '0 0 1514 900',
-    mockup: { src: '/mockups/ziphoodie.png', w: 1514, h: 900 },
-    // The zip splits the front, so there is no centred placement and the guide
-    // is only the span of the two chest positions.
-    printArea: { x: 640, y: 260, w: 345, h: 200 },
-    cmPerUnit: 88 / INK,
-    placements: [
-      { id: 'left-chest', label: 'Left chest', x: 852, y: 280, w: 91 },
-      { id: 'right-chest', label: 'Right chest', x: 682, y: 280, w: 91 },
-    ],
-  },
-  {
-    id: 'jeans',
-    name: 'Jeans',
-    category: 'Bottoms',
-    viewBox: '0 0 420 900',
-    mockup: { src: '/mockups/jeans.png', w: 420, h: 900 },
-    // One leg. A guide spanning both would invite artwork across the crotch
-    // seam, which cannot be printed or stitched.
-    printArea: { x: 62, y: 115, w: 116, h: 700 },
-    cmPerUnit: 104 / INK,
-    placements: [
-      { id: 'hip', label: 'Hip', x: 70, y: 120, w: 110 },
-      { id: 'thigh', label: 'Thigh', x: 70, y: 230, w: 110 },
-      { id: 'abovehem', label: 'Above hem', x: 40, y: 700, w: 110 },
+      { id: 'left-chest', label: 'Left chest', x: 900, y: 320, w: 100 },
+      { id: 'right-chest', label: 'Right chest', x: 700, y: 320, w: 100 },
+      { id: 'centre', label: 'Centre chest', x: 683, y: 340, w: 333 },
+      { id: 'full', label: 'Full front', x: 650, y: 300, w: 400 },
     ],
   },
   {

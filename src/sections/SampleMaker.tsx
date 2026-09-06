@@ -441,7 +441,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             role="radiogroup"
             aria-label="Garment"
             className="grid gap-px"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))' }}
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(92px, 1fr))' }}
           >
             {garments.map(g => {
               const active = g.id === garment.id
@@ -461,7 +461,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                       : 'inset 0 0 0 1px var(--rule)',
                     fontWeight: active ? 600 : 400,
                     cursor: 'pointer',
-                    padding: '1rem 0.5rem 0.75rem',
+                    padding: '0.75rem 0.5rem 0.625rem',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -472,7 +472,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 <GarmentFlat
                     garment={g}
                     simple
-                    style={{ width: 48, height: 54, display: 'block' }}
+                    style={{ width: 38, height: 42, display: 'block' }}
                   />
                   <span className="mono" style={{ fontSize: '0.625rem', letterSpacing: '0.08em', textAlign: 'center' }}>
                     {g.name}
@@ -498,7 +498,14 @@ export default function SampleMaker({ level = 2 }: Props) {
                 svgRef={svgRef}
                 garment={garment}
                 title={`${garment.name} with your ${isText ? 'text' : 'artwork'} positioned on it`}
-                style={{ width: '100%', height: 'auto', display: 'block', touchAction: 'none' }}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: 380,
+                  display: 'block',
+                  margin: '0 auto',
+                  touchAction: 'none',
+                }}
               >
                 {/* Print-area guide sits ABOVE the garment — drawn underneath it, the
                     cloth fill hides it completely. */}
