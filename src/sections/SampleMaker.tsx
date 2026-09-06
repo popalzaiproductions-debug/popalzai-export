@@ -489,7 +489,10 @@ export default function SampleMaker({ level = 2 }: Props) {
             <div
               style={{
                 border: '1px solid var(--rule)',
-                background: '#f6f6f4',
+                // Matches the flats' own ground. The blanks are white PNGs
+                // and the stage is wider than the garment, so any other colour
+                // reads as a band down each side of the image.
+                background: '#fff',
                 padding: '1.5rem',
                 position: 'relative',
               }}
