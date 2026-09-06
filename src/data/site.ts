@@ -25,6 +25,7 @@ export const nav = [
   { to: '/about',    label: 'About' },
   { to: '/services', label: 'Services' },
   { to: '/on-site',  label: 'On-Site' },
+  { to: '/sample-maker', label: 'Sample Maker' },
   { to: '/work',     label: 'Work' },
   { to: '/process',  label: 'Process' },
   { to: '/faq',      label: 'FAQ' },

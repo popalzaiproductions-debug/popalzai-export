@@ -36,8 +36,9 @@ public/
 src/
   data/site.ts    ← all copy, clients, services, process, FAQ, contact details
   components/     Meta (per-route SEO), Reveal (scroll-in), SectionHead
-  sections/       Hero, Manifesto, About, Services, OnSite, Process, Work, FAQ,
-                  Inquiry, Header, Footer
+  data/garments.ts  garment flats for the sample maker
+  sections/       Hero, Manifesto, About, Services, OnSite, SampleMaker,
+                  Process, Work, FAQ, Inquiry, Header, Footer
   pages/          one thin wrapper per route, each supplying <Meta>
 ```
 
@@ -63,6 +64,25 @@ the homepage teaser (`<OnSite preview />`).
 at "request a quote". If you add figures later, put them in `site.ts`, not in
 the component.
 
+### Sample maker
+
+`/sample-maker` lets a customer pick a garment, upload artwork, drag and scale
+it, and send the specification. Garment blanks are technical flats in
+`src/data/garments.ts` — vector, not photography.
+
+**Proportions in those flats are derived from real measurements** (7 viewBox
+units per centimetre against a size-M spec: the tee is 52 cm chest × 72 cm
+length). `cmPerUnit` converts back, which is what makes the tool report a real
+artwork width in centimetres. If you add a garment, work to that scale or the
+centimetre readout will lie.
+
+**Known limit — artwork is not delivered.** The site is static with no storage,
+and Formspree accepts text only. On submit the customer's *written spec* is
+emailed and the composed design sheet downloads to their machine, with the page
+asking them to reply with the original file attached. Real upload delivery needs
+a storage backend (S3/UploadThing/Cloudinary) or a form service with file
+support — a deliberate gap, not an oversight.
+
 > **Contact email** is the single `EMAIL` constant at the top of
 > `src/data/site.ts` — currently `majid@popalzaiproduction.com`. It feeds the
 > footer, every `mailto:` link, the inquiry page and the JSON-LD in
@@ -77,6 +97,7 @@ the component.
 | `/about` | |
 | `/services` | |
 | `/on-site` | Popalzai On-Site — the tailor-placement subscription |
+| `/sample-maker` | Interactive garment configurator |
 | `/work` | Client index |
 | `/process` | |
 | `/faq` | |
