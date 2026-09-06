@@ -101,3 +101,22 @@ Order of removal:
   5. a per-garment scrub box for anything positional the above misses — with a
      hard size guard, because an unguarded scrub box will happily delete the
      body panel
+
+---
+
+## Superseded: the vector pipeline
+
+`pdf-to-flat.py`, `build-flats.py` and `emit-garments.py` extract SVG paths
+from tech-pack PDFs. They work, and the notes above on their failure modes are
+accurate, but **nothing ships from them any more**. The blanks in
+`public/mockups/` are raster crops of the same flats — see that directory's
+README for why. The scripts are kept because the geometry knowledge in them is
+hard-won and the approach may be worth revisiting.
+
+## In use: the raster pipeline
+
+- `crop-fronts.ps1` — `refs/*.png` → `public/mockups/*.png`, front view only,
+  900px tall.
+- `check-print-areas.ps1` — verifies every print guide and placement box in
+  `src/data/garments.ts` sits inside the garment, by ray-casting each corner
+  against the image. Run it after changing any of those numbers.

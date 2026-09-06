@@ -3,8 +3,8 @@ import SectionHead from '../components/SectionHead'
 import { leadTag, type HeadingLevel } from '../components/Heading'
 import GarmentFlat from '../components/GarmentFlat'
 import {
-  garments, decorationMethods, textFonts, colourways,
-  type MethodId, type Garment, type ColourwayId,
+  garments, decorationMethods, textFonts,
+  type MethodId, type Garment,
 } from '../data/garments'
 import { EMAIL, FORM_ENDPOINT } from '../data/site'
 
@@ -56,12 +56,37 @@ function loadImage(file: File): Promise<{ src: string; w: number; h: number }> {
 
 type Props = { level?: HeadingLevel }
 
+/**
+ * The garment flat is an external <image href>. Once the stage SVG is
+ * serialised into a data: URL for the canvas export, that href no longer
+ * resolves and the sheet comes out with artwork floating on nothing — so the
+ * PNG has to be inlined first. Cached: the same blank is exported repeatedly.
+ */
+const mockupCache = new Map<string, Promise<string>>()
+function mockupDataUrl(src: string): Promise<string> {
+  let hit = mockupCache.get(src)
+  if (!hit) {
+    hit = fetch(src)
+      .then(r => r.blob())
+      .then(
+        b =>
+          new Promise<string>((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onload = () => resolve(String(fr.result))
+            fr.onerror = () => reject(fr.error)
+            fr.readAsDataURL(b)
+          }),
+      )
+    mockupCache.set(src, hit)
+  }
+  return hit
+}
+
 export default function SampleMaker({ level = 2 }: Props) {
   const H = leadTag(level)
 
   const [garment, setGarment] = useState<Garment>(garments[0])
   const [method, setMethod] = useState<MethodId>('print')
-  const [colourway, setColourway] = useState<ColourwayId>('black')
 
   const [art, setArt] = useState<{ src: string; nw: number; nh: number } | null>(null)
   const [box, setBox] = useState<Box>({ x: 150, y: 176, w: 100, h: 100 })
@@ -265,6 +290,15 @@ export default function SampleMaker({ level = 2 }: Props) {
     const clone = svgEl.cloneNode(true) as SVGSVGElement
     clone.querySelectorAll('[data-chrome]').forEach(n => n.remove())
     clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+
+    const flat = clone.querySelector('image')
+    if (flat) {
+      const inlined = await mockupDataUrl(garment.mockup.src)
+      flat.setAttribute('href', inlined)
+      // Some serialisers still emit xlink:href; keep the two in step.
+      flat.setAttribute('xlink:href', inlined)
+    }
     const xml = new XMLSerializer().serializeToString(clone)
     const svgUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml)
 
@@ -433,7 +467,6 @@ export default function SampleMaker({ level = 2 }: Props) {
                 >
 <GarmentFlat
                     garment={g}
-                    colourway={colourway}
                     simple
                     style={{ width: 48, height: 54, display: 'block' }}
                   />
@@ -446,52 +479,13 @@ export default function SampleMaker({ level = 2 }: Props) {
           </div>
         </div>
 
-        {/* Colourway — meaningless when the garment is a photograph */}
-        <div style={{ marginBottom: '2.5rem', display: garment.mockup ? 'none' : undefined }}>
-          <p className="label" style={{ marginBottom: '1rem' }}>02 — Colour</p>
-          <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap gap-2">
-            {colourways.map(cw => {
-              const active = cw.id === colourway
-              return (
-                <button
-                  key={cw.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => setColourway(cw.id)}
-                  className="mono"
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                    padding: '0.5rem 0.875rem 0.5rem 0.5rem',
-                    border: `1px solid ${active ? 'var(--black)' : 'var(--rule)'}`,
-                    background: active ? 'var(--black)' : 'var(--paper)',
-                    color: active ? 'var(--paper)' : 'var(--black)',
-                    cursor: 'pointer',
-                    fontSize: '0.6875rem', letterSpacing: '0.12em', textTransform: 'uppercase',
-                  }}
-                >
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      width: 18, height: 18, flexShrink: 0,
-                      background: `linear-gradient(135deg, ${cw.fill}, ${cw.fillLo})`,
-                      border: '1px solid rgba(128,128,128,0.5)',
-                    }}
-                  />
-                  {cw.label}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Stage */}
           <div className="lg:col-span-7">
             <div
               style={{
                 border: '1px solid var(--rule)',
-                background: colourway === 'white' || colourway === 'sand' ? '#e9e9e6' : '#f6f6f4',
+                background: '#f6f6f4',
                 padding: '1.5rem',
                 position: 'relative',
               }}
@@ -499,7 +493,6 @@ export default function SampleMaker({ level = 2 }: Props) {
               <GarmentFlat
                 svgRef={svgRef}
                 garment={garment}
-                colourway={colourway}
                 title={`${garment.name} with your ${isText ? 'text' : 'artwork'} positioned on it`}
                 style={{ width: '100%', height: 'auto', display: 'block', touchAction: 'none' }}
               >
@@ -508,7 +501,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                 <rect
                   data-chrome="true"
                   x={pa.x} y={pa.y} width={pa.w} height={pa.h}
-                  fill="none" stroke={colourway === 'white' || colourway === 'sand' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.45)'}
+                  fill="none" stroke={'rgba(0,0,0,0.35)'}
                   strokeWidth={2} strokeDasharray="9 7"
                 />
 
@@ -529,7 +522,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                     x={box.x} y={box.y}
                     fontFamily={font.stack}
                     fontSize={textSize}
-                    fill={colourways.find(c => c.id === colourway)?.ink ?? '#000'}
+                    fill={'#111'}
                     style={{ cursor: 'move' }}
                     onPointerDown={startDrag('move')}
                   >
@@ -546,7 +539,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                       width={isText ? Math.max(textW, 10) + 8 : box.w}
                       height={isText ? textSize * 1.3 : box.h}
                       fill="none"
-                      stroke={colourway === 'white' || colourway === 'sand' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.75)'}
+                      stroke={'rgba(0,0,0,0.6)'}
                       strokeWidth={2}
                       strokeDasharray="6 6"
                       tabIndex={0}
@@ -561,7 +554,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                       y={(isText ? box.y + textSize * 0.3 : box.y + box.h) - handleSize / 2}
                       width={handleSize}
                       height={handleSize}
-                      fill={colourway === 'white' || colourway === 'sand' ? '#000' : '#fff'}
+                      fill={'#000'}
                       style={{ cursor: 'nwse-resize' }}
                       onPointerDown={startDrag('resize')}
                     />
@@ -595,7 +588,7 @@ export default function SampleMaker({ level = 2 }: Props) {
           {/* Controls */}
           <div className="lg:col-span-5">
             {/* method */}
-            <p className="label" style={{ marginBottom: '1rem' }}>03 — Method</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
             <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
               {decorationMethods.map(m => {
                 const active = m.id === method
@@ -627,7 +620,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             {/* artwork or text */}
             <div style={controlBlock}>
               <p className="label" style={{ marginBottom: '1rem' }}>
-                04 — {isText ? 'Your text' : 'Your artwork'}
+                03 — {isText ? 'Your text' : 'Your artwork'}
               </p>
 
               {isText ? (
@@ -682,7 +675,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
             {/* placement */}
             <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>05 — Placement</p>
+              <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
               <div className="flex flex-wrap gap-2">
                 {garment.placements.map(p => (
                   <button
@@ -726,7 +719,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
             {/* output */}
             <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>06 — Send it to us</p>
+              <p className="label" style={{ marginBottom: '1rem' }}>05 — Send it to us</p>
 
               {sendState === 'sent' ? (
                 <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
