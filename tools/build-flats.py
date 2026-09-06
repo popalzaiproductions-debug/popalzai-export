@@ -80,54 +80,67 @@ for gid, (fn, views, real_h) in PICK.items():
     target = min(cs)                                 # leftmost view = the front
     front = [i for i in items if min(range(views), key=lambda j: abs(i[2] - cs[j])) == cs.index(target)]
 
-    # Everything is anchored to the silhouette — the largest path is the
-    # garment, so anything wholly above or below it is annotation: the
-    # measurement ruler at the top, spec boxes at the bottom.
+    # Anchor everything to the silhouette: the largest path is the garment.
     big = max(front, key=lambda p: (p[1][2]-p[1][0]) * (p[1][3]-p[1][1]))
     sx0, sy0, sx1, sy1 = big[1]
-    pad = (sy1 - sy0) * 0.02
+    sw, sh = sx1 - sx0, sy1 - sy0
+
+    # 1. Anything wholly above or below the garment is annotation: the
+    #    measurement ruler at the top, spec boxes at the bottom.
+    pad = sh * 0.02
     front = [p for p in front if not (p[1][1] > sy1 + pad or p[1][3] < sy0 - pad)]
 
-    # The client's chest logo. Compact marks inside the chest area; the placket
-    # and zip also live there but are tall and narrow, so height rules them out.
-    sw, sh = sx1 - sx0, sy1 - sy0
-    def is_logo(b):
-        inside = (b[0] > sx0 + sw*0.28 and b[2] < sx0 + sw*0.72
-                  and b[1] > sy0 + sh*0.45 and b[3] < sy1 - sh*0.08)
-        compact = (b[2]-b[0]) < sw*0.30 and (b[3]-b[1]) < sh*0.14
-        return inside and compact
-    # Any compact mark in the chest is either the client's logo or clutter, and
-    # the chest is exactly where the customer's artwork goes, so it all goes.
-    front = [p for p in front if not is_logo(p[1])]
-
-    # Leader lines: hairline-flat and running outside the garment silhouette.
-    def is_leader(b):
-        flat = (b[3] - b[1]) < sh * 0.02
-        outside = b[0] < sx0 - sw*0.005 or b[2] > sx1 + sw*0.005
-        return flat and outside
-    front = [p for p in front if not is_leader(p[1])]
-
-    # Leader lines are drawn as straight polylines; every real seam, hem and
-    # panel edge on these flats is a bezier. So: no curve + thin + not closed.
-    def is_rule(item):
+    # 2. Leader lines. These point OUTWARD from the garment to a label, so what
+    #    identifies them is crossing the silhouette boundary — not being short
+    #    or straight. An earlier version dropped every short straight path and
+    #    took the collar ribbing, cuff stitching, pocket edges and cap panel
+    #    seams with it, because those are short straight segments too.
+    def is_leader(item):
         d, b, _ = item
-        if 'C' in d:
+        if 'C' in d:                      # real construction lines are beziers
             return False
-        w_, h_ = b[2]-b[0], b[3]-b[1]
-        return min(w_, h_) < max(sw, sh) * 0.012 and max(w_, h_) > max(sw, sh) * 0.04
-    front = [p for p in front if not is_rule(p)]
+        out_l = b[0] < sx0 - sw * 0.02
+        out_r = b[2] > sx1 + sw * 0.02
+        out_t = b[3] > sy1 + sh * 0.02
+        out_b = b[1] < sy0 - sh * 0.02
+        return out_l or out_r or out_t or out_b
+    front = [p for p in front if not is_leader(p)]
 
-    # Single straight segments are leader lines pointing at callouts. Every
-    # real seam, hem, placket and pocket edge on these sheets is a bezier, so
-    # a two-point path with no curve is always annotation.
-    front = [p for p in front if not (len(PAIR.findall(p[0])) <= 3 and 'C' not in p[0])]
+    # 3. The tech pack's own chest logo — it sits exactly where the customer's
+    #    artwork goes. Compact marks in the middle of the chest only.
+    def is_logo(b):
+        inside = (b[0] > sx0 + sw*0.30 and b[2] < sx0 + sw*0.70
+                  and b[1] > sy0 + sh*0.48 and b[3] < sy1 - sh*0.10)
+        compact = (b[2]-b[0]) < sw*0.22 and (b[3]-b[1]) < sh*0.12
+        return inside and compact
+    logo = [p for p in front if is_logo(p[1])]
+    if len(logo) >= 2:
+        front = [p for p in front if not is_logo(p[1])]
 
-    # Per-garment scrub: the pullover's chest logo sits outside the generic
-    # compact-mark test, so it is removed by position.
-    SCRUB = {'hoodie': (0.38, 0.50, 0.62, 0.78)}
+    # 4. Leader stubs. Where the outward-pointing half of a leader was already
+    #    clipped by rule 1, a short axis-aligned remnant survives inside the
+    #    garment. Real detail on these sheets is never a perfectly horizontal
+    #    or vertical two-point segment.
+    def is_stub(item):
+        d, b, _ = item
+        if 'C' in d or len(PAIR.findall(d)) != 2:
+            return False
+        w_, h_ = b[2] - b[0], b[3] - b[1]
+        axis = w_ < 0.8 or h_ < 0.8
+        short = max(w_, h_) < max(sw, sh) * 0.30
+        return axis and short
+    front = [p for p in front if not is_stub(p)]
+
+    # 5. Per-garment scrub: the pullover's chest logo sits outside the generic
+    #    compact-mark test, so it goes by position.
+    SCRUB = {'hoodie': (0.30, 0.46, 0.70, 0.80)}
     if gid in SCRUB:
         a_, b_, c_, d_ = SCRUB[gid]
         def in_scrub(bb):
+            # size guard first: a scrub box must never be able to swallow the
+            # body panel. Only small marks qualify.
+            if (bb[2]-bb[0]) > sw*0.16 or (bb[3]-bb[1]) > sh*0.10:
+                return False
             cx_ = (bb[0]+bb[2])/2; cy_ = (bb[1]+bb[3])/2
             return (sx0 + sw*a_ < cx_ < sx0 + sw*c_) and (sy0 + sh*b_ < cy_ < sy0 + sh*d_)
         front = [p for p in front if not in_scrub(p[1])]

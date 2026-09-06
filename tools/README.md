@@ -76,3 +76,28 @@ the silhouette (measurement rulers, spec boxes), compact marks inside the chest
 paths running outside the silhouette, straight polylines, and finally any path
 of three points or fewer with no curve — every real seam and hem on these
 sheets is a bezier, so short straight runs are always callout leaders.
+
+
+## Annotation removal: what NOT to do
+
+An earlier version dropped every short straight path on the theory that real
+detail is always a bezier. That is wrong, and it quietly gutted the drawings:
+collar ribbing, cuff stitching, pocket openings and cap panel seams are all
+short straight segments. The garments still *looked* like garments, so the
+damage was easy to miss until they were put next to the source drawings.
+
+What actually identifies a leader line is that it points OUTWARD, past the
+garment edge, toward a label. So the test is whether the path crosses the
+silhouette boundary — not how short or how straight it is.
+
+Order of removal:
+  1. anything wholly above or below the silhouette (measurement rulers, spec
+     boxes)
+  2. straight paths whose box extends past the silhouette (leaders)
+  3. compact marks in the middle of the chest (the pack's own logo, which sits
+     where customer artwork goes)
+  4. short axis-aligned two-point remnants left behind when step 1 clipped the
+     outer half of a leader
+  5. a per-garment scrub box for anything positional the above misses — with a
+     hard size guard, because an unguarded scrub box will happily delete the
+     body panel
