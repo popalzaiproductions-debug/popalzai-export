@@ -2,22 +2,14 @@ import { useId, type ReactNode } from 'react'
 import { colourways, type Garment, type ColourwayId } from '../data/garments'
 
 /**
- * Renders a garment as a flat-vector technical sketch.
+ * Renders a garment flat extracted from a tech pack.
  *
- * Deliberately no blur filters and no imitation photography. An earlier version
- * stacked Gaussian blurs to fake fabric and it read as murky rather than drawn.
- * What sells a flat is construction detail and a clear line hierarchy:
+ * The geometry is real — see `src/data/garments.ts` — so this only has to
+ * colour it in: fill the silhouette with the colourway, stroke the detail on
+ * top, and add a light vertical gradient so it doesn't read as a paper cut-out.
  *
- *   outline  3.2   the silhouette
- *   panel    2.2   separate pieces — collar, cuff, pocket, hood, brim
- *   line     1.7   seams, hems, creases
- *   hatch    1.2   ribbing and elastic gathers
- *   stitch   1.3   dashed topstitching
- *
- * The only shading is a two-stop vertical gradient at roughly 6% variation,
- * enough to keep it from looking like clip art without pretending to be a photo.
- *
- * A licensed photographic mockup can replace all of this — see `Garment.mockup`.
+ * No blur filters. An earlier version faked fabric with stacked Gaussian blurs
+ * and the result was murky rather than drawn.
  */
 
 type Props = {
@@ -29,7 +21,7 @@ type Props = {
   style?: React.CSSProperties
   svgRef?: React.Ref<SVGSVGElement>
   title?: string
-  /** Picker thumbnails drop the fine detail, which is illegible at 48px anyway. */
+  /** Picker thumbnails: silhouette only — the detail is illegible at 48px. */
   simple?: boolean
 }
 
@@ -46,10 +38,10 @@ export default function GarmentFlat({
   const uid = useId().replace(/:/g, '')
   const c = colourways.find(x => x.id === colourway) ?? colourways[0]
   const grad = `cloth-${uid}`
+  const round = `round-${uid}`
 
   // A licensed photographic mockup replaces the vector flat entirely. Its
-  // viewBox, printArea, placements and cmPerUnit are authored in the image's own
-  // pixel space, so nothing here needs rescaling.
+  // geometry is authored in the image's own pixel space, so nothing rescales.
   if (g.mockup) {
     const m = g.mockup
     return (
@@ -66,26 +58,37 @@ export default function GarmentFlat({
     )
   }
 
-  const cloth = (
-    <linearGradient id={grad} x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stopColor={c.fill} />
-      <stop offset="1" stopColor={c.fillLo} />
-    </linearGradient>
+  // One path made of every CLOSED subpath, used only for the fill. Open paths
+  // (hem lines, topstitching, creases) get implicitly closed when filled, which
+  // throws stray triangles across the garment — so they are excluded.
+  // Outline pieces, each force-closed so open strokes still fill.
+  const fillD = g.fill
+    .map(d => (d.trimEnd().endsWith('Z') ? d : d + 'Z'))
+    .join(' ')
+
+  const defs = (
+    <>
+      <linearGradient id={grad} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={c.fill} />
+        <stop offset="1" stopColor={c.fillLo} />
+      </linearGradient>
+      {/* a hint of roundness across the body; deliberately subtle */}
+      <linearGradient id={round} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#000" stopOpacity="0.16" />
+        <stop offset="0.30" stopColor="#000" stopOpacity="0.02" />
+        <stop offset="0.48" stopColor="#fff" stopOpacity="0.05" />
+        <stop offset="0.72" stopColor="#000" stopOpacity="0.03" />
+        <stop offset="1" stopColor="#000" stopOpacity="0.16" />
+      </linearGradient>
+    </>
   )
 
   if (simple) {
     return (
       <svg viewBox={g.viewBox} className={className} style={style} aria-hidden="true">
-        <defs>{cloth}</defs>
-        <g strokeLinejoin="round" strokeLinecap="round">
-          {g.partsBehind?.map((d, i) => (
-            <path key={`b${i}`} d={d} fill={c.panel} stroke={c.line} strokeWidth={5} />
-          ))}
-          <path d={g.body} fill={`url(#${grad})`} stroke={c.line} strokeWidth={6} />
-          {g.parts?.map((d, i) => (
-            <path key={i} d={d} fill={c.panel} stroke={c.line} strokeWidth={5} />
-          ))}
-        </g>
+        <defs>{defs}</defs>
+        <path d={fillD} fill={`url(#${grad})`} stroke="none" fillRule="nonzero" />
+        <path d={g.silhouette} fill="none" stroke={c.line} strokeWidth={9} strokeLinejoin="round" />
       </svg>
     )
   }
@@ -99,49 +102,18 @@ export default function GarmentFlat({
       role="img"
       aria-label={title}
     >
-      <defs>{cloth}</defs>
+      <defs>{defs}</defs>
 
       <g strokeLinejoin="round" strokeLinecap="round">
-        {/* pieces that fall behind the body */}
-        {g.partsBehind?.map((d, i) => (
-          <path key={`b${i}`} d={d} fill={c.panel} stroke={c.line} strokeWidth={2.4} />
-        ))}
-
-        {/* silhouette */}
-        <path d={g.body} fill={`url(#${grad})`} stroke={c.line} strokeWidth={3.2} />
-
-        {/* separate pieces, a shade off the body */}
-        {g.parts?.map((d, i) => (
-          <path key={`p${i}`} d={d} fill={c.panel} stroke={c.line} strokeWidth={2.2} />
-        ))}
-
-        {/* seams, hems, creases */}
-        {g.lines?.map((d, i) => (
-          <path key={`l${i}`} d={d} fill="none" stroke={c.detail} strokeWidth={1.7} />
-        ))}
-
-        {/* ribbing and gathers */}
-        {g.hatch?.map((d, i) => (
-          <path key={`h${i}`} d={d} fill="none" stroke={c.detail} strokeWidth={1.2} />
-        ))}
-
-        {/* topstitching */}
-        {g.stitches?.map((d, i) => (
-          <path
-            key={`s${i}`} d={d} fill="none" stroke={c.stitch}
-            strokeWidth={1.3} strokeDasharray="6 5"
-          />
-        ))}
-
-        {/* buttons and eyelets */}
-        {g.dots?.map((dot, i) => (
-          <circle
-            key={`d${i}`}
-            cx={dot.cx} cy={dot.cy} r={dot.r}
-            fill={dot.hollow ? 'none' : c.panel}
-            stroke={c.detail}
-            strokeWidth={1.6}
-          />
+        {/* Fill the union of every subpath. These tech-pack outlines are not one
+            closed path — a jeans leg, a shirt front and a sleeve are separate
+            strokes — so filling a single "silhouette" leaves holes. Concatenated
+            under nonzero they resolve to the solid garment. */}
+        <path d={fillD} fill={`url(#${grad})`} stroke="none" fillRule="nonzero" />
+        <path d={fillD} fill={`url(#${round})`} stroke="none" fillRule="nonzero" />
+        <path d={g.silhouette} fill="none" stroke={c.line} strokeWidth={3} />
+        {g.detail.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke={c.detail} strokeWidth={1.8} />
         ))}
       </g>
 
