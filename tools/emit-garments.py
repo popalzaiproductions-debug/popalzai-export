@@ -18,7 +18,10 @@ META = {
     'jeans':      ('Jeans',        'Bottoms',  104),
     'cap':        ('Cap',          'Headwear',  16),
 }
-ORDER = ['tee', 'tank', 'longsleeve', 'polo', 'shirt', 'hoodie', 'ziphoodie', 'jeans', 'cap']
+# 'shirt' is omitted: its tech pack draws the two front panels as separate
+# open strokes that do not meet, so it fills with a white gap down the front.
+# Everything else extracts cleanly. Re-add it once that is solved.
+ORDER = ['tee', 'tank', 'longsleeve', 'polo', 'hoodie', 'ziphoodie', 'jeans', 'cap']
 
 
 def pts(d):
@@ -55,10 +58,12 @@ for gid in ORDER:
     # from the silhouette kept failing: a boxy tee's sleeves hang into the hem
     # band, and a shirt's curved tail samples asymmetrically.
     AREA = {
-      'tee':        ((250,150,250,230), [('left-chest','Left chest',390,180,90),
-                                         ('right-chest','Right chest',270,180,90),
-                                         ('centre','Centre chest',290,200,170),
-                                         ('full','Full front',250,170,250)]),
+      # tee body centre is x=421 (the drawing widened when leader lines were
+      # stripped, which moved it) — these are aligned to that
+      'tee':        ((296,150,250,230), [('left-chest','Left chest',436,180,90),
+                                         ('right-chest','Right chest',316,180,90),
+                                         ('centre','Centre chest',336,200,170),
+                                         ('full','Full front',296,170,250)]),
       'tank':       ((90,140,225,250),  [('left-chest','Left chest',225,175,75),
                                          ('centre','Centre chest',110,190,185),
                                          ('full','Full front',90,160,225)]),
@@ -115,12 +120,55 @@ for gid in ORDER:
     # merely sweeps across the garment produces a filled triangle. Only fall
     # back to force-closing when a garment has no usable closed outline — the
     # button shirt draws its body and sleeves as open strokes.
-    if sum(shoelace(d) for d in closed_big) > canvas * 0.12:
-        fill_paths = closed_big
-    else:
-        fill_paths = big_paths
-    print('   fill: %s (%d of %d big paths)'
-          % ('closed' if fill_paths is closed_big else 'FORCED', len(fill_paths), len(big_paths)))
+    # A sleeve is often drawn as an OPEN contour whose ends nearly meet. Those
+    # should fill. A line that merely sweeps across the garment has its ends
+    # far apart, and force-closing it produces a black triangle. Endpoint
+    # separation is what separates the two.
+    def nearly_closed(d):
+        q = pts(d)
+        if len(q) < 3:
+            return False
+        (x0_, y0_), (x1_, y1_) = q[0], q[-1]
+        gap = ((x1_ - x0_) ** 2 + (y1_ - y0_) ** 2) ** 0.5
+        bw_ = max(x for x, _ in q) - min(x for x, _ in q)
+        bh_ = max(y for _, y in q) - min(y for _, y in q)
+        diag = (bw_ ** 2 + bh_ ** 2) ** 0.5
+        return diag > 0 and gap / diag < 0.25
+
+    def bbox_frac(d):
+        q = pts(d)
+        if len(q) < 3:
+            return 0.0
+        bw_ = max(x for x, _ in q) - min(x for x, _ in q)
+        bh_ = max(y for _, y in q) - min(y for _, y in q)
+        return (bw_ * bh_) / canvas
+
+    # What fills: the silhouette always, plus any path that is either a closed
+    # contour, a near-closed one (a sleeve drawn as an open outline), or simply
+    # large enough that it can only be an outline piece. That last clause is
+    # what catches the jeans — one open path whose ends sit far apart — and the
+    # shirt, whose two front panels are separate open strokes. Small open paths
+    # stay out: force-closing a hem line makes a black triangle.
+    fill_paths = [g['silhouette']]
+    for d in big_paths:
+        if d in fill_paths:
+            continue
+        if d.rstrip().endswith('Z') or nearly_closed(d) or bbox_frac(d) >= 0.18:
+            fill_paths.append(d)
+
+    print('   fill: %d of %d big paths' % (len(fill_paths), len(big_paths)))
+
+    # Some outlines are drawn as a filled BAND: outer contour, then an inner
+    # one back the other way. Filling that gives you the outline, not a solid
+    # garment (this is why the jeans rendered hollow). Keeping only the first
+    # subpath of each fill path takes the outer contour and solves it; for
+    # single-subpath shapes it changes nothing.
+    def outer(d):
+        i = d.find('M', 1)
+        head = d[:i] if i > 0 else d
+        head = head.rstrip()
+        return head if head.endswith('Z') else head + 'Z'
+    fill_paths = [outer(d) for d in fill_paths]
 
     det = chr(10).join("      '%s'," % d for d in g['detail'])
     fil = chr(10).join("      '%s'," % d for d in fill_paths)

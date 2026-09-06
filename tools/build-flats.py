@@ -117,6 +117,11 @@ for gid, (fn, views, real_h) in PICK.items():
         return min(w_, h_) < max(sw, sh) * 0.012 and max(w_, h_) > max(sw, sh) * 0.04
     front = [p for p in front if not is_rule(p)]
 
+    # Single straight segments are leader lines pointing at callouts. Every
+    # real seam, hem, placket and pocket edge on these sheets is a bezier, so
+    # a two-point path with no curve is always annotation.
+    front = [p for p in front if not (len(PAIR.findall(p[0])) <= 3 and 'C' not in p[0])]
+
     # Per-garment scrub: the pullover's chest logo sits outside the generic
     # compact-mark test, so it is removed by position.
     SCRUB = {'hoodie': (0.38, 0.50, 0.62, 0.78)}

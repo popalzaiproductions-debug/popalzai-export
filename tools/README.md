@@ -49,3 +49,30 @@ Two things learned the hard way:
 against the render. Deriving them from the silhouette kept failing — a boxy
 tee's sleeves reach into the hem band, a shirt's curved tail samples
 asymmetrically.
+
+## Fill: what actually took the longest
+
+The tech packs draw outlines in three different ways, and each needs different
+handling to end up as a solid garment:
+
+1. **A closed contour.** Fills directly. (tee, tank, cap)
+2. **An open contour whose ends nearly meet** — a sleeve outline. Force-closing
+   it is correct. The endpoint gap relative to the path's diagonal is what
+   distinguishes this from a line that merely sweeps across the garment; force
+   -closing one of those puts a black triangle on the chest.
+3. **A filled BAND: outer contour, then an inner one back the other way.**
+   Filling that gives you the outline, not the garment — this is why the jeans
+   rendered hollow through several attempts. Taking only the first subpath of
+   each fill path yields the outer contour and solves it, and is a no-op for
+   single-subpath shapes.
+
+So the fill set is: the silhouette always, plus any path that is closed, near
+-closed, or simply large enough (>=18% of the canvas) that it can only be an
+outline piece. Small open paths stay out.
+
+Annotation removal, in order: page furniture, anything wholly above or below
+the silhouette (measurement rulers, spec boxes), compact marks inside the chest
+(the tech pack's own logo, which sits where customer artwork goes), hairline
+paths running outside the silhouette, straight polylines, and finally any path
+of three points or fewer with no curve — every real seam and hem on these
+sheets is a bezier, so short straight runs are always callout leaders.
