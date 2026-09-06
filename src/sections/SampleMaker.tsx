@@ -474,7 +474,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                     aria-hidden="true"
                     style={{
                       width: 18, height: 18, flexShrink: 0,
-                      background: `linear-gradient(135deg, ${cw.lit}, ${cw.edge})`,
+                      background: `linear-gradient(135deg, ${cw.fill}, ${cw.fillLo})`,
                       border: '1px solid rgba(128,128,128,0.5)',
                     }}
                   />
