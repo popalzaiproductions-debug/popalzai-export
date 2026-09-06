@@ -41,6 +41,15 @@ export type Garment = {
   seams?: string[]
   stitches?: string[]
   folds?: string[]
+  /** Soft creases, rendered as blurred ridges to give the cloth depth. */
+  wrinkles?: string[]
+  /**
+   * Optional licensed photographic mockup. Stock mockups are copyrighted, so
+   * none ship with the repo — buy a pack, drop the file in /public/mockups,
+   * and point this at it. When set it replaces the vector flat, and printArea
+   * is interpreted against the image's own pixel dimensions.
+   */
+  mockup?: { src: string; w: number; h: number }
   /** Region artwork is expected to sit within; drawn as a dashed guide. */
   printArea: { x: number; y: number; w: number; h: number }
   cmPerUnit: number
@@ -73,6 +82,16 @@ export const garments: Garment[] = [
       'M528 152 C510 186 488 212 462 228',
     ],
     folds: ['M170 220 C176 320 174 430 170 512', 'M390 220 C384 320 386 430 390 512'],
+    wrinkles: [
+      'M150 130 C168 150 178 176 176 208',
+      'M410 130 C392 150 382 176 384 208',
+      'M132 250 C158 268 176 300 180 344',
+      'M428 250 C402 268 384 300 380 344',
+      'M206 400 C232 428 250 470 254 516',
+      'M354 400 C328 428 310 470 306 516',
+      'M118 400 C140 440 150 480 150 520',
+      'M442 400 C420 440 410 480 410 520',
+    ],
     printArea: { x: 140, y: 150, w: 280, h: 260 },
     cmPerUnit: 52 / 364,
     placements: [
@@ -102,6 +121,12 @@ export const garments: Garment[] = [
     ],
     stitches: ['M124 510 C176 518 384 518 436 510'],
     folds: ['M186 280 C190 370 188 450 185 510', 'M374 280 C370 370 372 450 375 510'],
+    wrinkles: [
+      'M164 220 C182 254 190 300 188 348',
+      'M396 220 C378 254 370 300 372 348',
+      'M212 400 C236 434 250 474 252 514',
+      'M348 400 C324 434 310 474 308 514',
+    ],
     printArea: { x: 156, y: 150, w: 248, h: 260 },
     cmPerUnit: 46 / 320,
     placements: [
@@ -132,6 +157,14 @@ export const garments: Garment[] = [
     ],
     stitches: ['M108 512 C160 520 400 520 452 512'],
     folds: ['M170 220 C176 320 174 430 170 512', 'M390 220 C384 320 386 430 390 512'],
+    wrinkles: [
+      'M150 130 C168 150 178 176 176 208',
+      'M410 130 C392 150 382 176 384 208',
+      'M56 230 C78 254 90 292 92 330',
+      'M504 230 C482 254 470 292 468 330',
+      'M206 400 C232 428 250 470 254 516',
+      'M354 400 C328 428 310 470 306 516',
+    ],
     printArea: { x: 140, y: 150, w: 280, h: 260 },
     cmPerUnit: 52 / 364,
     placements: [
@@ -168,6 +201,14 @@ export const garments: Garment[] = [
     ],
     stitches: ['M88 524 C146 532 414 532 472 524', 'M162 402 C162 394 398 394 398 402'],
     folds: ['M170 250 C176 330 174 430 170 524', 'M390 250 C384 330 386 430 390 524'],
+    wrinkles: [
+      'M146 170 C168 192 180 224 178 258',
+      'M414 170 C392 192 380 224 382 258',
+      'M64 268 C88 296 102 336 104 376',
+      'M496 268 C472 296 458 336 456 376',
+      'M200 240 C214 288 218 340 214 384',
+      'M360 240 C346 288 342 340 346 384',
+    ],
     printArea: { x: 150, y: 170, w: 260, h: 210 },
     cmPerUnit: 56 / 392,
     placements: [
@@ -203,6 +244,14 @@ export const garments: Garment[] = [
     ],
     stitches: ['M108 512 C160 520 400 520 452 512'],
     folds: ['M170 250 C176 330 174 430 170 512', 'M390 250 C384 330 386 430 390 512'],
+    wrinkles: [
+      'M150 140 C168 160 178 186 176 218',
+      'M410 140 C392 160 382 186 384 218',
+      'M132 260 C158 278 176 310 180 354',
+      'M428 260 C402 278 384 310 380 354',
+      'M206 410 C232 438 250 476 254 516',
+      'M354 410 C328 438 310 476 306 516',
+    ],
     printArea: { x: 140, y: 240, w: 280, h: 190 },
     cmPerUnit: 52 / 364,
     placements: [
@@ -233,6 +282,14 @@ export const garments: Garment[] = [
     ],
     stitches: ['M136 86 C200 80 360 80 424 86', 'M274 200 C277 250 279 292 280 322'],
     folds: ['M196 220 C192 400 190 600 189 730', 'M364 220 C368 400 370 600 371 730'],
+    wrinkles: [
+      'M158 260 C182 292 196 340 198 400',
+      'M402 260 C378 292 364 340 362 400',
+      'M150 480 C178 512 194 566 196 620',
+      'M410 480 C382 512 366 566 364 620',
+      'M144 640 C170 672 184 710 186 744',
+      'M416 640 C390 672 376 710 374 744',
+    ],
     printArea: { x: 150, y: 190, w: 110, h: 220 },
     cmPerUnit: 40 / 280,
     placements: [
@@ -263,6 +320,12 @@ export const garments: Garment[] = [
     ],
     stitches: ['M136 86 C200 80 360 80 424 86'],
     folds: ['M196 210 C192 300 190 370 189 402', 'M364 210 C368 300 370 370 371 402'],
+    wrinkles: [
+      'M158 240 C182 272 196 316 198 366',
+      'M402 240 C378 272 364 316 362 366',
+      'M146 330 C170 358 184 388 186 416',
+      'M414 330 C390 358 376 388 374 416',
+    ],
     printArea: { x: 150, y: 180, w: 110, h: 180 },
     cmPerUnit: 40 / 280,
     placements: [
@@ -291,6 +354,12 @@ export const garments: Garment[] = [
     ],
     stitches: ['M182 386 C182 378 378 378 378 386', 'M208 78 C250 72 310 72 352 78'],
     folds: ['M232 240 C228 300 228 340 230 540', 'M328 240 C332 300 332 340 330 540'],
+    wrinkles: [
+      'M150 320 C176 350 192 400 194 460',
+      'M410 320 C384 350 368 400 366 460',
+      'M214 130 C226 158 230 186 228 206',
+      'M346 130 C334 158 330 186 332 206',
+    ],
     printArea: { x: 176, y: 236, w: 208, h: 130 },
     cmPerUnit: 62 / 346,
     placements: [
@@ -317,6 +386,10 @@ export const garments: Garment[] = [
       'M120 284 C200 296 360 296 440 284',
     ],
     stitches: ['M154 240 C212 230 348 230 406 240'],
+    wrinkles: [
+      'M170 180 C186 196 200 212 208 234',
+      'M390 180 C374 196 360 212 352 234',
+    ],
     printArea: { x: 186, y: 118, w: 188, h: 110 },
     cmPerUnit: 22 / 260,
     placements: [
@@ -325,6 +398,21 @@ export const garments: Garment[] = [
     ],
   },
 ]
+
+/**
+ * Garment colourways. Each is a three-stop ramp: the edge (in shadow), the
+ * mid tone, and the lit centre. The renderer builds the cloth shading from
+ * these, so a garment looks like fabric rather than a filled outline.
+ */
+export const colourways = [
+  { id: 'black', label: 'Black', edge: '#0b0b0c', mid: '#1e1f21', lit: '#34363a', line: '#000000', ink: '#ffffff' },
+  { id: 'white', label: 'White', edge: '#cfcfca', mid: '#ececea', lit: '#ffffff', line: '#9a9a95', ink: '#111111' },
+  { id: 'grey',  label: 'Grey',  edge: '#5c5e62', mid: '#7c7f84', lit: '#9aa0a6', line: '#3a3c40', ink: '#ffffff' },
+  { id: 'navy',  label: 'Navy',  edge: '#0f1729', mid: '#1c2740', lit: '#2c3b5c', line: '#070c17', ink: '#ffffff' },
+  { id: 'sand',  label: 'Sand',  edge: '#bdae97', mid: '#d8cbb6', lit: '#eee3d0', line: '#8d8069', ink: '#1a1a1a' },
+] as const
+
+export type ColourwayId = (typeof colourways)[number]['id']
 
 export const decorationMethods = [
   {

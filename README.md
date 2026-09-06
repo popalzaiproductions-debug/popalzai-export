@@ -70,6 +70,17 @@ the component.
 it, and send the specification. Garment blanks are technical flats in
 `src/data/garments.ts` — vector, not photography.
 
+Garments render through `src/components/GarmentFlat.tsx`, which shades them as
+cloth rather than filled outlines: a horizontal ramp for the torso turning away
+from the light, a vertical ramp for top lighting, blurred crease ridges, a
+clipped inner shadow, and a cast shadow. Five colourways; black is the default.
+
+**Licensed photographic mockups.** Stock mockups (Vecteezy, Shutterstock, Adobe
+Stock and the like) are copyrighted and none ship with this repo. If you licence
+a pack, drop the files in `public/mockups` and set `mockup: { src, w, h }` on the
+garment — the renderer will use the image instead of the vector flat, with
+`printArea` read against the image's own pixel dimensions.
+
 **Proportions in those flats are derived from real measurements** (7 viewBox
 units per centimetre against a size-M spec: the tee is 52 cm chest × 72 cm
 length). `cmPerUnit` converts back, which is what makes the tool report a real

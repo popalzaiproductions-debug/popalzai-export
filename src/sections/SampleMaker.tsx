@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
 import SectionHead from '../components/SectionHead'
 import { leadTag, type HeadingLevel } from '../components/Heading'
-import { garments, decorationMethods, textFonts, type MethodId, type Garment } from '../data/garments'
+import GarmentFlat from '../components/GarmentFlat'
+import {
+  garments, decorationMethods, textFonts, colourways,
+  type MethodId, type Garment, type ColourwayId,
+} from '../data/garments'
 import { EMAIL, FORM_ENDPOINT } from '../data/site'
 
 /* Artwork box, in garment viewBox units. */
@@ -57,6 +61,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   const [garment, setGarment] = useState<Garment>(garments[0])
   const [method, setMethod] = useState<MethodId>('print')
+  const [colourway, setColourway] = useState<ColourwayId>('black')
 
   const [art, setArt] = useState<{ src: string; nw: number; nh: number } | null>(null)
   const [box, setBox] = useState<Box>({ x: 150, y: 176, w: 100, h: 100 })
@@ -426,21 +431,54 @@ export default function SampleMaker({ level = 2 }: Props) {
                     transition: 'background 0.15s ease, color 0.15s ease',
                   }}
                 >
-                  <svg viewBox={g.viewBox} width="48" height="54" aria-hidden="true" style={{ display: 'block' }}>
-                    <g
-                      fill={active ? 'rgba(255,255,255,0.16)' : 'rgba(0,0,0,0.06)'}
-                      stroke={active ? '#fff' : '#000'}
-                      strokeWidth={9}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    >
-                      <path d={g.body} />
-                      {g.parts?.map((d, i) => <path key={i} d={d} />)}
-                    </g>
-                  </svg>
+<GarmentFlat
+                    garment={g}
+                    colourway={colourway}
+                    simple
+                    style={{ width: 48, height: 54, display: 'block' }}
+                  />
                   <span className="mono" style={{ fontSize: '0.625rem', letterSpacing: '0.08em', textAlign: 'center' }}>
                     {g.name}
                   </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Colourway */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <p className="label" style={{ marginBottom: '1rem' }}>02 — Colour</p>
+          <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap gap-2">
+            {colourways.map(cw => {
+              const active = cw.id === colourway
+              return (
+                <button
+                  key={cw.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => setColourway(cw.id)}
+                  className="mono"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
+                    padding: '0.5rem 0.875rem 0.5rem 0.5rem',
+                    border: `1px solid ${active ? 'var(--black)' : 'var(--rule)'}`,
+                    background: active ? 'var(--black)' : 'var(--paper)',
+                    color: active ? 'var(--paper)' : 'var(--black)',
+                    cursor: 'pointer',
+                    fontSize: '0.6875rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: 18, height: 18, flexShrink: 0,
+                      background: `linear-gradient(135deg, ${cw.lit}, ${cw.edge})`,
+                      border: '1px solid rgba(128,128,128,0.5)',
+                    }}
+                  />
+                  {cw.label}
                 </button>
               )
             })}
@@ -453,57 +491,25 @@ export default function SampleMaker({ level = 2 }: Props) {
             <div
               style={{
                 border: '1px solid var(--rule)',
-                background: 'var(--paper-dim)',
+                background: colourway === 'white' || colourway === 'sand' ? '#e9e9e6' : '#f6f6f4',
                 padding: '1.5rem',
                 position: 'relative',
               }}
             >
-              <svg
-                ref={svgRef}
-                viewBox={garment.viewBox}
+              <GarmentFlat
+                svgRef={svgRef}
+                garment={garment}
+                colourway={colourway}
+                title={`${garment.name} with your ${isText ? 'text' : 'artwork'} positioned on it`}
                 style={{ width: '100%', height: 'auto', display: 'block', touchAction: 'none' }}
-                role="img"
-                aria-label={`${garment.name} with your ${isText ? 'text' : 'artwork'} positioned on it`}
               >
-                <defs>
-                  <linearGradient id="cloth" x1="0" y1="0" x2="0.35" y2="1">
-                    <stop offset="0" stopColor="#ffffff" />
-                    <stop offset="0.55" stopColor="#f4f4f2" />
-                    <stop offset="1" stopColor="#e4e4e0" />
-                  </linearGradient>
-                  <linearGradient id="clothDeep" x1="0" y1="0" x2="0.35" y2="1">
-                    <stop offset="0" stopColor="#f2f2ef" />
-                    <stop offset="1" stopColor="#dcdcd7" />
-                  </linearGradient>
-                </defs>
-                <rect x="0" y="0" width="100%" height="100%" fill="#ffffff" />
-
-                {/* garment */}
-                <g strokeLinejoin="round" strokeLinecap="round">
-                  <path d={garment.body} fill="url(#cloth)" stroke="#111" strokeWidth={3} />
-                  {garment.parts?.map((d, i) => (
-                    <path key={i} d={d} fill="url(#clothDeep)" stroke="#111" strokeWidth={2.6} />
-                  ))}
-                  {garment.folds?.map((d, i) => (
-                    <path key={`f${i}`} d={d} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth={5} />
-                  ))}
-                  {garment.seams?.map((d, i) => (
-                    <path key={`s${i}`} d={d} fill="none" stroke="rgba(0,0,0,0.45)" strokeWidth={2} />
-                  ))}
-                  {garment.stitches?.map((d, i) => (
-                    <path
-                      key={`t${i}`} d={d} fill="none"
-                      stroke="rgba(0,0,0,0.3)" strokeWidth={1.6} strokeDasharray="5 5"
-                    />
-                  ))}
-                </g>
-
                 {/* Print-area guide sits ABOVE the garment — drawn underneath it, the
                     cloth fill hides it completely. */}
                 <rect
                   data-chrome="true"
                   x={pa.x} y={pa.y} width={pa.w} height={pa.h}
-                  fill="none" stroke="rgba(0,0,0,0.28)" strokeWidth={2} strokeDasharray="9 7"
+                  fill="none" stroke={colourway === 'white' || colourway === 'sand' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.45)'}
+                  strokeWidth={2} strokeDasharray="9 7"
                 />
 
                 {/* artwork */}
@@ -523,7 +529,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                     x={box.x} y={box.y}
                     fontFamily={font.stack}
                     fontSize={textSize}
-                    fill="#000"
+                    fill={colourways.find(c => c.id === colourway)?.ink ?? '#000'}
                     style={{ cursor: 'move' }}
                     onPointerDown={startDrag('move')}
                   >
@@ -540,7 +546,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                       width={isText ? Math.max(textW, 10) + 8 : box.w}
                       height={isText ? textSize * 1.3 : box.h}
                       fill="none"
-                      stroke="rgba(0,0,0,0.5)"
+                      stroke={colourway === 'white' || colourway === 'sand' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.75)'}
                       strokeWidth={2}
                       strokeDasharray="6 6"
                       tabIndex={0}
@@ -555,13 +561,13 @@ export default function SampleMaker({ level = 2 }: Props) {
                       y={(isText ? box.y + textSize * 0.3 : box.y + box.h) - handleSize / 2}
                       width={handleSize}
                       height={handleSize}
-                      fill="#000"
+                      fill={colourway === 'white' || colourway === 'sand' ? '#000' : '#fff'}
                       style={{ cursor: 'nwse-resize' }}
                       onPointerDown={startDrag('resize')}
                     />
                   </g>
                 )}
-              </svg>
+              </GarmentFlat>
             </div>
 
             <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4">
@@ -589,7 +595,7 @@ export default function SampleMaker({ level = 2 }: Props) {
           {/* Controls */}
           <div className="lg:col-span-5">
             {/* method */}
-            <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>03 — Method</p>
             <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
               {decorationMethods.map(m => {
                 const active = m.id === method
@@ -621,7 +627,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             {/* artwork or text */}
             <div style={controlBlock}>
               <p className="label" style={{ marginBottom: '1rem' }}>
-                03 — {isText ? 'Your text' : 'Your artwork'}
+                04 — {isText ? 'Your text' : 'Your artwork'}
               </p>
 
               {isText ? (
@@ -676,7 +682,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
             {/* placement */}
             <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
+              <p className="label" style={{ marginBottom: '1rem' }}>05 — Placement</p>
               <div className="flex flex-wrap gap-2">
                 {garment.placements.map(p => (
                   <button
@@ -720,7 +726,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
             {/* output */}
             <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>05 — Send it to us</p>
+              <p className="label" style={{ marginBottom: '1rem' }}>06 — Send it to us</p>
 
               {sendState === 'sent' ? (
                 <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
