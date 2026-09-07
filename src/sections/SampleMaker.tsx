@@ -7,6 +7,7 @@ import {
   type MethodId, type Garment,
 } from '../data/garments'
 import { EMAIL, FORM_ENDPOINT, SITE_DOMAIN } from '../data/site'
+import { resolveStudio, lockStudio } from '../lib/studio'
 
 /* Artwork box, in garment viewBox units. */
 type Box = { x: number; y: number; w: number; h: number }
@@ -101,6 +102,8 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   const [garment, setGarment] = useState<Garment>(garments[0])
   const [viewId, setViewId] = useState('front')
+  /** Popalzai's own exports skip the watermark. See src/lib/studio.ts. */
+  const [studio, setStudio] = useState(false)
   // Garments do not all carry the same angles — only the cap has a side — so
   // fall back rather than assume the current one exists on the new garment.
   const view = garment.views.find(v => v.id === viewId) ?? garment.views[0]
@@ -137,6 +140,12 @@ export default function SampleMaker({ level = 2 }: Props) {
       setTextW(0)
     }
   }, [isText, text, textSize, fontId, garment])
+
+  useEffect(() => {
+    let live = true
+    void resolveStudio().then(on => { if (live) setStudio(on) })
+    return () => { live = false }
+  }, [])
 
   /* Switching garment or angle: snap the artwork to that view's first
      placement. Views have their own pixel sizes and their own placement lists,
@@ -383,7 +392,12 @@ export default function SampleMaker({ level = 2 }: Props) {
        These blanks are Popalzai's own tech-pack flats. Without this the sheet
        is a clean technical drawing of the garment, which is worth more to
        someone copying the pattern than to the customer it was made for. Angled
-       and tiled so it cannot be cropped off. */
+       and tiled so it cannot be cropped off.
+
+       Skipped for Popalzai's own exports — the header, the copyright line and
+       every measurement stay either way, so an unwatermarked sheet is still a
+       complete spec. */
+    if (!studio) {
     ctx.save()
     ctx.beginPath()
     ctx.rect(0, headerH, W, artH)
@@ -400,6 +414,7 @@ export default function SampleMaker({ level = 2 }: Props) {
       }
     }
     ctx.restore()
+    }
 
     ctx.strokeStyle = 'rgba(0,0,0,0.18)'
     ctx.beginPath()
@@ -573,6 +588,46 @@ export default function SampleMaker({ level = 2 }: Props) {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Stage */}
           <div className="lg:col-span-7">
+            {/* Unlocked exports look identical on screen, so say so — otherwise
+                there is no way to tell which kind of sheet you are about to get. */}
+            {studio && (
+              <div
+                className="mono"
+                style={{
+                  marginBottom: '0.75rem',
+                  padding: '0.5rem 0.75rem',
+                  border: '1px solid var(--rule)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  fontSize: '0.625rem',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                <span>Studio — exports without the watermark</span>
+                <button
+                  type="button"
+                  onClick={() => { lockStudio(); setStudio(false) }}
+                  className="mono"
+                  style={{
+                    border: 'none',
+                    background: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: 'var(--black)',
+                    textDecoration: 'underline',
+                    fontSize: '0.625rem',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Lock
+                </button>
+              </div>
+            )}
+
             {/* Angle. Only rendered when there is a choice — the switcher would
                 otherwise be a single dead button on a one-view garment. */}
             {garment.views.length > 1 && (
