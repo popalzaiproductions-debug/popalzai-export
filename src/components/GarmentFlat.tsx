@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
-import type { Garment, ColourwayId } from '../data/garments'
+import type { GarmentView } from '../data/garments'
 
 /**
- * Renders a garment blank for the sample maker.
+ * Renders one view of a garment blank.
  *
  * The blanks are Popalzai's own technical flats (see `src/data/garments.ts`),
  * so there is nothing to draw — this places the image and gives the overlay a
@@ -16,9 +16,7 @@ import type { Garment, ColourwayId } from '../data/garments'
  */
 
 type Props = {
-  garment: Garment
-  /** Unused by the flat itself; kept so callers can stay uniform. */
-  colourway?: ColourwayId
+  view: GarmentView
   /** Overlaid artwork, selection chrome, guides. */
   children?: ReactNode
   className?: string
@@ -30,7 +28,7 @@ type Props = {
 }
 
 export default function GarmentFlat({
-  garment: g,
+  view,
   children,
   className,
   style,
@@ -38,11 +36,11 @@ export default function GarmentFlat({
   title,
   simple = false,
 }: Props) {
-  const m = g.mockup
+  const m = view.mockup
   return (
     <svg
       ref={simple ? undefined : svgRef}
-      viewBox={g.viewBox}
+      viewBox={view.viewBox}
       className={className}
       style={style}
       {...(simple ? { 'aria-hidden': true } : { role: 'img', 'aria-label': title })}

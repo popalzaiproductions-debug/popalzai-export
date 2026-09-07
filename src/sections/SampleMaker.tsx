@@ -86,6 +86,10 @@ export default function SampleMaker({ level = 2 }: Props) {
   const H = leadTag(level)
 
   const [garment, setGarment] = useState<Garment>(garments[0])
+  const [viewId, setViewId] = useState('front')
+  // Garments do not all carry the same angles — only the cap has a side — so
+  // fall back rather than assume the current one exists on the new garment.
+  const view = garment.views.find(v => v.id === viewId) ?? garment.views[0]
   const [method, setMethod] = useState<MethodId>('print')
 
   const [art, setArt] = useState<{ src: string; nw: number; nh: number } | null>(null)
@@ -120,20 +124,22 @@ export default function SampleMaker({ level = 2 }: Props) {
     }
   }, [isText, text, textSize, fontId, garment])
 
-  /* Switching garment: snap the artwork back to that garment's first placement. */
+  /* Switching garment or angle: snap the artwork to that view's first
+     placement. Views have their own pixel sizes and their own placement lists,
+     so carrying coordinates across leaves the artwork off the cloth. */
   useEffect(() => {
-    const p = garment.placements[0]
+    const p = view.placements[0]
     setBox(b => {
       const aspect = b.h / b.w || 1
       return { x: p.x, y: p.y, w: p.w, h: p.w * aspect }
     })
-  }, [garment])
+  }, [garment, viewId])
 
   const widthCm = isText ? textW * garment.cmPerUnit : box.w * garment.cmPerUnit
   const heightCm = isText ? textSize * 0.72 * garment.cmPerUnit : box.h * garment.cmPerUnit
   const overMax = widthCm > spec.maxWidthCm
 
-  const pa = garment.printArea
+  const pa = view.printArea
   const outsidePrintArea =
     !isText &&
     (box.x < pa.x - 1 || box.y < pa.y - 1 || box.x + box.w > pa.x + pa.w + 1 || box.y + box.h > pa.y + pa.h + 1)
@@ -165,7 +171,7 @@ export default function SampleMaker({ level = 2 }: Props) {
       const p = toSvg(e.clientX, e.clientY)
       const dx = p.x - d.sx
       const dy = p.y - d.sy
-      const [, , vbW, vbH] = garment.viewBox.split(' ').map(Number)
+      const [, , vbW, vbH] = view.viewBox.split(' ').map(Number)
 
       if (d.mode === 'move') {
         if (isText) {
@@ -198,7 +204,7 @@ export default function SampleMaker({ level = 2 }: Props) {
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
     }
-  }, [toSvg, isText, garment.viewBox])
+  }, [toSvg, isText, view.viewBox])
 
   /* Keyboard equivalent — the drag handles are not reachable otherwise. */
   const onArtKeyDown = (e: React.KeyboardEvent) => {
@@ -241,7 +247,7 @@ export default function SampleMaker({ level = 2 }: Props) {
     try {
       const { src, w, h } = await loadImage(file)
       setArt({ src, nw: w, nh: h })
-      const p = garment.placements.find(pl => pl.id !== 'left-chest') ?? garment.placements[0]
+      const p = view.placements.find(pl => pl.id !== 'left-chest') ?? view.placements[0]
       setBox({ x: p.x, y: p.y, w: p.w, h: p.w * (h / w) })
       if (method === 'name') setMethod('print')
     } catch (err) {
@@ -250,7 +256,7 @@ export default function SampleMaker({ level = 2 }: Props) {
   }
 
   function applyPlacement(id: string) {
-    const p = garment.placements.find(pl => pl.id === id)
+    const p = view.placements.find(pl => pl.id === id)
     if (!p) return
     if (isText) {
       setBox(b => ({ ...b, x: p.x, y: p.y + 20 }))
@@ -266,7 +272,7 @@ export default function SampleMaker({ level = 2 }: Props) {
     setNotes('')
     setUploadError(null)
     setMethod('print')
-    const p = garment.placements[0]
+    const p = view.placements[0]
     setBox({ x: p.x, y: p.y, w: p.w, h: p.w })
     if (fileRef.current) fileRef.current.value = ''
   }
@@ -275,6 +281,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   const specLines = () => [
     ['Garment', garment.name],
+    ['Side', view.label],
     ['Method', spec.label],
     isText ? ['Text', text || '—'] : ['Artwork', art ? 'Customer supplied file' : '—'],
     isText ? ['Typeface', font.label] : ['Aspect', art ? `${art.nw} × ${art.nh} px` : '—'],
@@ -294,7 +301,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
     const flat = clone.querySelector('image')
     if (flat) {
-      const inlined = await mockupDataUrl(garment.mockup.src)
+      const inlined = await mockupDataUrl(view.mockup.src)
       flat.setAttribute('href', inlined)
       // Some serialisers still emit xlink:href; keep the two in step.
       flat.setAttribute('xlink:href', inlined)
@@ -306,7 +313,7 @@ export default function SampleMaker({ level = 2 }: Props) {
     img.src = svgUrl
     await img.decode()
 
-    const [, , vbW, vbH] = garment.viewBox.split(' ').map(Number)
+    const [, , vbW, vbH] = view.viewBox.split(' ').map(Number)
     const W = 1200
     const artH = Math.round((vbH / vbW) * (W * 0.62))
     const panelH = 300
@@ -359,7 +366,7 @@ export default function SampleMaker({ level = 2 }: Props) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `popalzai-sample-${garment.id}-${Date.now()}.png`
+    a.download = `popalzai-sample-${garment.id}-${view.id}-${Date.now()}.png`
     document.body.appendChild(a)
     a.click()
     a.remove()
@@ -379,11 +386,12 @@ export default function SampleMaker({ level = 2 }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `Sample maker — ${garment.name} / ${spec.label}`,
+          _subject: `Sample maker — ${garment.name} ${view.label.toLowerCase()} / ${spec.label}`,
           name: contact.name,
           email: contact.email,
           quantity: contact.qty,
           garment: garment.name,
+          side: view.label,
           method: spec.label,
           text: isText ? text : '',
           typeface: isText ? font.label : '',
@@ -410,7 +418,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   /* ---------------- render ---------------- */
 
-  const [, , vbW] = garment.viewBox.split(' ').map(Number)
+  const [, , vbW] = view.viewBox.split(' ').map(Number)
   const handleSize = vbW / 42
 
   const controlBlock: React.CSSProperties = { borderTop: '1px solid var(--rule)', paddingTop: '1.25rem', marginTop: '1.75rem' }
@@ -451,7 +459,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                   type="button"
                   role="radio"
                   aria-checked={active}
-                  onClick={() => setGarment(g)}
+                  onClick={() => { setGarment(g); if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id) }}
                   style={{
                     background: 'var(--paper)',
                     color: 'var(--black)',
@@ -470,7 +478,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                   }}
                 >
 <GarmentFlat
-                    garment={g}
+                    view={g.views[0]}
                     simple
                     style={{ width: 38, height: 42, display: 'block' }}
                   />
@@ -486,6 +494,47 @@ export default function SampleMaker({ level = 2 }: Props) {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Stage */}
           <div className="lg:col-span-7">
+            {/* Angle. Only rendered when there is a choice — the switcher would
+                otherwise be a single dead button on a one-view garment. */}
+            {garment.views.length > 1 && (
+              <div
+                role="radiogroup"
+                aria-label="Angle"
+                className="flex"
+                style={{ marginBottom: '0.75rem', gap: '1px' }}
+              >
+                {garment.views.map(v => {
+                  const active = v.id === view.id
+                  return (
+                    <button
+                      key={v.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      onClick={() => setViewId(v.id)}
+                      className="mono"
+                      style={{
+                        flex: '0 0 auto',
+                        padding: '0.5rem 1.125rem',
+                        border: 'none',
+                        boxShadow: active
+                          ? 'inset 0 0 0 2px var(--black)'
+                          : 'inset 0 0 0 1px var(--rule)',
+                        background: 'var(--paper)',
+                        color: 'var(--black)',
+                        fontWeight: active ? 600 : 400,
+                        cursor: 'pointer',
+                        fontSize: '0.6875rem',
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {v.label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
             <div
               style={{
                 border: '1px solid var(--rule)',
@@ -499,8 +548,8 @@ export default function SampleMaker({ level = 2 }: Props) {
             >
               <GarmentFlat
                 svgRef={svgRef}
-                garment={garment}
-                title={`${garment.name} with your ${isText ? 'text' : 'artwork'} positioned on it`}
+                view={view}
+                title={`${garment.name}, ${view.label.toLowerCase()}, with your ${isText ? 'text' : 'artwork'} positioned on it`}
                 style={{
                   width: '100%',
                   height: 'auto',
@@ -603,7 +652,7 @@ export default function SampleMaker({ level = 2 }: Props) {
           <div className="lg:col-span-5">
             {/* method */}
             <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
-            <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-3 gap-px" style={{ background: 'var(--rule)' }}>
+            <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-2 gap-px" style={{ background: 'var(--rule)' }}>
               {decorationMethods.map(m => {
                 const active = m.id === method
                 return (
@@ -691,7 +740,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             <div style={controlBlock}>
               <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
               <div className="flex flex-wrap gap-2">
-                {garment.placements.map(p => (
+                {view.placements.map(p => (
                   <button
                     key={p.id}
                     type="button"

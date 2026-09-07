@@ -115,8 +115,12 @@ hard-won and the approach may be worth revisiting.
 
 ## In use: the raster pipeline
 
-- `crop-fronts.ps1` — `refs/*.png` → `public/mockups/*.png`, front view only,
-  900px tall.
-- `check-print-areas.ps1` — verifies every print guide and placement box in
-  `src/data/garments.ts` sits inside the garment, by ray-casting each corner
-  against the image. Run it after changing any of those numbers.
+- `crop-views.ps1` — `refs/*.png` → `public/mockups/<garment>-<view>.png`. Splits
+  each sheet into its separate views, cleans them, scales to 900px tall. See
+  `public/mockups/README.md` for how the splitting works and why the obvious
+  approaches do not.
+- `measure-views.ps1` — reports the printable body of every view, so print
+  areas can be placed on measured geometry rather than guessed.
+- `check-print-areas.ps1` — parses `src/data/garments.ts` and verifies every
+  print guide and placement box actually sits on the garment. Run it after
+  changing any of those numbers.
