@@ -14,6 +14,7 @@
  * while linking to another; change this constant and it changes sitewide.
  * ------------------------------------------------------------------ */
 export const EMAIL = 'majid@popalzaiproduction.com'
+export const SITE_DOMAIN = 'popalzaiproduction.com'
 export const INSTAGRAM = 'https://www.instagram.com/popalzaiproduction/'
 export const INSTAGRAM_HANDLE = '@popalzaiproduction'
 export const LOCATION = 'United Arab Emirates'

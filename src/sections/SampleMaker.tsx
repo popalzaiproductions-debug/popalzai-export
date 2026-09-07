@@ -6,7 +6,7 @@ import {
   garments, decorationMethods, textFonts,
   type MethodId, type Garment,
 } from '../data/garments'
-import { EMAIL, FORM_ENDPOINT } from '../data/site'
+import { EMAIL, FORM_ENDPOINT, SITE_DOMAIN } from '../data/site'
 
 /* Artwork box, in garment viewBox units. */
 type Box = { x: number; y: number; w: number; h: number }
@@ -62,6 +62,20 @@ type Props = { level?: HeadingLevel }
  * resolves and the sheet comes out with artwork floating on nothing — so the
  * PNG has to be inlined first. Cached: the same blank is exported repeatedly.
  */
+let logoPromise: Promise<HTMLImageElement | null> | null = null
+/** The wordmark, for the export sheet's header and watermark. */
+function loadLogo(): Promise<HTMLImageElement | null> {
+  if (!logoPromise) {
+    logoPromise = new Promise(resolve => {
+      const i = new Image()
+      i.onload = () => resolve(i)
+      i.onerror = () => resolve(null)
+      i.src = '/logo.png'
+    })
+  }
+  return logoPromise
+}
+
 const mockupCache = new Map<string, Promise<string>>()
 function mockupDataUrl(src: string): Promise<string> {
   let hit = mockupCache.get(src)
@@ -313,48 +327,113 @@ export default function SampleMaker({ level = 2 }: Props) {
     img.src = svgUrl
     await img.decode()
 
+    const logo = await loadLogo()
+
     const [, , vbW, vbH] = view.viewBox.split(' ').map(Number)
     const W = 1200
+    const PAD = 48
+    const headerH = 96
     const artH = Math.round((vbH / vbW) * (W * 0.62))
-    const panelH = 300
+
+    // The panel has to be measured, not assumed. It was a fixed 300px, and
+    // adding the Side row pushed the last line under the footer note.
+    const rows = specLines()
+    const ROW = 26
+    const titleY = 48        // from the top of the panel
+    const firstRowY = 92
+    const footerGap = 34
+    const panelH = firstRowY + rows.length * ROW + footerGap + 30
+
     const canvas = document.createElement('canvas')
     canvas.width = W
-    canvas.height = artH + panelH
+    canvas.height = headerH + artH + panelH
     const ctx = canvas.getContext('2d')
     if (!ctx) return null
 
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    const drawW = Math.round(W * 0.62)
-    ctx.drawImage(img, Math.round((W - drawW) / 2), 24, drawW, artH - 48)
+    /* ---- header: wordmark left, domain right ---- */
+    if (logo) {
+      const lh = 40
+      const lw = Math.round((logo.width / logo.height) * lh)
+      ctx.drawImage(logo, PAD, Math.round((headerH - lh) / 2), lw, lh)
+    } else {
+      ctx.fillStyle = '#000000'
+      ctx.font = '600 26px Consolas, "Courier New", monospace'
+      ctx.fillText('POPALZAI', PAD, 58)
+    }
+    ctx.fillStyle = 'rgba(0,0,0,0.45)'
+    ctx.font = '13px Consolas, "Courier New", monospace'
+    ctx.textAlign = 'right'
+    ctx.fillText(SITE_DOMAIN.toUpperCase(), W - PAD, 54)
+    ctx.textAlign = 'left'
 
     ctx.strokeStyle = 'rgba(0,0,0,0.18)'
     ctx.beginPath()
-    ctx.moveTo(48, artH)
-    ctx.lineTo(W - 48, artH)
+    ctx.moveTo(PAD, headerH)
+    ctx.lineTo(W - PAD, headerH)
     ctx.stroke()
 
+    /* ---- the garment ---- */
+    const drawW = Math.round(W * 0.62)
+    ctx.drawImage(img, Math.round((W - drawW) / 2), headerH + 24, drawW, artH - 48)
+
+    /* ---- watermark ----
+       These blanks are Popalzai's own tech-pack flats. Without this the sheet
+       is a clean technical drawing of the garment, which is worth more to
+       someone copying the pattern than to the customer it was made for. Angled
+       and tiled so it cannot be cropped off. */
+    ctx.save()
+    ctx.beginPath()
+    ctx.rect(0, headerH, W, artH)
+    ctx.clip()
+    ctx.translate(0, headerH)
+    ctx.rotate(-Math.PI / 9)
+    ctx.font = '600 24px Consolas, "Courier New", monospace'
+    ctx.fillStyle = 'rgba(0,0,0,0.055)'
+    const stepX = 300
+    const stepY = 104
+    for (let ty = -W; ty < artH + W; ty += stepY) {
+      for (let tx = -artH; tx < W + artH; tx += stepX) {
+        ctx.fillText('POPALZAI', tx + (Math.round(ty / stepY) % 2) * (stepX / 2), ty)
+      }
+    }
+    ctx.restore()
+
+    ctx.strokeStyle = 'rgba(0,0,0,0.18)'
+    ctx.beginPath()
+    ctx.moveTo(PAD, headerH + artH)
+    ctx.lineTo(W - PAD, headerH + artH)
+    ctx.stroke()
+
+    /* ---- specification ---- */
+    const panelTop = headerH + artH
     ctx.fillStyle = '#000000'
     ctx.font = '600 22px Consolas, "Courier New", monospace'
-    ctx.fillText('POPALZAI — SAMPLE SPECIFICATION', 48, artH + 48)
+    ctx.fillText('SAMPLE SPECIFICATION', PAD, panelTop + titleY)
 
     ctx.font = '15px Consolas, "Courier New", monospace'
-    let y = artH + 92
-    for (const [k, v] of specLines()) {
+    let y = panelTop + firstRowY
+    for (const [k, v] of rows) {
       ctx.fillStyle = 'rgba(0,0,0,0.45)'
-      ctx.fillText(String(k).toUpperCase(), 48, y)
+      ctx.fillText(String(k).toUpperCase(), PAD, y)
       ctx.fillStyle = '#000000'
       ctx.fillText(String(v), 260, y)
-      y += 26
+      y += ROW
     }
 
     ctx.fillStyle = 'rgba(0,0,0,0.45)'
     ctx.font = '13px Consolas, "Courier New", monospace'
     ctx.fillText(
       'Indicative only — final placement and scale confirmed at sampling.',
-      48,
-      canvas.height - 34,
+      PAD,
+      y + 18,
+    )
+    ctx.fillText(
+      `Drawing © Popalzai Clothing Production. ${EMAIL}`,
+      PAD,
+      y + 40,
     )
 
     return new Promise(resolve => canvas.toBlob(b => resolve(b), 'image/png'))
