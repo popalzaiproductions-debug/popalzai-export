@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
-
-const SITE = 'Popalzai Clothing Production'
-const ORIGIN = 'https://www.popalzaiproduction.com'
+import { routeMeta, titleFor, fullTitle, SITE, ORIGIN } from '../data/meta'
 
 function setMeta(selector: string, attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(selector)
@@ -14,26 +12,34 @@ function setMeta(selector: string, attr: 'name' | 'property', key: string, conte
 }
 
 type Props = {
-  title: string
-  description: string
-  /** Path for the canonical URL, e.g. "/about". Defaults to the current path. */
+  /** Route path. Its title and description come from `routeMeta`. */
   path?: string
+  /** Override, for pages that are not a routed path — the 404, say. */
+  title?: string
+  description?: string
 }
 
 /**
- * Per-route <title>, description and canonical.
+ * Keeps <title>, description and canonical correct as the router moves between
+ * pages.
  *
- * A Vite SPA serves one index.html for every route, so without this every page
- * shares the homepage's title and description in search results and link previews.
+ * `scripts/prerender.mjs` writes the same values into a real HTML file per
+ * route at build time, so a crawler sees them without running any JavaScript.
+ * This component is what keeps them right afterwards, during client-side
+ * navigation, when no new document is ever fetched.
  */
-export default function Meta({ title, description, path }: Props) {
+export default function Meta({ path, title, description }: Props) {
+  const entry = path ? routeMeta[path] : undefined
+  const resolvedTitle = title ?? entry?.title ?? SITE
+  const resolvedDescription = description ?? entry?.description ?? ''
+
   useEffect(() => {
-    const full = title === SITE ? title : `${title} — ${SITE}`
+    const full = entry ? titleFor(entry) : fullTitle(resolvedTitle)
     document.title = full
 
-    setMeta('meta[name="description"]', 'name', 'description', description)
+    setMeta('meta[name="description"]', 'name', 'description', resolvedDescription)
     setMeta('meta[property="og:title"]', 'property', 'og:title', full)
-    setMeta('meta[property="og:description"]', 'property', 'og:description', description)
+    setMeta('meta[property="og:description"]', 'property', 'og:description', resolvedDescription)
 
     const url = ORIGIN + (path ?? window.location.pathname)
     setMeta('meta[property="og:url"]', 'property', 'og:url', url)
@@ -45,7 +51,7 @@ export default function Meta({ title, description, path }: Props) {
       document.head.appendChild(canonical)
     }
     canonical.href = url
-  }, [title, description, path])
+  }, [resolvedTitle, resolvedDescription, path])
 
   return null
 }

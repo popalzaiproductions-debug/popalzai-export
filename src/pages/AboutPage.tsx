@@ -4,11 +4,7 @@ import About from '../sections/About'
 export default function AboutPage() {
   return (
     <>
-      <Meta
-        title="About"
-        description="Popalzai is a UAE production house drafting individual patterns for hospitality groups, independent brands, and private clients — no grading, no outsourcing."
-        path="/about"
-      />
+      <Meta path="/about" />
       <About level={1} />
     </>
   )

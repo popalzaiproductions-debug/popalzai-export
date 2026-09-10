@@ -10,11 +10,7 @@ import FAQ from '../sections/FAQ'
 export default function Home() {
   return (
     <>
-      <Meta
-        title="Popalzai Clothing Production"
-        description="Made-to-measure uniforms and garments for hospitality groups, independent brands, and private clients. UAE-based production, no standard sizes, no minimums."
-        path="/"
-      />
+      <Meta path="/" />
       <Hero />
       <Manifesto />
       <Services limit={3} />
