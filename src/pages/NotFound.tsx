@@ -5,7 +5,7 @@ import SectionHead from '../components/SectionHead'
 export default function NotFound() {
   return (
     <>
-      <Meta title="Page not found" description="That page doesn’t exist." />
+      <Meta title="Page not found" description="That page doesn’t exist." noindex />
       <section
         className="on-black"
         style={{
