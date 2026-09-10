@@ -3,15 +3,6 @@ import { nav, EMAIL, LOCATION, INSTAGRAM, INSTAGRAM_HANDLE } from '../data/site'
 
 const year = new Date().getFullYear()
 
-const linkStyle: React.CSSProperties = {
-  fontFamily: 'var(--mono)',
-  fontSize: '0.8125rem',
-  color: 'var(--paper-45)',
-  textDecoration: 'none',
-  transition: 'color 0.18s ease',
-  width: 'fit-content',
-}
-
 export default function Footer() {
   return (
     <footer
@@ -25,7 +16,7 @@ export default function Footer() {
           style={{ borderTop: '1px solid var(--rule-dark)', paddingTop: '3rem', paddingBottom: '4rem' }}
         >
           <div className="lg:col-span-8">
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', color: 'var(--paper)' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
               No minimums. No standard sizes.
             </h2>
           </div>
@@ -62,18 +53,14 @@ export default function Footer() {
                 <Link
                   key={to}
                   to={to}
-                  style={linkStyle}
-                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--paper)')}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'var(--paper-45)')}
+                className="footer-link"
                 >
                   {label}
                 </Link>
               ))}
               <Link
                 to="/inquiry"
-                style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--paper)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--paper-45)')}
+                className="footer-link"
               >
                 Contact
               </Link>
@@ -85,9 +72,7 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <a
                 href={`mailto:${EMAIL}`}
-                style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--paper)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--paper-45)')}
+                className="footer-link"
               >
                 {EMAIL}
               </a>
@@ -95,9 +80,7 @@ export default function Footer() {
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noreferrer noopener"
-                style={linkStyle}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--paper)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--paper-45)')}
+                className="footer-link"
               >
                 {INSTAGRAM_HANDLE}
               </a>

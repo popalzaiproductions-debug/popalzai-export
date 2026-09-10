@@ -117,6 +117,14 @@ h1, h2, h3, h4 {
 
 .mono { font-family: var(--mono); }
 
+/* The standard section heading. Was repeated as an inline clamp() in seven
+   places, which meant seven chances for one of them to drift. */
+.h-section { font-size: clamp(1.75rem, 3.2vw, 2.75rem); }
+
+/* Left column that holds position while its list scrolls past. Only works
+   because overflow-x is kept off html/body — see the README. */
+.sticky-col { position: sticky; top: calc(var(--header-h) + 2.5rem); }
+
 .prose-body {
   font-family: var(--sans);
   font-weight: 300;
@@ -218,6 +226,19 @@ h1, h2, h3, h4 {
 }
 .prose-link:hover { text-decoration-color: currentColor; }
 .on-black .prose-link { color: var(--paper); text-decoration-color: var(--rule-dark); }
+
+/* Footer navigation and contact links. These were four copies of the same
+   pair of inline onMouseEnter/onMouseLeave handlers setting a colour that CSS
+   was always going to do better. */
+.footer-link {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--paper-45);
+  text-decoration: none;
+  width: fit-content;
+  transition: color 0.18s ease;
+}
+.footer-link:hover { color: var(--paper); }
 
 /* ---------- focus ---------- */
 

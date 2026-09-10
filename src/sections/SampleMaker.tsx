@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
+import Section from '../components/Section'
 import SectionHead from '../components/SectionHead'
 import { leadTag, type HeadingLevel } from '../components/Heading'
 import GarmentFlat from '../components/GarmentFlat'
@@ -518,475 +519,473 @@ export default function SampleMaker({ level = 2 }: Props) {
   const controlBlock: React.CSSProperties = { borderTop: '1px solid var(--rule)', paddingTop: '1.25rem', marginTop: '1.75rem' }
 
   return (
-    <section style={{ background: 'var(--paper)', paddingBlock: '6.5rem' }}>
-      <div className="container">
-        <SectionHead label="Sample maker" meta="Indicative visual" />
+    <Section>
+      <SectionHead label="Sample maker" meta="Indicative visual" />
 
-        <div className="grid lg:grid-cols-12 gap-8 mb-14">
-          <div className="lg:col-span-7">
-            <H style={{ fontSize: 'clamp(1.75rem, 3.6vw, 3rem)' }}>
-              Put your mark on the blank.
-            </H>
-          </div>
-          <div className="lg:col-span-4 lg:col-start-9 flex items-end">
-            <p className="prose-body" style={{ fontSize: '0.9375rem' }}>
-              Choose a garment, drop in your artwork, and size it where you want it. You get a
-              specification sheet to send us — we quote from that.
-            </p>
-          </div>
+      <div className="grid lg:grid-cols-12 gap-8 mb-14">
+        <div className="lg:col-span-7">
+          <H style={{ fontSize: 'clamp(1.75rem, 3.6vw, 3rem)' }}>
+            Put your mark on the blank.
+          </H>
         </div>
+        <div className="lg:col-span-4 lg:col-start-9 flex items-end">
+          <p className="prose-body" style={{ fontSize: '0.9375rem' }}>
+            Choose a garment, drop in your artwork, and size it where you want it. You get a
+            specification sheet to send us — we quote from that.
+          </p>
+        </div>
+      </div>
 
-        {/* Garment picker */}
-        <div style={{ marginBottom: '2.5rem' }}>
-          <p className="label" style={{ marginBottom: '1rem' }}>01 — Garment</p>
-          <div
-            role="radiogroup"
-            aria-label="Garment"
-            className="grid gap-px"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(92px, 1fr))' }}
-          >
-            {garments.map(g => {
-              const active = g.id === garment.id
-              return (
-                <button
-                  key={g.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => { setGarment(g); if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id) }}
-                  style={{
-                    background: 'var(--paper)',
-                    color: 'var(--black)',
-                    border: 'none',
-                    boxShadow: active
-                      ? 'inset 0 0 0 2px var(--black)'
-                      : 'inset 0 0 0 1px var(--rule)',
-                    fontWeight: active ? 600 : 400,
-                    cursor: 'pointer',
-                    padding: '0.75rem 0.5rem 0.625rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    transition: 'background 0.15s ease, color 0.15s ease',
-                  }}
-                >
+      {/* Garment picker */}
+      <div style={{ marginBottom: '2.5rem' }}>
+        <p className="label" style={{ marginBottom: '1rem' }}>01 — Garment</p>
+        <div
+          role="radiogroup"
+          aria-label="Garment"
+          className="grid gap-px"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(92px, 1fr))' }}
+        >
+          {garments.map(g => {
+            const active = g.id === garment.id
+            return (
+              <button
+                key={g.id}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => { setGarment(g); if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id) }}
+                style={{
+                  background: 'var(--paper)',
+                  color: 'var(--black)',
+                  border: 'none',
+                  boxShadow: active
+                    ? 'inset 0 0 0 2px var(--black)'
+                    : 'inset 0 0 0 1px var(--rule)',
+                  fontWeight: active ? 600 : 400,
+                  cursor: 'pointer',
+                  padding: '0.75rem 0.5rem 0.625rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'background 0.15s ease, color 0.15s ease',
+                }}
+              >
 <GarmentFlat
-                    view={g.views[0]}
-                    simple
-                    style={{ width: 38, height: 42, display: 'block' }}
-                  />
-                  <span className="mono" style={{ fontSize: '0.625rem', letterSpacing: '0.08em', textAlign: 'center' }}>
-                    {g.name}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
+                  view={g.views[0]}
+                  simple
+                  style={{ width: 38, height: 42, display: 'block' }}
+                />
+                <span className="mono" style={{ fontSize: '0.625rem', letterSpacing: '0.08em', textAlign: 'center' }}>
+                  {g.name}
+                </span>
+              </button>
+            )
+          })}
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Stage */}
-          <div className="lg:col-span-7">
-            {/* Unlocked exports look identical on screen, so say so — otherwise
-                there is no way to tell which kind of sheet you are about to get. */}
-            {studio && (
-              <div
+      <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        {/* Stage */}
+        <div className="lg:col-span-7">
+          {/* Unlocked exports look identical on screen, so say so — otherwise
+              there is no way to tell which kind of sheet you are about to get. */}
+          {studio && (
+            <div
+              className="mono"
+              style={{
+                marginBottom: '0.75rem',
+                padding: '0.5rem 0.75rem',
+                border: '1px solid var(--rule)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                fontSize: '0.625rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}
+            >
+              <span>Studio — exports without the watermark</span>
+              <button
+                type="button"
+                onClick={() => { lockStudio(); setStudio(false) }}
                 className="mono"
                 style={{
-                  marginBottom: '0.75rem',
-                  padding: '0.5rem 0.75rem',
-                  border: '1px solid var(--rule)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '1rem',
+                  border: 'none',
+                  background: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  color: 'var(--black)',
+                  textDecoration: 'underline',
                   fontSize: '0.625rem',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}
               >
-                <span>Studio — exports without the watermark</span>
-                <button
-                  type="button"
-                  onClick={() => { lockStudio(); setStudio(false) }}
-                  className="mono"
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    color: 'var(--black)',
-                    textDecoration: 'underline',
-                    fontSize: '0.625rem',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Lock
-                </button>
-              </div>
-            )}
+                Lock
+              </button>
+            </div>
+          )}
 
-            {/* Angle. Only rendered when there is a choice — the switcher would
-                otherwise be a single dead button on a one-view garment. */}
-            {garment.views.length > 1 && (
-              <div
-                role="radiogroup"
-                aria-label="Angle"
-                className="flex"
-                style={{ marginBottom: '0.75rem', gap: '1px' }}
-              >
-                {garment.views.map(v => {
-                  const active = v.id === view.id
-                  return (
-                    <button
-                      key={v.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={active}
-                      onClick={() => setViewId(v.id)}
-                      className="mono"
-                      style={{
-                        flex: '0 0 auto',
-                        padding: '0.5rem 1.125rem',
-                        border: 'none',
-                        boxShadow: active
-                          ? 'inset 0 0 0 2px var(--black)'
-                          : 'inset 0 0 0 1px var(--rule)',
-                        background: 'var(--paper)',
-                        color: 'var(--black)',
-                        fontWeight: active ? 600 : 400,
-                        cursor: 'pointer',
-                        fontSize: '0.6875rem',
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      {v.label}
-                    </button>
-                  )
-                })}
-              </div>
-            )}
+          {/* Angle. Only rendered when there is a choice — the switcher would
+              otherwise be a single dead button on a one-view garment. */}
+          {garment.views.length > 1 && (
             <div
-              style={{
-                border: '1px solid var(--rule)',
-                // Matches the flats' own ground. The blanks are white PNGs
-                // and the stage is wider than the garment, so any other colour
-                // reads as a band down each side of the image.
-                background: '#fff',
-                padding: '1.5rem',
-                position: 'relative',
-              }}
+              role="radiogroup"
+              aria-label="Angle"
+              className="flex"
+              style={{ marginBottom: '0.75rem', gap: '1px' }}
             >
-              <GarmentFlat
-                svgRef={svgRef}
-                view={view}
-                title={`${garment.name}, ${view.label.toLowerCase()}, with your ${isText ? 'text' : 'artwork'} positioned on it`}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  maxHeight: 380,
-                  display: 'block',
-                  margin: '0 auto',
-                  touchAction: 'none',
-                }}
-              >
-                {/* Print-area guide sits ABOVE the garment — drawn underneath it, the
-                    cloth fill hides it completely. */}
-                <rect
-                  data-chrome="true"
-                  x={pa.x} y={pa.y} width={pa.w} height={pa.h}
-                  fill="none" stroke={'rgba(0,0,0,0.35)'}
-                  strokeWidth={2} strokeDasharray="9 7"
-                />
-
-                {/* artwork */}
-                {!isText && art && (
-                  <image
-                    href={art.src}
-                    x={box.x} y={box.y} width={box.w} height={box.h}
-                    preserveAspectRatio="xMidYMid meet"
-                    style={{ cursor: 'move' }}
-                    onPointerDown={startDrag('move')}
-                  />
-                )}
-
-                {isText && text && (
-                  <text
-                    ref={textRef}
-                    x={box.x} y={box.y}
-                    fontFamily={font.stack}
-                    fontSize={textSize}
-                    fill={'#111'}
-                    style={{ cursor: 'move' }}
-                    onPointerDown={startDrag('move')}
-                  >
-                    {text}
-                  </text>
-                )}
-
-                {/* selection chrome */}
-                {((!isText && art) || (isText && text)) && (
-                  <g data-chrome="true">
-                    <rect
-                      x={isText ? box.x - 4 : box.x}
-                      y={isText ? box.y - textSize : box.y}
-                      width={isText ? Math.max(textW, 10) + 8 : box.w}
-                      height={isText ? textSize * 1.3 : box.h}
-                      fill="none"
-                      stroke={'rgba(0,0,0,0.6)'}
-                      strokeWidth={2}
-                      strokeDasharray="6 6"
-                      tabIndex={0}
-                      role="application"
-                      aria-label="Artwork position. Arrow keys move it, plus and minus resize it."
-                      onKeyDown={onArtKeyDown}
-                      onPointerDown={startDrag('move')}
-                      style={{ cursor: 'move' }}
-                    />
-                    <rect
-                      x={(isText ? box.x - 4 + Math.max(textW, 10) + 8 : box.x + box.w) - handleSize / 2}
-                      y={(isText ? box.y + textSize * 0.3 : box.y + box.h) - handleSize / 2}
-                      width={handleSize}
-                      height={handleSize}
-                      fill={'#000'}
-                      style={{ cursor: 'nwse-resize' }}
-                      onPointerDown={startDrag('resize')}
-                    />
-                  </g>
-                )}
-              </GarmentFlat>
-            </div>
-
-            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4">
-              <span className="label">Drag to move · corner to resize · arrow keys nudge</span>
-            </div>
-
-            {(overMax || outsidePrintArea) && (
-              <div style={{ marginTop: '1rem', borderTop: '1px solid var(--rule)', paddingTop: '1rem' }}>
-                {overMax && (
-                  <p className="mono" style={{ fontSize: '0.8125rem', color: '#c0392b', marginBottom: '0.4rem' }}>
-                    ⚠ {round(widthCm)} cm is wider than we can {spec.label.toLowerCase()} in one pass
-                    (max {spec.maxWidthCm} cm). It can still be quoted — it may need panelling.
-                  </p>
-                )}
-                {outsidePrintArea && (
-                  <p className="mono" style={{ fontSize: '0.8125rem', color: 'var(--ink-70)' }}>
-                    Artwork sits outside the dashed print area. Possible on seams and edges, but worth
-                    a conversation first.
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Controls */}
-          <div className="lg:col-span-5">
-            {/* method */}
-            <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
-            <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-2 gap-px" style={{ background: 'var(--rule)' }}>
-              {decorationMethods.map(m => {
-                const active = m.id === method
+              {garment.views.map(v => {
+                const active = v.id === view.id
                 return (
                   <button
-                    key={m.id}
+                    key={v.id}
                     type="button"
                     role="radio"
                     aria-checked={active}
-                    onClick={() => setMethod(m.id)}
+                    onClick={() => setViewId(v.id)}
                     className="mono"
                     style={{
-                      background: active ? 'var(--black)' : 'var(--paper)',
-                      color: active ? 'var(--paper)' : 'var(--black)',
-                      border: 'none', cursor: 'pointer',
-                      padding: '0.875rem 0.5rem',
-                      fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+                      flex: '0 0 auto',
+                      padding: '0.5rem 1.125rem',
+                      border: 'none',
+                      boxShadow: active
+                        ? 'inset 0 0 0 2px var(--black)'
+                        : 'inset 0 0 0 1px var(--rule)',
+                      background: 'var(--paper)',
+                      color: 'var(--black)',
+                      fontWeight: active ? 600 : 400,
+                      cursor: 'pointer',
+                      fontSize: '0.6875rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
                     }}
                   >
-                    {m.label}
+                    {v.label}
                   </button>
                 )
               })}
             </div>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--ink-70)', lineHeight: 1.6, marginTop: '0.875rem' }}>
-              {spec.blurb}
+          )}
+          <div
+            style={{
+              border: '1px solid var(--rule)',
+              // Matches the flats' own ground. The blanks are white PNGs
+              // and the stage is wider than the garment, so any other colour
+              // reads as a band down each side of the image.
+              background: '#fff',
+              padding: '1.5rem',
+              position: 'relative',
+            }}
+          >
+            <GarmentFlat
+              svgRef={svgRef}
+              view={view}
+              title={`${garment.name}, ${view.label.toLowerCase()}, with your ${isText ? 'text' : 'artwork'} positioned on it`}
+              style={{
+                width: '100%',
+                height: 'auto',
+                maxHeight: 380,
+                display: 'block',
+                margin: '0 auto',
+                touchAction: 'none',
+              }}
+            >
+              {/* Print-area guide sits ABOVE the garment — drawn underneath it, the
+                  cloth fill hides it completely. */}
+              <rect
+                data-chrome="true"
+                x={pa.x} y={pa.y} width={pa.w} height={pa.h}
+                fill="none" stroke={'rgba(0,0,0,0.35)'}
+                strokeWidth={2} strokeDasharray="9 7"
+              />
+
+              {/* artwork */}
+              {!isText && art && (
+                <image
+                  href={art.src}
+                  x={box.x} y={box.y} width={box.w} height={box.h}
+                  preserveAspectRatio="xMidYMid meet"
+                  style={{ cursor: 'move' }}
+                  onPointerDown={startDrag('move')}
+                />
+              )}
+
+              {isText && text && (
+                <text
+                  ref={textRef}
+                  x={box.x} y={box.y}
+                  fontFamily={font.stack}
+                  fontSize={textSize}
+                  fill={'#111'}
+                  style={{ cursor: 'move' }}
+                  onPointerDown={startDrag('move')}
+                >
+                  {text}
+                </text>
+              )}
+
+              {/* selection chrome */}
+              {((!isText && art) || (isText && text)) && (
+                <g data-chrome="true">
+                  <rect
+                    x={isText ? box.x - 4 : box.x}
+                    y={isText ? box.y - textSize : box.y}
+                    width={isText ? Math.max(textW, 10) + 8 : box.w}
+                    height={isText ? textSize * 1.3 : box.h}
+                    fill="none"
+                    stroke={'rgba(0,0,0,0.6)'}
+                    strokeWidth={2}
+                    strokeDasharray="6 6"
+                    tabIndex={0}
+                    role="application"
+                    aria-label="Artwork position. Arrow keys move it, plus and minus resize it."
+                    onKeyDown={onArtKeyDown}
+                    onPointerDown={startDrag('move')}
+                    style={{ cursor: 'move' }}
+                  />
+                  <rect
+                    x={(isText ? box.x - 4 + Math.max(textW, 10) + 8 : box.x + box.w) - handleSize / 2}
+                    y={(isText ? box.y + textSize * 0.3 : box.y + box.h) - handleSize / 2}
+                    width={handleSize}
+                    height={handleSize}
+                    fill={'#000'}
+                    style={{ cursor: 'nwse-resize' }}
+                    onPointerDown={startDrag('resize')}
+                  />
+                </g>
+              )}
+            </GarmentFlat>
+          </div>
+
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-4">
+            <span className="label">Drag to move · corner to resize · arrow keys nudge</span>
+          </div>
+
+          {(overMax || outsidePrintArea) && (
+            <div style={{ marginTop: '1rem', borderTop: '1px solid var(--rule)', paddingTop: '1rem' }}>
+              {overMax && (
+                <p className="mono" style={{ fontSize: '0.8125rem', color: '#c0392b', marginBottom: '0.4rem' }}>
+                  ⚠ {round(widthCm)} cm is wider than we can {spec.label.toLowerCase()} in one pass
+                  (max {spec.maxWidthCm} cm). It can still be quoted — it may need panelling.
+                </p>
+              )}
+              {outsidePrintArea && (
+                <p className="mono" style={{ fontSize: '0.8125rem', color: 'var(--ink-70)' }}>
+                  Artwork sits outside the dashed print area. Possible on seams and edges, but worth
+                  a conversation first.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Controls */}
+        <div className="lg:col-span-5">
+          {/* method */}
+          <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
+          <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-2 gap-px" style={{ background: 'var(--rule)' }}>
+            {decorationMethods.map(m => {
+              const active = m.id === method
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => setMethod(m.id)}
+                  className="mono"
+                  style={{
+                    background: active ? 'var(--black)' : 'var(--paper)',
+                    color: active ? 'var(--paper)' : 'var(--black)',
+                    border: 'none', cursor: 'pointer',
+                    padding: '0.875rem 0.5rem',
+                    fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+                  }}
+                >
+                  {m.label}
+                </button>
+              )
+            })}
+          </div>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--ink-70)', lineHeight: 1.6, marginTop: '0.875rem' }}>
+            {spec.blurb}
+          </p>
+
+          {/* artwork or text */}
+          <div style={controlBlock}>
+            <p className="label" style={{ marginBottom: '1rem' }}>
+              03 — {isText ? 'Your text' : 'Your artwork'}
             </p>
 
-            {/* artwork or text */}
-            <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>
-                03 — {isText ? 'Your text' : 'Your artwork'}
-              </p>
+            {isText ? (
+              <>
+                <div className="field" style={{ marginBottom: '1.25rem' }}>
+                  <label className="field-label" htmlFor="sm-text">Name or line of text</label>
+                  <input
+                    id="sm-text" className="field-input" type="text" maxLength={40}
+                    value={text} onChange={e => setText(e.target.value)}
+                    placeholder="e.g. Front of House"
+                  />
+                </div>
+                <div className="field">
+                  <label className="field-label" htmlFor="sm-font">Typeface</label>
+                  <select id="sm-font" className="field-input" value={fontId} onChange={e => setFontId(e.target.value)}>
+                    {textFonts.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
+                  </select>
+                </div>
+              </>
+            ) : (
+              <>
+                <input
+                  ref={fileRef}
+                  id="sm-file"
+                  type="file"
+                  accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                  onChange={onFile}
+                  style={{ display: 'none' }}
+                />
+                <div className="flex flex-wrap gap-3 items-center">
+                  <button type="button" className="btn" onClick={() => fileRef.current?.click()}>
+                    {art ? 'Replace image' : 'Upload image'}
+                  </button>
+                  {art && (
+                    <button
+                      type="button"
+                      className="link-underline"
+                      style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                      onClick={() => { setArt(null); if (fileRef.current) fileRef.current.value = '' }}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+                <p className="label" style={{ marginTop: '0.875rem', lineHeight: 1.6 }}>
+                  PNG, JPG, SVG or WebP · up to 10 MB · transparent PNG works best
+                </p>
+                {uploadError && <p className="field-error" style={{ marginTop: '0.75rem' }}>{uploadError}</p>}
+              </>
+            )}
+          </div>
 
-              {isText ? (
-                <>
-                  <div className="field" style={{ marginBottom: '1.25rem' }}>
-                    <label className="field-label" htmlFor="sm-text">Name or line of text</label>
-                    <input
-                      id="sm-text" className="field-input" type="text" maxLength={40}
-                      value={text} onChange={e => setText(e.target.value)}
-                      placeholder="e.g. Front of House"
-                    />
+          {/* placement */}
+          <div style={controlBlock}>
+            <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
+            <div className="flex flex-wrap gap-2">
+              {view.placements.map(p => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className="btn btn-outline"
+                  style={{ padding: '0.55rem 0.875rem', fontSize: '0.625rem' }}
+                  onClick={() => applyPlacement(p.id)}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ marginTop: '1.5rem' }}>
+              <label className="field-label" htmlFor="sm-size" style={{ display: 'block', marginBottom: '0.5rem' }}>
+                Size — {round(widthCm)} cm wide
+              </label>
+              <input
+                id="sm-size"
+                type="range"
+                min={isText ? 8 : 16}
+                max={isText ? 120 : Math.round(vbW * 0.9)}
+                value={isText ? textSize : Math.round(box.w)}
+                onChange={e => {
+                  const v = Number(e.target.value)
+                  if (isText) setTextSize(v)
+                  else setBox(b => ({ ...b, w: v, h: v * (b.h / b.w) }))
+                }}
+                style={{ width: '100%', accentColor: '#000' }}
+              />
+            </div>
+
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-1" style={{ marginTop: '1.25rem' }}>
+              <dt className="label">Width</dt>
+              <dd className="mono" style={{ margin: 0, fontSize: '0.8125rem', textAlign: 'right' }}>{round(widthCm)} cm</dd>
+              <dt className="label">Height</dt>
+              <dd className="mono" style={{ margin: 0, fontSize: '0.8125rem', textAlign: 'right' }}>{round(heightCm)} cm</dd>
+            </dl>
+          </div>
+
+          {/* output */}
+          <div style={controlBlock}>
+            <p className="label" style={{ marginBottom: '1rem' }}>05 — Send it to us</p>
+
+            {sendState === 'sent' ? (
+              <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
+                <p className="mono" style={{ fontSize: '1rem', marginBottom: '0.75rem' }}>Specification received.</p>
+                <p className="prose-body" style={{ fontSize: '0.875rem', marginBottom: '1rem' }}>
+                  Your design sheet has downloaded. {art && (
+                    <>Reply to our confirmation with your original artwork file attached — we need the
+                    full-resolution original to produce from.</>
+                  )}
+                </p>
+                <button type="button" className="btn btn-outline" onClick={() => { setSendState('idle'); reset() }}>
+                  Start another
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={sendSpec} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {sendError && <p role="alert" className="field-error">{sendError}</p>}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="field">
+                    <label className="field-label" htmlFor="sm-name">Name</label>
+                    <input id="sm-name" className="field-input" value={contact.name}
+                      onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
                   </div>
                   <div className="field">
-                    <label className="field-label" htmlFor="sm-font">Typeface</label>
-                    <select id="sm-font" className="field-input" value={fontId} onChange={e => setFontId(e.target.value)}>
-                      {textFonts.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
-                    </select>
+                    <label className="field-label" htmlFor="sm-qty">Quantity</label>
+                    <input id="sm-qty" className="field-input" inputMode="numeric" placeholder="e.g. 40"
+                      value={contact.qty} onChange={e => setContact(c => ({ ...c, qty: e.target.value }))} />
                   </div>
-                </>
-              ) : (
-                <>
-                  <input
-                    ref={fileRef}
-                    id="sm-file"
-                    type="file"
-                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
-                    onChange={onFile}
-                    style={{ display: 'none' }}
-                  />
-                  <div className="flex flex-wrap gap-3 items-center">
-                    <button type="button" className="btn" onClick={() => fileRef.current?.click()}>
-                      {art ? 'Replace image' : 'Upload image'}
-                    </button>
-                    {art && (
-                      <button
-                        type="button"
-                        className="link-underline"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                        onClick={() => { setArt(null); if (fileRef.current) fileRef.current.value = '' }}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                  <p className="label" style={{ marginTop: '0.875rem', lineHeight: 1.6 }}>
-                    PNG, JPG, SVG or WebP · up to 10 MB · transparent PNG works best
-                  </p>
-                  {uploadError && <p className="field-error" style={{ marginTop: '0.75rem' }}>{uploadError}</p>}
-                </>
-              )}
-            </div>
-
-            {/* placement */}
-            <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
-              <div className="flex flex-wrap gap-2">
-                {view.placements.map(p => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    className="btn btn-outline"
-                    style={{ padding: '0.55rem 0.875rem', fontSize: '0.625rem' }}
-                    onClick={() => applyPlacement(p.id)}
-                  >
-                    {p.label}
+                </div>
+                <div className="field">
+                  <label className="field-label" htmlFor="sm-email">Email *</label>
+                  <input id="sm-email" type="email" className="field-input" value={contact.email}
+                    onChange={e => setContact(c => ({ ...c, email: e.target.value }))} />
+                </div>
+                <div className="field">
+                  <label className="field-label" htmlFor="sm-notes">Notes</label>
+                  <textarea id="sm-notes" rows={3} className="field-input" style={{ resize: 'vertical' }}
+                    placeholder="Colours, fabric, deadline…"
+                    value={notes} onChange={e => setNotes(e.target.value)} />
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <button type="submit" className="btn" disabled={sendState === 'sending'}>
+                    {sendState === 'sending' ? 'Sending…' : 'Send specification'}
+                    {sendState !== 'sending' && <span className="arrow" aria-hidden="true">→</span>}
                   </button>
-                ))}
-              </div>
-
-              <div style={{ marginTop: '1.5rem' }}>
-                <label className="field-label" htmlFor="sm-size" style={{ display: 'block', marginBottom: '0.5rem' }}>
-                  Size — {round(widthCm)} cm wide
-                </label>
-                <input
-                  id="sm-size"
-                  type="range"
-                  min={isText ? 8 : 16}
-                  max={isText ? 120 : Math.round(vbW * 0.9)}
-                  value={isText ? textSize : Math.round(box.w)}
-                  onChange={e => {
-                    const v = Number(e.target.value)
-                    if (isText) setTextSize(v)
-                    else setBox(b => ({ ...b, w: v, h: v * (b.h / b.w) }))
-                  }}
-                  style={{ width: '100%', accentColor: '#000' }}
-                />
-              </div>
-
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-1" style={{ marginTop: '1.25rem' }}>
-                <dt className="label">Width</dt>
-                <dd className="mono" style={{ margin: 0, fontSize: '0.8125rem', textAlign: 'right' }}>{round(widthCm)} cm</dd>
-                <dt className="label">Height</dt>
-                <dd className="mono" style={{ margin: 0, fontSize: '0.8125rem', textAlign: 'right' }}>{round(heightCm)} cm</dd>
-              </dl>
-            </div>
-
-            {/* output */}
-            <div style={controlBlock}>
-              <p className="label" style={{ marginBottom: '1rem' }}>05 — Send it to us</p>
-
-              {sendState === 'sent' ? (
-                <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
-                  <p className="mono" style={{ fontSize: '1rem', marginBottom: '0.75rem' }}>Specification received.</p>
-                  <p className="prose-body" style={{ fontSize: '0.875rem', marginBottom: '1rem' }}>
-                    Your design sheet has downloaded. {art && (
-                      <>Reply to our confirmation with your original artwork file attached — we need the
-                      full-resolution original to produce from.</>
-                    )}
-                  </p>
-                  <button type="button" className="btn btn-outline" onClick={() => { setSendState('idle'); reset() }}>
-                    Start another
+                  <button type="button" className="btn btn-outline" onClick={downloadSheet}>
+                    Download sheet
                   </button>
                 </div>
-              ) : (
-                <form onSubmit={sendSpec} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  {sendError && <p role="alert" className="field-error">{sendError}</p>}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="field">
-                      <label className="field-label" htmlFor="sm-name">Name</label>
-                      <input id="sm-name" className="field-input" value={contact.name}
-                        onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
-                    </div>
-                    <div className="field">
-                      <label className="field-label" htmlFor="sm-qty">Quantity</label>
-                      <input id="sm-qty" className="field-input" inputMode="numeric" placeholder="e.g. 40"
-                        value={contact.qty} onChange={e => setContact(c => ({ ...c, qty: e.target.value }))} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label className="field-label" htmlFor="sm-email">Email *</label>
-                    <input id="sm-email" type="email" className="field-input" value={contact.email}
-                      onChange={e => setContact(c => ({ ...c, email: e.target.value }))} />
-                  </div>
-                  <div className="field">
-                    <label className="field-label" htmlFor="sm-notes">Notes</label>
-                    <textarea id="sm-notes" rows={3} className="field-input" style={{ resize: 'vertical' }}
-                      placeholder="Colours, fabric, deadline…"
-                      value={notes} onChange={e => setNotes(e.target.value)} />
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    <button type="submit" className="btn" disabled={sendState === 'sending'}>
-                      {sendState === 'sending' ? 'Sending…' : 'Send specification'}
-                      {sendState !== 'sending' && <span className="arrow" aria-hidden="true">→</span>}
-                    </button>
-                    <button type="button" className="btn btn-outline" onClick={downloadSheet}>
-                      Download sheet
-                    </button>
-                  </div>
-                </form>
-              )}
+              </form>
+            )}
 
-              <p className="label" style={{ marginTop: '1.25rem', lineHeight: 1.7 }}>
-                The visual is indicative. Final placement, scale and colour are confirmed at sampling.
-              </p>
-            </div>
+            <p className="label" style={{ marginTop: '1.25rem', lineHeight: 1.7 }}>
+              The visual is indicative. Final placement, scale and colour are confirmed at sampling.
+            </p>
+          </div>
 
-            <div style={controlBlock}>
-              <button
-                type="button"
-                className="link-underline"
-                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                onClick={reset}
-              >
-                Reset everything
-              </button>
-            </div>
+          <div style={controlBlock}>
+            <button
+              type="button"
+              className="link-underline"
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              onClick={reset}
+            >
+              Reset everything
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }
