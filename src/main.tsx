@@ -16,23 +16,24 @@ const tree = (
 )
 
 /**
- * Adopt the prerendered markup where there is any to adopt.
+ * Adopt the prerendered markup where it matches what this app is about to
+ * render — see scripts/prerender.mjs.
  *
- * Routes in `routeMeta` ship as their own HTML file (see scripts/prerender.mjs)
- * whose markup matches this app's initial state, so hydrating is both correct
- * and avoids the repaint a fresh render would cause.
+ * Two shapes of document arrive with markup already in them. A route in
+ * `routeMeta` is served its own file. Anything else is served dist/404.html,
+ * which carries a marker: its markup is NotFound, which renders the same
+ * whatever the URL, so it is safe to adopt at a path the route table has never
+ * heard of.
  *
- * Any other URL falls through Vercel's rewrite to the shell — which is the
- * homepage's file, markup and all. Hydrating a 404 against homepage markup is
- * a guaranteed mismatch, so those get a fresh root instead. Checking the path
- * rather than just `hasChildNodes()` is what separates the two cases.
+ * Anything else gets a fresh root, and the container is emptied first so a
+ * stale shell cannot be left behind under the new tree.
  */
-const isPrerendered = Object.prototype.hasOwnProperty.call(
-  routeMeta,
-  window.location.pathname.replace(/(.)\/$/, '$1'),
-)
+const path = window.location.pathname.replace(/(.)\/$/, '$1')
+const canHydrate =
+  container.hasChildNodes() &&
+  (container.dataset.shell === '404' || Object.prototype.hasOwnProperty.call(routeMeta, path))
 
-if (isPrerendered && container.hasChildNodes()) {
+if (canHydrate) {
   hydrateRoot(container, tree)
 } else {
   container.replaceChildren()

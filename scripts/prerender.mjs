@@ -92,6 +92,50 @@ for (const [path, entry] of Object.entries(routeMeta)) {
   console.log('  %s  %s', path.padEnd(15), body ? `${(body.length / 1024).toFixed(1)}kB markup` : 'head only')
 }
 
+/* ---- 404 ----
+   Vercel serves this with a real 404 status for anything the filesystem does
+   not match, which is why vercel.json no longer carries a catch-all rewrite to
+   index.html. That rewrite answered every unknown URL with the homepage shell
+   and a 200, which is the soft 404 Google complains about.
+
+   NotFound renders the same content whatever the URL, so this one file is
+   correct at every path — and its markup matches what the client renders,
+   which is what lets it hydrate rather than repaint. */
+{
+  let html = template
+  const title = `Page not found — ${'Popalzai Clothing Production'}`
+  html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
+  html = html.replace(
+    /<meta\s+name="description"[^>]*>/,
+    '<meta name="description" content="That page does not exist." />',
+  )
+  html = html.replace(
+    /<meta\s+property="og:title"[^>]*>/,
+    `<meta property="og:title" content="${attr(title)}" />`,
+  )
+  html = html.replace(
+    /<meta\s+property="og:description"[^>]*>/,
+    '<meta property="og:description" content="That page does not exist." />',
+  )
+  // A canonical here would claim some real URL for every mistyped one, and
+  // og:url would do the same in link previews. Drop both, and say noindex.
+  html = html.replace(/\s*<link\s+rel="canonical"[^>]*>/, '')
+  html = html.replace(/\s*<meta\s+property="og:url"[^>]*>/, '')
+  html = html.replace('</head>', '  <meta name="robots" content="noindex" />\n</head>')
+
+  let body = ''
+  try {
+    body = render('/404')
+  } catch (err) {
+    console.warn('prerender: 404 rendered head only — %s', err.message)
+  }
+  // The marker tells main.tsx this shell is the 404 and its markup is safe to
+  // adopt, even though the path will not be in the route table.
+  html = html.replace('<div id="root"></div>', `<div id="root" data-shell="404">${body}</div>`)
+  writeFileSync(join(dist, '404.html'), html)
+  console.log('  %s  %s', '404.html'.padEnd(15), `${(body.length / 1024).toFixed(1)}kB markup`)
+}
+
 // The SSR bundle is a build artefact, not something to deploy.
 rmSync(join(root, 'dist-ssr'), { recursive: true, force: true })
 
