@@ -9,6 +9,7 @@ import OnSitePage from './pages/OnSitePage'
 import SampleMakerPage from './pages/SampleMakerPage'
 import WorkPage from './pages/WorkPage'
 import ProcessPage from './pages/ProcessPage'
+import ProducePage from './pages/ProducePage'
 import FAQPage from './pages/FAQPage'
 import InquiryPage from './pages/InquiryPage'
 import NotFound from './pages/NotFound'
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/sample-maker" element={<SampleMakerPage />} />
           <Route path="/work"     element={<WorkPage />} />
           <Route path="/process"  element={<ProcessPage />} />
+          <Route path="/produce"  element={<ProducePage />} />
           <Route path="/faq"      element={<FAQPage />} />
           <Route path="/inquiry"  element={<InquiryPage />} />
           {/* /contact used to be a second, competing form — one funnel now */}

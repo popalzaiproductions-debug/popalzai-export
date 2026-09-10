@@ -29,6 +29,7 @@ export const nav = [
   { to: '/sample-maker', label: 'Sample Maker' },
   { to: '/work',     label: 'Work' },
   { to: '/process',  label: 'Process' },
+  { to: '/produce',  label: 'Produce' },
   { to: '/faq',      label: 'FAQ' },
 ] as const
 
@@ -342,6 +343,175 @@ export const faqs = [
   {
     q: 'Why not just order from overseas?',
     a: 'Overseas manufacturing means long lead times, high minimums, and no recourse when a run comes back wrong. Local jobbing shops are quicker but inconsistent between batches. We produce locally under direct oversight, which is what lets us offer no minimums, lifetime alterations, and a pattern archive.',
+  },
+]
+
+/* ------------------------------------------------------------------ *
+ * /produce — How to produce your clothing line in the UAE
+ *
+ * A guide page aimed at independent brands and first-time founders.
+ *
+ * FOUR THINGS ARE DELIBERATELY MISSING. The source copy carried four
+ * [confirm] placeholders — sample turnaround, whether "no minimums" extends
+ * to brand production, the end-to-end timeline, and the position on
+ * international clients and shipping. None of them are rendered, because a
+ * wrong number on a page like this is worse than no number. They are listed
+ * in `producePending` below; fill those in and add them back.
+ * ------------------------------------------------------------------ */
+
+/**
+ * A run of copy that mixes plain text with real in-app links.
+ *
+ * Prose on this page links to /sample-maker and /inquiry mid-sentence, and
+ * those have to be router links rather than anchors or the SPA does a full
+ * page load. Storing the paragraph as segments keeps the words here in the
+ * data rather than hardcoded around a <Link> in the component.
+ */
+export type Segment = string | { text: string; to: string }
+export type Para = Segment[]
+
+export const produceMeta = {
+  title: 'How to Produce Your Clothing Line in the UAE',
+  description:
+    'A plain guide to producing your first clothing collection in the UAE — from concept to sample to production, and what actually affects cost and time.',
+}
+
+export const produceLead = {
+  heading: 'How to produce your clothing line in the UAE',
+  paragraphs: [
+    'You have a design, or the beginning of one. This page explains how it becomes a real garment — what happens at each stage, what affects the cost, and where to start.',
+    'It is written for independent brands and first-time founders, but the process is the same whether you need one sample or a full uniform program.',
+  ],
+}
+
+export const produceSummary = {
+  heading: 'The short version',
+  body: 'Production happens in four stages: specification, sample, fitting, production. Everything else — fabric sourcing, grading, finishing — hangs off those four. You do not need a finished tech pack to start. You need a clear idea and one conversation.',
+}
+
+export type ProduceStage = {
+  num: string
+  title: string
+  paragraphs: Para[]
+}
+
+export const produceStages: ProduceStage[] = [
+  {
+    num: '01',
+    title: 'Specification',
+    paragraphs: [
+      [
+        'A specification is the garment described precisely: the cut, the fabric, the measurements, the artwork and where it sits. This is the document production works from.',
+      ],
+      [
+        'If you already have a tech pack, we work from that. If you don’t, the ',
+        { text: 'Sample Maker', to: '/sample-maker' },
+        ' exists for exactly this: pick a garment, place your artwork on it, and it produces a written spec with real dimensions in centimetres. That spec is enough to open a conversation.',
+      ],
+    ],
+  },
+  {
+    num: '02',
+    title: 'Sample',
+    paragraphs: [
+      [
+        'The sample is the first physical garment. It exists to answer questions a drawing can’t: how the fabric falls, whether the proportions work, how the print or embroidery sits on cloth.',
+      ],
+      [
+        'Expect the sample to be imperfect. That is its job. A sample that comes back with three things to change is a successful sample — those three things would otherwise have been wrong across the whole run.',
+      ],
+    ],
+  },
+  {
+    num: '03',
+    title: 'Fitting and revision',
+    paragraphs: [
+      [
+        'You wear it, or your fit model does. We measure what needs to move and revise. Because everything is made to measure rather than cut to standard sizes, this stage is where the garment becomes yours: the block is adjusted to real bodies, not a size chart.',
+      ],
+      [
+        'One round of revision is normal. Two happens. More than that usually means the spec, not the sewing, needs another look — and we’ll say so.',
+      ],
+    ],
+  },
+  {
+    num: '04',
+    title: 'Production',
+    paragraphs: [
+      [
+        'Once the sample is approved, production is repetition with discipline: the same garment, made to the same standard, at quantity.',
+      ],
+    ],
+  },
+]
+
+export const produceCost = {
+  heading: 'What actually affects the cost',
+  intro:
+    'No two garments price the same, which is why nothing on this site carries a price. But the levers are consistent:',
+  body: 'Fabric is usually the largest single variable — both the cloth itself and how much of it the cut consumes. Construction complexity is second: a lined blazer is a different job from a t-shirt. Decoration — embroidery, print, appliqué — prices by size and technique. Quantity matters less than people expect at small runs and more at large ones.',
+  close: [
+    'The honest answer to “what will it cost” is a quote against your spec, which is free and does not commit you to anything. ',
+    { text: 'Start with the Sample Maker', to: '/sample-maker' },
+    ' or ',
+    { text: 'send an inquiry', to: '/inquiry' },
+    '.',
+  ] as Para,
+}
+
+export const produceTiming = {
+  heading: 'How long it takes',
+  paragraphs: [
+    'The slowest stage is almost always waiting on decisions, not sewing. A client who reviews the sample the week it’s ready moves twice as fast as one who doesn’t.',
+  ],
+}
+
+export const produceFaqs = [
+  {
+    q: 'Do I need a tech pack to start?',
+    a: 'No. A tech pack helps, but a clear description and reference images are enough. The Sample Maker produces a workable spec from a garment choice and your artwork.',
+  },
+  {
+    q: 'Can you produce just one piece?',
+    a: 'Yes. Made-to-measure is the core of what we do — single garments, small runs, and full programs are all normal work here.',
+  },
+  {
+    q: 'Who owns my design?',
+    a: 'You do. Your artwork, your spec, your garment. We produce it; we don’t resell it.',
+  },
+]
+
+export const produceClose = {
+  heading: 'Ready when you are',
+  links: [
+    { text: 'Sample Maker', to: '/sample-maker' },
+    { text: 'Inquiry', to: '/inquiry' },
+  ],
+}
+
+/**
+ * Awaiting real numbers from Majid. Not rendered anywhere — this is a to-do
+ * list in the data, so it travels with the copy instead of living in a commit
+ * message nobody reads again.
+ */
+export const producePending = [
+  {
+    where: 'Stage 02 — Sample',
+    question: 'Typical sample turnaround from an approved spec.',
+  },
+  {
+    where: 'Stage 04 — Production',
+    question:
+      'Does "no minimums" apply to brand production, or only to made-to-measure? The sitewide FAQ states no minimum; the source copy queried whether that holds for brand runs, so the claim is off this page until confirmed.',
+  },
+  {
+    where: 'How long it takes',
+    question: 'End-to-end range from approved spec to delivered production run.',
+  },
+  {
+    where: 'Frequently asked',
+    question:
+      'Position on clients outside the UAE, and shipping. The whole Q&A is omitted until this is settled.',
   },
 ]
 

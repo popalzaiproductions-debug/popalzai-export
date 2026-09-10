@@ -205,6 +205,20 @@ h1, h2, h3, h4 {
 }
 .link-underline:hover { border-color: currentColor; }
 
+/* Inline link inside body copy. The guide pages link mid-sentence, where the
+   uppercase .link-underline treatment would read as a heading dropped into a
+   paragraph. Underline sits on the rule colour and firms up on hover. */
+.prose-link {
+  color: var(--black);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--rule);
+  transition: text-decoration-color 0.18s ease;
+}
+.prose-link:hover { text-decoration-color: currentColor; }
+.on-black .prose-link { color: var(--paper); text-decoration-color: var(--rule-dark); }
+
 /* ---------- focus ---------- */
 
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
