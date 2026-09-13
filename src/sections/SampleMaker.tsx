@@ -14,6 +14,8 @@ import { tintedFlat, isDarkColour } from '../lib/tint'
 type Box = { x: number; y: number; w: number; h: number }
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+/** Something@something.tld — enough to catch typos without rejecting real addresses. */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 /** Uploads are downscaled to this before being held as a data URL. */
 const MAX_STORED_PX = 1400
 
@@ -141,6 +143,9 @@ export default function SampleMaker({ level = 2 }: Props) {
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent'>('idle')
   const [sendError, setSendError] = useState<string | null>(null)
+  /** Non-blocking: the sheet downloaded, but the details didn't reach us. */
+  const [sendNote, setSendNote] = useState<string | null>(null)
+  const [emailInvalid, setEmailInvalid] = useState(false)
   const [contact, setContact] = useState({ name: '', email: '', qty: '' })
 
   const svgRef = useRef<SVGSVGElement>(null)
@@ -485,13 +490,27 @@ export default function SampleMaker({ level = 2 }: Props) {
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
-  async function sendSpec(e: React.FormEvent) {
+  /**
+   * The only way to get the sheet: every download also sends the email and the
+   * design details to Formspree.
+   *
+   * An empty or malformed email stops everything — that is the one hard
+   * requirement. A Formspree failure after that does not: the entrant has done
+   * their part, and a quota or network problem on our side should not cost them
+   * their mock. They still get the sheet, and are asked to email instead.
+   */
+  async function downloadAndSend(e: React.FormEvent) {
     e.preventDefault()
     setSendError(null)
-    if (!contact.email.includes('@')) {
-      setSendError('We need an email address to reply to.')
+    setSendNote(null)
+    const email = contact.email.trim()
+    if (!EMAIL_RE.test(email)) {
+      setEmailInvalid(true)
+      setSendError(email ? 'That email address doesn’t look right.' : 'Enter your email to download your mock.')
+      document.getElementById('sm-email')?.focus()
       return
     }
+    setEmailInvalid(false)
     setSendState('sending')
     try {
       const res = await fetch(FORM_ENDPOINT, {
@@ -499,12 +518,13 @@ export default function SampleMaker({ level = 2 }: Props) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           _subject: `Sample maker — ${garment.name} ${view.label.toLowerCase()} / ${spec.label}`,
+          _replyto: email,
           name: contact.name,
-          email: contact.email,
+          email,
           quantity: contact.qty,
           garment: garment.name,
           side: view.label,
-          fit: chosenFit,
+          [fitSpec.label.toLowerCase()]: chosenFit,
           colour: colourText,
           method: spec.label,
           text: isText ? text : '',
@@ -512,20 +532,30 @@ export default function SampleMaker({ level = 2 }: Props) {
           widthCm: round(widthCm),
           heightCm: round(heightCm),
           positionCm: `x ${round(box.x * garment.cmPerUnit)}, y ${round(box.y * garment.cmPerUnit)}`,
-          artworkSupplied: art ? 'yes — customer to email the file' : 'no',
+          artworkSupplied: art ? 'yes — uploaded to the sample maker' : 'no',
           notes,
         }),
       })
       if (res.ok) {
+        await downloadSheet()
         setSendState('sent')
-        void downloadSheet()
         return
       }
       const body = await res.json().catch(() => null)
-      setSendError(body?.errors?.[0]?.message ?? `Could not send. Please email ${EMAIL}.`)
+      const fieldError = body?.errors?.find((x: { field?: string }) => x.field === 'email')
+      if (fieldError) {
+        // Formspree rejected the address itself: treat it like our own check.
+        setEmailInvalid(true)
+        setSendError('That email address doesn’t look right.')
+        setSendState('idle')
+        return
+      }
+      await downloadSheet()
+      setSendNote(`Your mock downloaded, but we couldn’t receive your details. Please email ${EMAIL}.`)
       setSendState('idle')
     } catch {
-      setSendError(`Network error — please email ${EMAIL}.`)
+      await downloadSheet()
+      setSendNote(`Your mock downloaded, but we couldn’t receive your details. Please email ${EMAIL}.`)
       setSendState('idle')
     }
   }
@@ -992,58 +1022,67 @@ export default function SampleMaker({ level = 2 }: Props) {
 
           {/* output */}
           <div style={controlBlock}>
-            <p className="label" style={{ marginBottom: '1rem' }}>07 — Send it to us</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>07 — Download your mock</p>
 
-            {sendState === 'sent' ? (
-              <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
-                <p className="mono" style={{ fontSize: '1rem', marginBottom: '0.75rem' }}>Specification received.</p>
-                <p className="prose-body" style={{ fontSize: '0.875rem', marginBottom: '1rem' }}>
-                  Your design sheet has downloaded. {art && (
-                    <>Reply to our confirmation with your original artwork file attached — we need the
-                    full-resolution original to produce from.</>
-                  )}
-                </p>
-                <button type="button" className="btn btn-outline" onClick={() => { setSendState('idle'); reset() }}>
-                  Start another
-                </button>
+            <form onSubmit={downloadAndSend} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="field">
+                <label className="field-label" htmlFor="sm-email">Email *</label>
+                <input
+                  id="sm-email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  inputMode="email"
+                  className="field-input"
+                  value={contact.email}
+                  aria-invalid={emailInvalid || undefined}
+                  aria-describedby={sendError ? 'sm-email-error' : undefined}
+                  onChange={e => {
+                    setContact(c => ({ ...c, email: e.target.value }))
+                    if (emailInvalid) setEmailInvalid(false)
+                    if (sendError) setSendError(null)
+                  }}
+                />
+                {sendError && <p id="sm-email-error" role="alert" className="field-error">{sendError}</p>}
               </div>
-            ) : (
-              <form onSubmit={sendSpec} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                {sendError && <p role="alert" className="field-error">{sendError}</p>}
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="field">
-                    <label className="field-label" htmlFor="sm-name">Name</label>
-                    <input id="sm-name" className="field-input" value={contact.name}
-                      onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
-                  </div>
-                  <div className="field">
-                    <label className="field-label" htmlFor="sm-qty">Quantity</label>
-                    <input id="sm-qty" className="field-input" inputMode="numeric" placeholder="e.g. 40"
-                      value={contact.qty} onChange={e => setContact(c => ({ ...c, qty: e.target.value }))} />
-                  </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="field">
+                  <label className="field-label" htmlFor="sm-name">Name</label>
+                  <input id="sm-name" className="field-input" autoComplete="name" value={contact.name}
+                    onChange={e => setContact(c => ({ ...c, name: e.target.value }))} />
                 </div>
                 <div className="field">
-                  <label className="field-label" htmlFor="sm-email">Email *</label>
-                  <input id="sm-email" type="email" className="field-input" value={contact.email}
-                    onChange={e => setContact(c => ({ ...c, email: e.target.value }))} />
+                  <label className="field-label" htmlFor="sm-qty">Quantity</label>
+                  <input id="sm-qty" className="field-input" inputMode="numeric" placeholder="e.g. 40"
+                    value={contact.qty} onChange={e => setContact(c => ({ ...c, qty: e.target.value }))} />
                 </div>
-                <div className="field">
-                  <label className="field-label" htmlFor="sm-notes">Notes</label>
-                  <textarea id="sm-notes" rows={3} className="field-input" style={{ resize: 'vertical' }}
-                    placeholder="Fabric, sizes, deadline…"
-                    value={notes} onChange={e => setNotes(e.target.value)} />
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <button type="submit" className="btn" disabled={sendState === 'sending'}>
-                    {sendState === 'sending' ? 'Sending…' : 'Send specification'}
-                    {sendState !== 'sending' && <span className="arrow" aria-hidden="true">→</span>}
-                  </button>
-                  <button type="button" className="btn btn-outline" onClick={downloadSheet}>
-                    Download sheet
-                  </button>
-                </div>
-              </form>
-            )}
+              </div>
+              <div className="field">
+                <label className="field-label" htmlFor="sm-notes">Notes</label>
+                <textarea id="sm-notes" rows={3} className="field-input" style={{ resize: 'vertical' }}
+                  placeholder="Fabric, sizes, deadline…"
+                  value={notes} onChange={e => setNotes(e.target.value)} />
+              </div>
+              <div>
+                <button type="submit" className="btn" disabled={sendState === 'sending'}>
+                  {sendState === 'sending' ? 'Preparing your mock…' : 'Download my mock'}
+                  {sendState !== 'sending' && <span className="arrow" aria-hidden="true">→</span>}
+                </button>
+                <p className="label" style={{ marginTop: '0.875rem', lineHeight: 1.6 }}>
+                  Downloading sends us your email and design details.
+                </p>
+              </div>
+              <div aria-live="polite">
+                {sendState === 'sent' && (
+                  <p className="mono" style={{ fontSize: '0.875rem' }}>
+                    Downloaded — we’ve got your details.
+                  </p>
+                )}
+                {sendNote && (
+                  <p className="mono" style={{ fontSize: '0.8125rem', color: 'var(--ink-70)' }}>{sendNote}</p>
+                )}
+              </div>
+            </form>
 
             <p className="label" style={{ marginTop: '1.25rem', lineHeight: 1.7 }}>
               The visual is indicative. Final placement, scale and colour are confirmed at sampling.
