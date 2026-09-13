@@ -4,7 +4,7 @@ import SectionHead from '../components/SectionHead'
 import { leadTag, type HeadingLevel } from '../components/Heading'
 import GarmentFlat from '../components/GarmentFlat'
 import {
-  garments, decorationMethods, textFonts, garmentColours, fitsFor,
+  garments, decorationMethods, textFonts, garmentColours, fitFor,
   type MethodId, type Garment,
 } from '../data/garments'
 import { EMAIL, FORM_ENDPOINT, SITE_DOMAIN } from '../data/site'
@@ -109,7 +109,8 @@ export default function SampleMaker({ level = 2 }: Props) {
   const [method, setMethod] = useState<MethodId>('print')
 
   /* Fit is recorded, not drawn. Colour is drawn: the flat is re-tinted. */
-  const [fit, setFit] = useState(fitsFor(garments[0])[0])
+  const [fit, setFit] = useState(fitFor(garments[0]).options[0])
+  const fitSpec = fitFor(garment)
   const [colourId, setColourId] = useState<string>('white')
   const [customHex, setCustomHex] = useState('#dcaacc')
   const colour =
@@ -321,7 +322,7 @@ export default function SampleMaker({ level = 2 }: Props) {
     setUploadError(null)
     setMethod('print')
     setColourId('white')
-    setFit(fitsFor(garment)[0])
+    setFit(fitFor(garment).options[0])
     const p = view.placements[0]
     setBox({ x: p.x, y: p.y, w: p.w, h: p.w })
     if (fileRef.current) fileRef.current.value = ''
@@ -337,7 +338,7 @@ export default function SampleMaker({ level = 2 }: Props) {
   const specLines = () => [
     ['Garment', garment.name],
     ['Side', view.label],
-    ['Fit', fit],
+    [fitSpec.label, fit],
     ['Colour', colourText],
     ['Method', spec.label],
     isText ? ['Text', text || '—'] : ['Artwork', art ? 'Customer supplied file' : '—'],
@@ -573,7 +574,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                 onClick={() => {
                   setGarment(g)
                   if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id)
-                  if (!fitsFor(g).includes(fit)) setFit(fitsFor(g)[0])
+                  if (!fitFor(g).options.includes(fit)) setFit(fitFor(g).options[0])
                 }}
                 style={{
                   background: 'var(--paper)',
@@ -606,98 +607,60 @@ export default function SampleMaker({ level = 2 }: Props) {
         </div>
       </div>
 
-      {/* Fit & colour */}
+      {/* Colour */}
       <div style={{ marginBottom: '2.5rem' }}>
-        <p className="label" style={{ marginBottom: '1rem' }}>02 — Fit &amp; colour</p>
-        <div className="grid md:grid-cols-12 gap-6 md:gap-10">
-          <div className="md:col-span-5">
-            <p className="field-label" style={{ marginBottom: '0.75rem' }}>Fit</p>
-            <div role="radiogroup" aria-label="Fit" className="flex flex-wrap gap-2">
-              {fitsFor(garment).map(f => {
-                const active = f === fit
-                return (
-                  <button
-                    key={f}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    onClick={() => setFit(f)}
-                    className="mono"
-                    style={{
-                      padding: '0.5rem 0.875rem',
-                      border: 'none',
-                      boxShadow: active ? 'inset 0 0 0 2px var(--black)' : 'inset 0 0 0 1px var(--rule)',
-                      background: 'var(--paper)',
-                      color: 'var(--black)',
-                      fontWeight: active ? 600 : 400,
-                      cursor: 'pointer',
-                      fontSize: '0.6875rem',
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {f}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="md:col-span-7">
-            <p className="field-label" style={{ marginBottom: '0.75rem' }}>
-              Colour — {colour.id === 'custom' ? colour.hex.toUpperCase() : colour.label}
-            </p>
-            <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap items-center" style={{ gap: '0.625rem' }}>
-              {garmentColours.map(c => {
-                const active = c.id === colourId
-                return (
-                  <button
-                    key={c.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    aria-label={c.label}
-                    title={c.label}
-                    onClick={() => setColourId(c.id)}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      padding: 0,
-                      cursor: 'pointer',
-                      background: c.hex,
-                      border: '1px solid var(--rule)',
-                      boxShadow: active ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
-                    }}
-                  />
-                )
-              })}
-              {/* Any other colour. The native picker sits invisibly over a
-                  spectrum swatch so it reads as part of the row. */}
-              <label
-                title="Custom colour"
+        <p className="label" style={{ marginBottom: '1rem' }}>
+          02 — Colour · {colour.id === 'custom' ? colour.hex.toUpperCase() : colour.label}
+        </p>
+        <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap items-center" style={{ gap: '0.625rem' }}>
+          {garmentColours.map(c => {
+            const active = c.id === colourId
+            return (
+              <button
+                key={c.id}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                aria-label={c.label}
+                title={c.label}
+                onClick={() => setColourId(c.id)}
                 style={{
-                  position: 'relative',
                   width: 30,
                   height: 30,
+                  padding: 0,
                   cursor: 'pointer',
+                  background: c.hex,
                   border: '1px solid var(--rule)',
-                  background:
-                    colourId === 'custom'
-                      ? customHex
-                      : 'conic-gradient(#e63946, #f4a261, #e9c46a, #2a9d8f, #264653, #9b5de5, #e63946)',
-                  boxShadow: colourId === 'custom' ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
+                  boxShadow: active ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
                 }}
-              >
-                <input
-                  type="color"
-                  aria-label="Custom colour"
-                  value={customHex}
-                  onChange={e => { setCustomHex(e.target.value); setColourId('custom') }}
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', border: 0, padding: 0 }}
-                />
-              </label>
-            </div>
-          </div>
+              />
+            )
+          })}
+          {/* Any other colour. The native picker sits invisibly over a
+              spectrum swatch so it reads as part of the row. */}
+          <label
+            title="Custom colour"
+            style={{
+              position: 'relative',
+              width: 30,
+              height: 30,
+              cursor: 'pointer',
+              border: '1px solid var(--rule)',
+              background:
+                colourId === 'custom'
+                  ? customHex
+                  : 'conic-gradient(#e63946, #f4a261, #e9c46a, #2a9d8f, #264653, #9b5de5, #e63946)',
+              boxShadow: colourId === 'custom' ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
+            }}
+          >
+            <input
+              type="color"
+              aria-label="Custom colour"
+              value={customHex}
+              onChange={e => { setCustomHex(e.target.value); setColourId('custom') }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', border: 0, padding: 0 }}
+            />
+          </label>
         </div>
       </div>
 
@@ -991,9 +954,44 @@ export default function SampleMaker({ level = 2 }: Props) {
             </dl>
           </div>
 
+          {/* fit — recorded on the sheet, not drawn */}
+          <div style={controlBlock}>
+            <p className="label" style={{ marginBottom: '1rem' }}>06 — {fitSpec.label}</p>
+            <div role="radiogroup" aria-label={fitSpec.label} className="flex flex-wrap gap-2">
+              {fitSpec.options.map(f => {
+                const active = f === fit
+                return (
+                  <button
+                    key={f}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => setFit(f)}
+                    className="mono"
+                    style={{
+                      padding: '0.5rem 0.875rem',
+                      border: 'none',
+                      boxShadow: active ? 'inset 0 0 0 2px var(--black)' : 'inset 0 0 0 1px var(--rule)',
+                      background: 'var(--paper)',
+                      color: 'var(--black)',
+                      fontWeight: active ? 600 : 400,
+                      cursor: 'pointer',
+                      fontSize: '0.6875rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {f}
+                  </button>
+                )
+              })}
+            </div>
+            <p className="label" style={{ marginTop: '0.875rem', lineHeight: 1.6 }}>{fitSpec.note}</p>
+          </div>
+
           {/* output */}
           <div style={controlBlock}>
-            <p className="label" style={{ marginBottom: '1rem' }}>06 — Send it to us</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>07 — Send it to us</p>
 
             {sendState === 'sent' ? (
               <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>

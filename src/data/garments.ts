@@ -334,14 +334,48 @@ export const garmentColours = [
 ] as const
 
 /**
- * Fits by category. Recorded on the specification, not drawn — the flat is one
- * pattern, and redrawing it boxy or slim would be a guess at the block.
+ * Fit options per garment. Recorded on the specification, not drawn — the flat
+ * is one pattern, and redrawing it boxy or slim would be a guess at the block.
+ *
+ * Only cuts each garment genuinely comes in:
+ *
+ * - Boxy is a wide, square body with a dropped shoulder and a sleeve cut to
+ *   match. A tank has no sleeve and no shoulder seam to drop, so it is not
+ *   offered there. Same for oversized, which on a tank is just "relaxed".
+ * - Polos and button shirts are tailored tops with a collar and placket that
+ *   set the proportions. Boxy and cropped are not a cut they are made in.
+ * - A slim hoodie is not really a thing — the hood and the pocket need room.
+ * - Cropped belongs to tees, tanks and hoodies; a cropped long sleeve or shirt
+ *   is a different garment, not a fit.
+ * - The cap has no body fit at all. What varies is how the crown is built, so
+ *   it gets that question instead.
  */
-const FITS: Record<string, string[]> = {
-  Tops: ['Regular', 'Boxy', 'Oversized', 'Slim', 'Cropped'],
-  Headwear: ['Structured', 'Unstructured'],
+export type FitSpec = {
+  /** What the choice is called on the page and the sheet. */
+  label: string
+  options: string[]
+  /** One line under the options. */
+  note: string
 }
-export const fitsFor = (g: Garment): string[] => FITS[g.category] ?? ['Regular']
+
+const TOP_NOTE = 'Goes on your sheet. The drawing shows one block, not the cut.'
+
+const FITS: Record<string, FitSpec> = {
+  tee:        { label: 'Fit', options: ['Regular', 'Slim', 'Relaxed', 'Oversized', 'Boxy', 'Cropped'], note: TOP_NOTE },
+  tank:       { label: 'Fit', options: ['Regular', 'Slim', 'Relaxed', 'Cropped'], note: TOP_NOTE },
+  longsleeve: { label: 'Fit', options: ['Regular', 'Slim', 'Relaxed', 'Oversized', 'Boxy'], note: TOP_NOTE },
+  polo:       { label: 'Fit', options: ['Regular', 'Slim', 'Relaxed'], note: TOP_NOTE },
+  shirt:      { label: 'Fit', options: ['Regular', 'Slim', 'Relaxed', 'Oversized'], note: TOP_NOTE },
+  hoodie:     { label: 'Fit', options: ['Regular', 'Relaxed', 'Oversized', 'Boxy', 'Cropped'], note: TOP_NOTE },
+  cap: {
+    label: 'Crown',
+    options: ['Structured', 'Unstructured'],
+    note: 'Structured keeps a stiff front panel and holds its shape. Unstructured sits softer on the head.',
+  },
+}
+
+export const fitFor = (g: Garment): FitSpec =>
+  FITS[g.id] ?? { label: 'Fit', options: ['Regular'], note: TOP_NOTE }
 
 export const decorationMethods = [
   {
