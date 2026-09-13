@@ -111,6 +111,7 @@ export default function SampleMaker({ level = 2 }: Props) {
   /* Fit is recorded, not drawn. Colour is drawn: the flat is re-tinted. */
   const [fit, setFit] = useState(fitFor(garments[0]).options[0])
   const fitSpec = fitFor(garment)
+  const chosenFit = fitSpec.options.includes(fit) ? fit : fitSpec.options[0]
   const [colourId, setColourId] = useState<string>('white')
   const [customHex, setCustomHex] = useState('#dcaacc')
   const colour =
@@ -338,7 +339,7 @@ export default function SampleMaker({ level = 2 }: Props) {
   const specLines = () => [
     ['Garment', garment.name],
     ['Side', view.label],
-    [fitSpec.label, fit],
+    [fitSpec.label, chosenFit],
     ['Colour', colourText],
     ['Method', spec.label],
     isText ? ['Text', text || '—'] : ['Artwork', art ? 'Customer supplied file' : '—'],
@@ -503,7 +504,7 @@ export default function SampleMaker({ level = 2 }: Props) {
           quantity: contact.qty,
           garment: garment.name,
           side: view.label,
-          fit,
+          fit: chosenFit,
           colour: colourText,
           method: spec.label,
           text: isText ? text : '',
@@ -574,7 +575,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                 onClick={() => {
                   setGarment(g)
                   if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id)
-                  if (!fitFor(g).options.includes(fit)) setFit(fitFor(g).options[0])
+                  setFit(f => (fitFor(g).options.includes(f) ? f : fitFor(g).options[0]))
                 }}
                 style={{
                   background: 'var(--paper)',
@@ -959,7 +960,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             <p className="label" style={{ marginBottom: '1rem' }}>06 — {fitSpec.label}</p>
             <div role="radiogroup" aria-label={fitSpec.label} className="flex flex-wrap gap-2">
               {fitSpec.options.map(f => {
-                const active = f === fit
+                const active = f === chosenFit
                 return (
                   <button
                     key={f}
