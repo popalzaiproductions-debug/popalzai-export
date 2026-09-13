@@ -4,11 +4,11 @@ import SectionHead from '../components/SectionHead'
 import { leadTag, type HeadingLevel } from '../components/Heading'
 import GarmentFlat from '../components/GarmentFlat'
 import {
-  garments, decorationMethods, textFonts,
+  garments, decorationMethods, textFonts, garmentColours, fitsFor,
   type MethodId, type Garment,
 } from '../data/garments'
 import { EMAIL, FORM_ENDPOINT, SITE_DOMAIN } from '../data/site'
-import { resolveStudio, lockStudio } from '../lib/studio'
+import { tintedFlat, isDarkColour } from '../lib/tint'
 
 /* Artwork box, in garment viewBox units. */
 type Box = { x: number; y: number; w: number; h: number }
@@ -65,7 +65,7 @@ type Props = { level?: HeadingLevel }
  * PNG has to be inlined first. Cached: the same blank is exported repeatedly.
  */
 let logoPromise: Promise<HTMLImageElement | null> | null = null
-/** The wordmark, for the export sheet's header and watermark. */
+/** The wordmark, for the export sheet's header. */
 function loadLogo(): Promise<HTMLImageElement | null> {
   if (!logoPromise) {
     logoPromise = new Promise(resolve => {
@@ -103,12 +103,30 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   const [garment, setGarment] = useState<Garment>(garments[0])
   const [viewId, setViewId] = useState('front')
-  /** Popalzai's own exports skip the watermark. See src/lib/studio.ts. */
-  const [studio, setStudio] = useState(false)
   // Garments do not all carry the same angles — only the cap has a side — so
   // fall back rather than assume the current one exists on the new garment.
   const view = garment.views.find(v => v.id === viewId) ?? garment.views[0]
   const [method, setMethod] = useState<MethodId>('print')
+
+  /* Fit is recorded, not drawn. Colour is drawn: the flat is re-tinted. */
+  const [fit, setFit] = useState(fitsFor(garments[0])[0])
+  const [colourId, setColourId] = useState<string>('white')
+  const [customHex, setCustomHex] = useState('#dcaacc')
+  const colour =
+    colourId === 'custom'
+      ? { id: 'custom', label: 'Custom', hex: customHex }
+      : garmentColours.find(c => c.id === colourId) ?? garmentColours[0]
+  const dark = isDarkColour(colour.hex)
+  /* Overlay colours flip on dark cloth, or the text and the handles vanish. */
+  const ink = dark ? '#ffffff' : '#111111'
+  const chrome = dark ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.6)'
+  const guide = dark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.35)'
+
+  /* The tinted flat is keyed to the image and colour it was made for, so a
+     stale one from the previous view is never drawn in the new view's box. */
+  const tintKey = `${view.mockup.src}|${colour.hex.toLowerCase()}`
+  const [tint, setTint] = useState<{ key: string; href: string } | null>(null)
+  const flatHref = tint?.key === tintKey ? tint.href : undefined
 
   const [art, setArt] = useState<{ src: string; nw: number; nh: number } | null>(null)
   const [box, setBox] = useState<Box>({ x: 150, y: 176, w: 100, h: 100 })
@@ -144,9 +162,15 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   useEffect(() => {
     let live = true
-    void resolveStudio().then(on => { if (live) setStudio(on) })
-    return () => { live = false }
-  }, [])
+    // Short delay: dragging the custom colour picker fires continuously, and
+    // each distinct colour is a full-image recolour.
+    const t = setTimeout(() => {
+      void tintedFlat(view.mockup.src, colour.hex).then(href => {
+        if (live) setTint({ key: tintKey, href })
+      })
+    }, 80)
+    return () => { live = false; clearTimeout(t) }
+  }, [tintKey, view.mockup.src, colour.hex])
 
   /* Switching garment or angle: snap the artwork to that view's first
      placement. Views have their own pixel sizes and their own placement lists,
@@ -296,6 +320,8 @@ export default function SampleMaker({ level = 2 }: Props) {
     setNotes('')
     setUploadError(null)
     setMethod('print')
+    setColourId('white')
+    setFit(fitsFor(garment)[0])
     const p = view.placements[0]
     setBox({ x: p.x, y: p.y, w: p.w, h: p.w })
     if (fileRef.current) fileRef.current.value = ''
@@ -303,9 +329,16 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   /* ---------------- export ---------------- */
 
+  const colourText =
+    colour.id === 'custom'
+      ? `Custom ${colour.hex.toUpperCase()}`
+      : `${colour.label} ${colour.hex.toUpperCase()}`
+
   const specLines = () => [
     ['Garment', garment.name],
     ['Side', view.label],
+    ['Fit', fit],
+    ['Colour', colourText],
     ['Method', spec.label],
     isText ? ['Text', text || '—'] : ['Artwork', art ? 'Customer supplied file' : '—'],
     isText ? ['Typeface', font.label] : ['Aspect', art ? `${art.nw} × ${art.nh} px` : '—'],
@@ -325,7 +358,10 @@ export default function SampleMaker({ level = 2 }: Props) {
 
     const flat = clone.querySelector('image')
     if (flat) {
-      const inlined = await mockupDataUrl(view.mockup.src)
+      const inlined =
+        colour.hex.toLowerCase() === '#ffffff'
+          ? await mockupDataUrl(view.mockup.src)
+          : await tintedFlat(view.mockup.src, colour.hex)
       flat.setAttribute('href', inlined)
       // Some serialisers still emit xlink:href; keep the two in step.
       flat.setAttribute('xlink:href', inlined)
@@ -389,34 +425,6 @@ export default function SampleMaker({ level = 2 }: Props) {
     const drawW = Math.round(W * 0.62)
     ctx.drawImage(img, Math.round((W - drawW) / 2), headerH + 24, drawW, artH - 48)
 
-    /* ---- watermark ----
-       These blanks are Popalzai's own tech-pack flats. Without this the sheet
-       is a clean technical drawing of the garment, which is worth more to
-       someone copying the pattern than to the customer it was made for. Angled
-       and tiled so it cannot be cropped off.
-
-       Skipped for Popalzai's own exports — the header, the copyright line and
-       every measurement stay either way, so an unwatermarked sheet is still a
-       complete spec. */
-    if (!studio) {
-    ctx.save()
-    ctx.beginPath()
-    ctx.rect(0, headerH, W, artH)
-    ctx.clip()
-    ctx.translate(0, headerH)
-    ctx.rotate(-Math.PI / 9)
-    ctx.font = '600 24px Consolas, "Courier New", monospace'
-    ctx.fillStyle = 'rgba(0,0,0,0.055)'
-    const stepX = 300
-    const stepY = 104
-    for (let ty = -W; ty < artH + W; ty += stepY) {
-      for (let tx = -artH; tx < W + artH; tx += stepX) {
-        ctx.fillText('POPALZAI', tx + (Math.round(ty / stepY) % 2) * (stepX / 2), ty)
-      }
-    }
-    ctx.restore()
-    }
-
     ctx.strokeStyle = 'rgba(0,0,0,0.18)'
     ctx.beginPath()
     ctx.moveTo(PAD, headerH + artH)
@@ -436,6 +444,13 @@ export default function SampleMaker({ level = 2 }: Props) {
       ctx.fillText(String(k).toUpperCase(), PAD, y)
       ctx.fillStyle = '#000000'
       ctx.fillText(String(v), 260, y)
+      if (k === 'Colour') {
+        const sx = 260 + ctx.measureText(String(v)).width + 12
+        ctx.fillStyle = colour.hex
+        ctx.fillRect(sx, y - 13, 16, 16)
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)'
+        ctx.strokeRect(sx + 0.5, y - 12.5, 15, 15)
+      }
       y += ROW
     }
 
@@ -487,6 +502,8 @@ export default function SampleMaker({ level = 2 }: Props) {
           quantity: contact.qty,
           garment: garment.name,
           side: view.label,
+          fit,
+          colour: colourText,
           method: spec.label,
           text: isText ? text : '',
           typeface: isText ? font.label : '',
@@ -553,7 +570,11 @@ export default function SampleMaker({ level = 2 }: Props) {
                 type="button"
                 role="radio"
                 aria-checked={active}
-                onClick={() => { setGarment(g); if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id) }}
+                onClick={() => {
+                  setGarment(g)
+                  if (!g.views.some(v => v.id === viewId)) setViewId(g.views[0].id)
+                  if (!fitsFor(g).includes(fit)) setFit(fitsFor(g)[0])
+                }}
                 style={{
                   background: 'var(--paper)',
                   color: 'var(--black)',
@@ -585,49 +606,104 @@ export default function SampleMaker({ level = 2 }: Props) {
         </div>
       </div>
 
+      {/* Fit & colour */}
+      <div style={{ marginBottom: '2.5rem' }}>
+        <p className="label" style={{ marginBottom: '1rem' }}>02 — Fit &amp; colour</p>
+        <div className="grid md:grid-cols-12 gap-6 md:gap-10">
+          <div className="md:col-span-5">
+            <p className="field-label" style={{ marginBottom: '0.75rem' }}>Fit</p>
+            <div role="radiogroup" aria-label="Fit" className="flex flex-wrap gap-2">
+              {fitsFor(garment).map(f => {
+                const active = f === fit
+                return (
+                  <button
+                    key={f}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => setFit(f)}
+                    className="mono"
+                    style={{
+                      padding: '0.5rem 0.875rem',
+                      border: 'none',
+                      boxShadow: active ? 'inset 0 0 0 2px var(--black)' : 'inset 0 0 0 1px var(--rule)',
+                      background: 'var(--paper)',
+                      color: 'var(--black)',
+                      fontWeight: active ? 600 : 400,
+                      cursor: 'pointer',
+                      fontSize: '0.6875rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {f}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="md:col-span-7">
+            <p className="field-label" style={{ marginBottom: '0.75rem' }}>
+              Colour — {colour.id === 'custom' ? colour.hex.toUpperCase() : colour.label}
+            </p>
+            <div role="radiogroup" aria-label="Garment colour" className="flex flex-wrap items-center" style={{ gap: '0.625rem' }}>
+              {garmentColours.map(c => {
+                const active = c.id === colourId
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    aria-label={c.label}
+                    title={c.label}
+                    onClick={() => setColourId(c.id)}
+                    style={{
+                      width: 30,
+                      height: 30,
+                      padding: 0,
+                      cursor: 'pointer',
+                      background: c.hex,
+                      border: '1px solid var(--rule)',
+                      boxShadow: active ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
+                    }}
+                  />
+                )
+              })}
+              {/* Any other colour. The native picker sits invisibly over a
+                  spectrum swatch so it reads as part of the row. */}
+              <label
+                title="Custom colour"
+                style={{
+                  position: 'relative',
+                  width: 30,
+                  height: 30,
+                  cursor: 'pointer',
+                  border: '1px solid var(--rule)',
+                  background:
+                    colourId === 'custom'
+                      ? customHex
+                      : 'conic-gradient(#e63946, #f4a261, #e9c46a, #2a9d8f, #264653, #9b5de5, #e63946)',
+                  boxShadow: colourId === 'custom' ? '0 0 0 2px var(--paper), 0 0 0 4px var(--black)' : 'none',
+                }}
+              >
+                <input
+                  type="color"
+                  aria-label="Custom colour"
+                  value={customHex}
+                  onChange={e => { setCustomHex(e.target.value); setColourId('custom') }}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', border: 0, padding: 0 }}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Stage */}
         <div className="lg:col-span-7">
-          {/* Unlocked exports look identical on screen, so say so — otherwise
-              there is no way to tell which kind of sheet you are about to get. */}
-          {studio && (
-            <div
-              className="mono"
-              style={{
-                marginBottom: '0.75rem',
-                padding: '0.5rem 0.75rem',
-                border: '1px solid var(--rule)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '1rem',
-                fontSize: '0.625rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
-              <span>Studio — exports without the watermark</span>
-              <button
-                type="button"
-                onClick={() => { lockStudio(); setStudio(false) }}
-                className="mono"
-                style={{
-                  border: 'none',
-                  background: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  color: 'var(--black)',
-                  textDecoration: 'underline',
-                  fontSize: '0.625rem',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Lock
-              </button>
-            </div>
-          )}
-
           {/* Angle. Only rendered when there is a choice — the switcher would
               otherwise be a single dead button on a one-view garment. */}
           {garment.views.length > 1 && (
@@ -683,6 +759,7 @@ export default function SampleMaker({ level = 2 }: Props) {
             <GarmentFlat
               svgRef={svgRef}
               view={view}
+              href={flatHref}
               title={`${garment.name}, ${view.label.toLowerCase()}, with your ${isText ? 'text' : 'artwork'} positioned on it`}
               style={{
                 width: '100%',
@@ -698,7 +775,7 @@ export default function SampleMaker({ level = 2 }: Props) {
               <rect
                 data-chrome="true"
                 x={pa.x} y={pa.y} width={pa.w} height={pa.h}
-                fill="none" stroke={'rgba(0,0,0,0.35)'}
+                fill="none" stroke={guide}
                 strokeWidth={2} strokeDasharray="9 7"
               />
 
@@ -719,7 +796,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                   x={box.x} y={box.y}
                   fontFamily={font.stack}
                   fontSize={textSize}
-                  fill={'#111'}
+                  fill={ink}
                   style={{ cursor: 'move' }}
                   onPointerDown={startDrag('move')}
                 >
@@ -736,7 +813,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                     width={isText ? Math.max(textW, 10) + 8 : box.w}
                     height={isText ? textSize * 1.3 : box.h}
                     fill="none"
-                    stroke={'rgba(0,0,0,0.6)'}
+                    stroke={chrome}
                     strokeWidth={2}
                     strokeDasharray="6 6"
                     tabIndex={0}
@@ -751,7 +828,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                     y={(isText ? box.y + textSize * 0.3 : box.y + box.h) - handleSize / 2}
                     width={handleSize}
                     height={handleSize}
-                    fill={'#000'}
+                    fill={dark ? '#fff' : '#000'}
                     style={{ cursor: 'nwse-resize' }}
                     onPointerDown={startDrag('resize')}
                   />
@@ -785,7 +862,7 @@ export default function SampleMaker({ level = 2 }: Props) {
         {/* Controls */}
         <div className="lg:col-span-5">
           {/* method */}
-          <p className="label" style={{ marginBottom: '1rem' }}>02 — Method</p>
+          <p className="label" style={{ marginBottom: '1rem' }}>03 — Method</p>
           <div role="radiogroup" aria-label="Decoration method" className="grid grid-cols-2 gap-px" style={{ background: 'var(--rule)' }}>
             {decorationMethods.map(m => {
               const active = m.id === method
@@ -817,7 +894,7 @@ export default function SampleMaker({ level = 2 }: Props) {
           {/* artwork or text */}
           <div style={controlBlock}>
             <p className="label" style={{ marginBottom: '1rem' }}>
-              03 — {isText ? 'Your text' : 'Your artwork'}
+              04 — {isText ? 'Your text' : 'Your artwork'}
             </p>
 
             {isText ? (
@@ -872,7 +949,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
           {/* placement */}
           <div style={controlBlock}>
-            <p className="label" style={{ marginBottom: '1rem' }}>04 — Placement</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>05 — Placement</p>
             <div className="flex flex-wrap gap-2">
               {view.placements.map(p => (
                 <button
@@ -916,7 +993,7 @@ export default function SampleMaker({ level = 2 }: Props) {
 
           {/* output */}
           <div style={controlBlock}>
-            <p className="label" style={{ marginBottom: '1rem' }}>05 — Send it to us</p>
+            <p className="label" style={{ marginBottom: '1rem' }}>06 — Send it to us</p>
 
             {sendState === 'sent' ? (
               <div style={{ border: '1px solid var(--rule)', padding: '1.5rem' }}>
@@ -954,7 +1031,7 @@ export default function SampleMaker({ level = 2 }: Props) {
                 <div className="field">
                   <label className="field-label" htmlFor="sm-notes">Notes</label>
                   <textarea id="sm-notes" rows={3} className="field-input" style={{ resize: 'vertical' }}
-                    placeholder="Colours, fabric, deadline…"
+                    placeholder="Fabric, sizes, deadline…"
                     value={notes} onChange={e => setNotes(e.target.value)} />
                 </div>
                 <div className="flex flex-wrap gap-3">

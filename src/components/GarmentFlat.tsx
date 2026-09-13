@@ -9,14 +9,15 @@ import type { GarmentView } from '../data/garments'
  * coordinate space to sit in. `children` is the customer's artwork, the
  * selection chrome and the print-area guide, all authored in the same pixel
  * space as the image.
- *
- * An earlier version traced these to vector and recoloured them. It kept
- * losing real construction detail, and recolouring a line drawing only ever
- * looked like a tinted line drawing.
  */
 
 type Props = {
   view: GarmentView
+  /**
+   * Image to draw instead of the view's own file — the recoloured flat from
+   * src/lib/tint.ts. Same dimensions, so every coordinate still lines up.
+   */
+  href?: string
   /** Overlaid artwork, selection chrome, guides. */
   children?: ReactNode
   className?: string
@@ -29,6 +30,7 @@ type Props = {
 
 export default function GarmentFlat({
   view,
+  href,
   children,
   className,
   style,
@@ -45,7 +47,7 @@ export default function GarmentFlat({
       style={style}
       {...(simple ? { 'aria-hidden': true } : { role: 'img', 'aria-label': title })}
     >
-      <image href={m.src} x="0" y="0" width={m.w} height={m.h} preserveAspectRatio="xMidYMid meet" />
+      <image href={href ?? m.src} x="0" y="0" width={m.w} height={m.h} preserveAspectRatio="xMidYMid meet" />
       {!simple && children}
     </svg>
   )

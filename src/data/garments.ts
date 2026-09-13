@@ -315,6 +315,34 @@ export const garments: Garment[] = [
   },
 ]
 
+/**
+ * Fabric colours offered in the sample maker. Indicative only — the flat is
+ * tinted on screen, but dye lots and cloth vary and the real colour is agreed
+ * against a swatch at sampling.
+ */
+export const garmentColours = [
+  { id: 'white',     label: 'White',        hex: '#ffffff' },
+  { id: 'offwhite',  label: 'Off-white',    hex: '#f1ede4' },
+  { id: 'heather',   label: 'Heather grey', hex: '#b9bab6' },
+  { id: 'charcoal',  label: 'Charcoal',     hex: '#3b3c3e' },
+  { id: 'black',     label: 'Black',        hex: '#161616' },
+  { id: 'navy',      label: 'Navy',         hex: '#1e2a44' },
+  { id: 'sand',      label: 'Sand',         hex: '#d6c3a0' },
+  { id: 'olive',     label: 'Olive',        hex: '#5b5e3a' },
+  { id: 'burgundy',  label: 'Burgundy',     hex: '#5e1e2b' },
+  { id: 'pink',      label: 'Pink',         hex: '#dcaacc' },
+] as const
+
+/**
+ * Fits by category. Recorded on the specification, not drawn — the flat is one
+ * pattern, and redrawing it boxy or slim would be a guess at the block.
+ */
+const FITS: Record<string, string[]> = {
+  Tops: ['Regular', 'Boxy', 'Oversized', 'Slim', 'Cropped'],
+  Headwear: ['Structured', 'Unstructured'],
+}
+export const fitsFor = (g: Garment): string[] => FITS[g.category] ?? ['Regular']
+
 export const decorationMethods = [
   {
     id: 'print',
