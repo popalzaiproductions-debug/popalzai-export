@@ -124,7 +124,6 @@ export default function SampleMaker({ level = 2 }: Props) {
   /* Overlay colours flip on dark cloth, or the text and the handles vanish. */
   const ink = dark ? '#ffffff' : '#111111'
   const chrome = dark ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.6)'
-  const guide = dark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.35)'
 
   /* The tinted flat is keyed to the image and colour it was made for, so a
      stale one from the previous view is never drawn in the new view's box. */
@@ -764,14 +763,6 @@ export default function SampleMaker({ level = 2 }: Props) {
                 touchAction: 'none',
               }}
             >
-              {/* Print-area guide sits ABOVE the garment — drawn underneath it, the
-                  cloth fill hides it completely. */}
-              <rect
-                data-chrome="true"
-                x={pa.x} y={pa.y} width={pa.w} height={pa.h}
-                fill="none" stroke={guide}
-                strokeWidth={2} strokeDasharray="9 7"
-              />
 
               {/* artwork */}
               {!isText && art && (
@@ -845,8 +836,8 @@ export default function SampleMaker({ level = 2 }: Props) {
               )}
               {outsidePrintArea && (
                 <p className="mono" style={{ fontSize: '0.8125rem', color: 'var(--ink-70)' }}>
-                  Artwork sits outside the dashed print area. Possible on seams and edges, but worth
-                  a conversation first.
+                  Artwork runs outside the usual print area for this garment. Possible on seams
+                  and edges, but worth a conversation first.
                 </p>
               )}
             </div>
