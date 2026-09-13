@@ -27,7 +27,8 @@ export const FORM_ENDPOINT = 'https://formspree.io/f/xvzvwgla'
  * tools/google-sheet/README.md. Paste the deployment's /exec URL here. While
  * this is empty, entries keep going to Formspree above.
  */
-export const ENTRY_ENDPOINT = ''
+export const ENTRY_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbzd1cHbA5IfUiIjAdaE8H4pCCPPQ09Ylgy_Q5rIY_Ldh30K1FObHSmY5lM8quwquCcQEQ/exec'
 
 export const nav = [
   { to: '/about',    label: 'About' },
