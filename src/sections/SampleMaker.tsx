@@ -7,7 +7,7 @@ import {
   garments, decorationMethods, textFonts, garmentColours, fitFor,
   type MethodId, type Garment,
 } from '../data/garments'
-import { EMAIL, FORM_ENDPOINT, SITE_DOMAIN } from '../data/site'
+import { EMAIL, FORM_ENDPOINT, ENTRY_ENDPOINT, SITE_DOMAIN } from '../data/site'
 import { tintedFlat, isDarkColour } from '../lib/tint'
 
 /* Artwork box, in garment viewBox units. */
@@ -491,10 +491,11 @@ export default function SampleMaker({ level = 2 }: Props) {
 
   /**
    * The only way to get the sheet: every download also sends the email and the
-   * design details to Formspree.
+   * design details to us — to the Google Sheet once ENTRY_ENDPOINT is set, and to
+   * Formspree until then.
    *
    * An empty or malformed email stops everything — that is the one hard
-   * requirement. A Formspree failure after that does not: the entrant has done
+   * requirement. A failure to save after that does not: the entrant has done
    * their part, and a quota or network problem on our side should not cost them
    * their mock. They still get the sheet, and are asked to email instead.
    */
@@ -512,38 +513,49 @@ export default function SampleMaker({ level = 2 }: Props) {
     setEmailInvalid(false)
     setSendState('sending')
     try {
-      const res = await fetch(FORM_ENDPOINT, {
+      const payload = {
+        _subject: `Sample maker — ${garment.name} ${view.label.toLowerCase()} / ${spec.label}`,
+        _replyto: email,
+        name: contact.name,
+        email,
+        quantity: contact.qty,
+        garment: garment.name,
+        side: view.label,
+        // One column for both: the cap's choice is its crown, not a body fit.
+        fit: fitSpec.label === 'Fit' ? chosenFit : `${fitSpec.label}: ${chosenFit}`,
+        colour: colourText,
+        method: spec.label,
+        text: isText ? text : '',
+        typeface: isText ? font.label : '',
+        widthCm: round(widthCm),
+        heightCm: round(heightCm),
+        positionCm: `x ${round(box.x * garment.cmPerUnit)}, y ${round(box.y * garment.cmPerUnit)}`,
+        artworkSupplied: art ? 'yes — uploaded to the sample maker' : 'no',
+        notes,
+      }
+      const toSheet = Boolean(ENTRY_ENDPOINT)
+      const res = await fetch(toSheet ? ENTRY_ENDPOINT : FORM_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: `Sample maker — ${garment.name} ${view.label.toLowerCase()} / ${spec.label}`,
-          _replyto: email,
-          name: contact.name,
-          email,
-          quantity: contact.qty,
-          garment: garment.name,
-          side: view.label,
-          [fitSpec.label.toLowerCase()]: chosenFit,
-          colour: colourText,
-          method: spec.label,
-          text: isText ? text : '',
-          typeface: isText ? font.label : '',
-          widthCm: round(widthCm),
-          heightCm: round(heightCm),
-          positionCm: `x ${round(box.x * garment.cmPerUnit)}, y ${round(box.y * garment.cmPerUnit)}`,
-          artworkSupplied: art ? 'yes — uploaded to the sample maker' : 'no',
-          notes,
-        }),
+        // Apps Script can't answer the CORS preflight a JSON content type
+        // triggers, so the Sheet gets the same JSON as plain text.
+        headers: toSheet
+          ? { 'Content-Type': 'text/plain;charset=utf-8' }
+          : { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
       })
-      if (res.ok) {
+      const body = await res.json().catch(() => null)
+      // The Sheet always answers 200 and reports in the body; Formspree uses status.
+      const saved = toSheet ? res.ok && body?.ok === true : res.ok
+      if (saved) {
         await downloadSheet()
         setSendState('sent')
         return
       }
-      const body = await res.json().catch(() => null)
-      const fieldError = body?.errors?.find((x: { field?: string }) => x.field === 'email')
-      if (fieldError) {
-        // Formspree rejected the address itself: treat it like our own check.
+      const emailRejected = toSheet
+        ? body?.error === 'email'
+        : Boolean(body?.errors?.some((x: { field?: string }) => x.field === 'email'))
+      if (emailRejected) {
+        // The receiver rejected the address itself: treat it like our own check.
         setEmailInvalid(true)
         setSendError('That email address doesn’t look right.')
         setSendState('idle')

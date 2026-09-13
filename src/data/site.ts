@@ -22,6 +22,13 @@ export const LOCATION = 'United Arab Emirates'
 /** Formspree endpoint — submissions land at formspree.io/forms/xvzvwgla/submissions */
 export const FORM_ENDPOINT = 'https://formspree.io/f/xvzvwgla'
 
+/**
+ * Google Sheet web app that collects sample maker entries — see
+ * tools/google-sheet/README.md. Paste the deployment's /exec URL here. While
+ * this is empty, entries keep going to Formspree above.
+ */
+export const ENTRY_ENDPOINT = ''
+
 export const nav = [
   { to: '/about',    label: 'About' },
   { to: '/services', label: 'Services' },
