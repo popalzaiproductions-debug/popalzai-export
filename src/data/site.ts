@@ -174,11 +174,14 @@ export type Client = {
 export const clients: Client[] = [
   { name: 'Bad Berry Club',     sector: 'Apparel' },
   { name: 'No Cap Barbershop',  sector: 'Grooming & Retail' },
-  { name: '8 Studios',          sector: 'Barbershop & Creative Hub' },
+  { name: '8 Studios Barbershop', sector: 'Barbershop & Creative Hub' },
   { name: 'Lostboys Studios',   sector: 'Creative Production' },
   { name: 'WIP Workinprogress', sector: 'Streetwear & Apparel' },
   { name: 'The Karak',          sector: 'Events Company' },
   { name: 'Losing Dog Company', sector: 'Apparel & Design' },
+  { name: 'Radisson Hotel',     sector: 'Hospitality' },
+  { name: 'Internaut',          sector: 'Creative Agency' },
+  { name: 'Naqs e Akhlaq',      sector: 'Apparel' },
 ]
 
 export const stats = [
